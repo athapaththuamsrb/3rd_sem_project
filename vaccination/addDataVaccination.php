@@ -1,6 +1,19 @@
 <?php
 require_once('.auth.php');
 check_auth();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+  if (isset($_POST['ID']) && $_POST['ID']){
+    $id = $_POST['ID'];
+    if ($id === '111'){
+      $data = array('dose'=>'1');
+    }else{
+      $data = array('dose'=>'2', 'name'=>'superman', 'previous'=>array('key'=>'value'));
+    }
+    echo json_encode($data);
+  }
+  die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +39,7 @@ check_auth();
       body,
       html {
         margin-top: 10px;
-        background: url("./image/Covid-19-Test-and-Vaccine.jpg") no-repeat
+        background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat
           center;
         background-position: center;
         background-repeat: no-repeat;
@@ -301,7 +314,7 @@ check_auth();
         
         var xhr = new XMLHttpRequest();
         xhr.open("POST",document.URL,true);
-        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         xhr.send("ID="+encodeURIComponent(nic));
         // console.log("ID="+encodeURIComponent(nic));
       }
