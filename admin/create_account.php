@@ -2,7 +2,20 @@
 require_once('.auth.php');
 check_auth();
 
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['password']) || !$_POST['username'] || !$_POST['password'] || !$_POST['type']) {
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    die();
+  }
+  require_once('../.utils/dbcon.php');
+  $conn = DatabaseConn::get_conn("127.0.0.1", "user", "password", "oosd");
+  if (!$conn || !$conn->create_user($_POST['username'], $_POST['password'], $_POST['type'])){
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    die();
+  }
+  header('Location: /admin/');
+  die();
+}
 ?>
 <!DOCTYPE html>
 <html>
