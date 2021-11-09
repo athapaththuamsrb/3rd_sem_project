@@ -1,5 +1,9 @@
 <?php
 
+$dbconn = DatabaseConn::get_conn();
+$arr = $dbconn->get_history('99');
+$dbconn->add_vaccine_record('99', 'sasandi', 'col', 'az', 'col');
+
 class DatabaseConn
 {
   private static $dbconn;
@@ -77,42 +81,67 @@ class DatabaseConn
     return false;
   }
 
-  public function add_vaccine_record($name, $id, $vaccine, $dose, $place, $date)
+  public function get_vaccination_records($id)
   {
-    if ($dose == 1) {
+    $q0 = "SELECT name, district FROM persons WHERE id=?";
+    $arr = array();
+    $stmt = $this->conn->prepare($q0);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows() == 0){
+      return $arr;
+    }
+    $stmt->bind_result($name, $district);
+    $stmt->fetch();
+    $arr["name"] = $name; $arr["district"] = $district; $arr["id"] = $id; $arr["doses"] = array();
+    $q = "SELECT * FROM vaccines WHERE id=? ORDER BY dose";
+    $stmt = $this->conn->prepare($q);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while($row = $result->fetch_assoc()){
+      $details = array("type"=>$row["type"], "date"=>$row["date"], "place"=>$row["place"]);
+      array_push($arr["doses"], $details);
+    }
+    return $arr;
+  }
+
+  public function add_vaccine_record($id, $name, $district, $type, $place)
+  {
+    $q0 = "SELECT token, last_dose FROM persons WHERE id=?";
+    $stmt = $this->conn->prepare($q0);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows() == 0) {
       for ($i = 0; $i < 5; $i++) {
         $token = rand(0, (int)pow(2, 64) - 1);
         $token = base_convert($token, 10, 32);
-        $q = "INSERT INTO vaccination (name, id, token, vaccine, f_place, f_date) VALUES (?, ?, ?, ?, ?, ?)";
+        $q = "INSERT INTO persons (id, name, district, token, last_dose) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("ssssss", $name, $id, $token, $vaccine, $place, $date);
+        $new_dose = 1;
+        $stmt->bind_param("sssss", $id, $name, $district, $token, $new_dose);
         $success = $stmt->execute();
-        if ($success) {
-          return $token;
+        if ($success){
+          break;
         }
       }
-      return false;
     } else {
-      $q = "SELECT token FROM vaccination WHERE id=? AND vaccine=?";
-      $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("ss", $id, $vaccine);
-      $stmt->execute();
-      $stmt->store_result();
-      $rowcount = $stmt->num_rows;
-      if ($rowcount == 0) {
-        return false;
-      }
-      $q1 = "UPDATE vaccination SET s_place=?, s_date=?  WHERE id=?";
-      $stmt1 = $this->conn->prepare($q1);
-      $stmt1->bind_param("sss", $place, $date, $id);
-      $success = $stmt1->execute();
-      $stmt->bind_result($token);
+      $stmt->bind_result($token, $last_dose);
       $stmt->fetch();
-      if ($success) {
-        return $token;
-      }
-      return false;
+      $new_dose = $last_dose + 1;
+      $q1 = "UPDATE persons SET last_dose=?  WHERE id=?";
+      $stmt1 = $this->conn->prepare($q1);
+      $stmt1->bind_param("is", $new_dose, $id);
+      $stmt1->execute();
     }
+    $q2 = "INSERT INTO vaccines (type, dose, date, place, id) VALUES (?, ?, ?, ?, ?)";
+    $stmt2 = $this->conn->prepare($q2);
+    $date = date("Y/m/d");
+    $stmt2->bind_param("sisss", $type, $new_dose, $date, $place, $id);
+    $stmt2->execute();
+    return $token;
   }
 
   public function add_test_record($name, $id, $test, $result, $place, $date)
