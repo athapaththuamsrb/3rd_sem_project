@@ -1,9 +1,5 @@
 <?php
 
-$dbconn = DatabaseConn::get_conn();
-$arr = $dbconn->get_history('99');
-$dbconn->add_vaccine_record('99', 'sasandi', 'col', 'az', 'col');
-
 class DatabaseConn
 {
   private static $dbconn;
