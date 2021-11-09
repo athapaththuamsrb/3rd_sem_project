@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 class DatabaseConn
 {
   private static $dbconn;
@@ -13,9 +11,14 @@ class DatabaseConn
     mysqli_report(MYSQLI_REPORT_ALL);
   }
 
-  public static function get_conn($servername, $username, $password, $database)
+  public static function get_conn()
   {
     if (DatabaseConn::$dbconn == null) {
+      $dbconfig = parse_ini_file(".env");
+      $servername = $dbconfig["DB_HOST"];
+      $username = $dbconfig["DB_USERNAME"];
+      $password = $dbconfig["DB_PASSWORD"];
+      $database = $dbconfig["DB_DATABASE"];
       DatabaseConn::$dbconn = new DatabaseConn($servername, $username, $password, $database);
     }
     return DatabaseConn::$dbconn;
@@ -24,6 +27,7 @@ class DatabaseConn
   public function auth($uname, $pw, $type)
   {
     if ($this->validate($uname, $pw)) {
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $q = "SELECT password FROM admins WHERE username=? AND type=?";
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ss", $uname, $type);
