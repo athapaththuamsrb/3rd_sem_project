@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die();
   }
   require_once('../.utils/dbcon.php');
-  $conn = DatabaseConn::get_conn("127.0.0.1", "user", "password", "oosd");
+  $conn = DatabaseConn::get_conn();
   if (!$conn || !$conn->create_user($_POST['username'], $_POST['password'], $_POST['type'])){
     header('Location: ' . $_SERVER['REQUEST_URI']);
     die();
