@@ -121,7 +121,7 @@ class DatabaseConn
         $q = "INSERT INTO persons (id, name, district, token, last_dose) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($q);
         $new_dose = 1;
-        $stmt->bind_param("sssss", $id, $name, $district, $token, $new_dose);
+        $stmt->bind_param("ssssi", $id, $name, $district, $token, $new_dose);
         $success = $stmt->execute();
         if ($success){
           break;
