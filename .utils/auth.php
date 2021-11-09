@@ -26,7 +26,7 @@ class Authenticator
 
     public function authenticate($uname, $passwd)
     {
-        $dbcon = DatabaseConn::get_conn("127.0.0.1", "user", "password", "oosd");
+        $dbcon = DatabaseConn::get_conn();
         if (!$dbcon || !$dbcon->auth($uname, $passwd, $this->type)) {
             session_start();
             $_SESSION['invalidPass'] = true;
