@@ -77,14 +77,21 @@ class DatabaseConn
     return false;
   }
 
-  public function get_vaccination_records($id)
+  public function get_vaccination_records($id, $token)
   {
-    $q0 = "SELECT name, district FROM persons WHERE id=?";
-    $arr = array();
-    $stmt = $this->conn->prepare($q0);
-    $stmt->bind_param("s", $id);
+    if ($token == null){
+      $q0 = "SELECT name, district FROM persons WHERE id=?";
+      $stmt = $this->conn->prepare($q0);
+      $stmt->bind_param("s", $id);
+    }
+    else{
+      $q0 = "SELECT name, district FROM persons WHERE id=? and token=?";
+      $stmt = $this->conn->prepare($q0);
+      $stmt->bind_param("ss", $id, $token);
+    }
     $stmt->execute();
     $stmt->store_result();
+    $arr = array();
     if ($stmt->num_rows() == 0){
       return $arr;
     }
@@ -112,7 +119,7 @@ class DatabaseConn
     $stmt->store_result();
     if ($stmt->num_rows() == 0) {
       for ($i = 0; $i < 5; $i++) {
-        $token = rand(0, (int)pow(2, 64) - 1);
+        $token = rand(1, (int)pow(2, 64) - 1);
         $token = base_convert($token, 10, 32);
         $q = "INSERT INTO persons (id, name, district, token, last_dose) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($q);
@@ -143,7 +150,7 @@ class DatabaseConn
   public function add_test_record($name, $id, $test, $result, $place, $date)
   {
     for ($i = 0; $i < 5; $i++) {
-      $token = rand(0, (int)pow(2, 64) - 1);
+      $token = rand(1, (int)pow(2, 64) - 1);
       $token = base_convert($token, 10, 32);
       $q = "INSERT INTO testing (name, id, token, test, result, place, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
       $stmt = $this->conn->prepare($q);
