@@ -205,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div id="field">
           <br />
           <label for="nic"><h2 class="field">Nic</h2></label>
-          <input placeholder="Nic" type="text" id="nic" name="nic" required />
+          <input placeholder="Nic" type="text" id="nic2" name="nic" required />
         </div>
         <div id="field">
           <br />
@@ -237,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <label for="Pfizer">Pfizer</label>
             <input
               type="radio"
-              name="vaccination_type"
+              name="vaccination_type1"
               id="Pfizer"
               value="Pfizer"
               checked
@@ -246,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <label for="AstraZeneca">AstraZeneca</label>
             <input
               type="radio"
-              name="vaccination_type"
+              name="vaccination_type1"
               id="AstraZeneca"
               value="AstraZeneca"
             />
@@ -261,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <label for="Pfizer">Pfizer</label>
             <input
               type="radio"
-              name="vaccination_type"
+              name="vaccination_type2"
               id="Pfizer"
               value="Pfizer"
               checked
@@ -270,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <label for="AstraZeneca">AstraZeneca</label>
             <input
               type="radio"
-              name="vaccination_type"
+              name="vaccination_type2"
               id="AstraZeneca"
               value="AstraZeneca"
             />
@@ -298,9 +298,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div class="buttons">
           <button
             id="submitButton2"
-            type="submit"
+            type="button"
             name="submit"
-            onclick="return validate() && validateUserName() && isRequirment()"
+            onclick="submit2()"
           >
             Submit
           </button>
@@ -317,6 +317,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         xhr.send("ID="+encodeURIComponent(nic));
         // console.log("ID="+encodeURIComponent(nic));
+      }
+
+      function submit2(){
+        let nic = document.getElementById("nic2").value;
+        let firstName = document.getElementById("firestName").value;
+        let secondName = document.getElementById("secoundName").value;
+        let firstVaccineType = document.querySelector( 'input[name="vaccination_type1"]:checked').value;
+        let secondVaccineType = document.querySelector( 'input[name="vaccination_type2"]:checked').value;
+        let email = document.getElementById("email").value;
+        let contactNo = document.getElementById("ContactNo").value;
+
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST",document.URL,true);
+        xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+        xhr.send({
+          nic,
+          firstName,
+          secondName,
+          firstVaccineType,
+          secondVaccineType,
+          email,
+          contactNo,
+        });
+        // console.log({
+        //   "nic":nic,
+        //   "firstName":firstName,
+        //   "secondName":secondName,
+        //   "firstVaccineType":firstVaccineType,
+        //   "secondVaccineType":secondVaccineType,
+        //   "email":email,
+        //   "contactNo":contactNo,
+        // });
+        // console.log({
+        //   nic,
+        //   firstName,
+        //   secondName,
+        //   firstVaccineType,
+        //   secondVaccineType,
+        //   email,
+        //   contactNo,
+        // });
       }
     </script>
   </body>
