@@ -3,3 +3,8 @@ ErrorDocument 404 /error.php?status=404
 RewriteRule ^\..*$ - [L,R=404]
 RewriteRule ^.*\.html$ - [L,R=404]
 #RewriteRule ^([A-Za-z0-9-]+)/?$ /index.php?test=$1 [NC]
+
+<IfModule mod_headers.c>
+    Header set X-Frame-Options: "DENY"
+    Header set X-XSS-Protection: "1; mode=block"
+</IfModule>
