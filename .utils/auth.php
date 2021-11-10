@@ -39,9 +39,12 @@ class Authenticator
             session_start();
             $_SESSION['invalidPass'] = false;
             $_SESSION['user'] = $user;
-            $target = $this->type;
+            $target = '/' . $this->type;
             if (isset($_SESSION['target']) && $_SESSION['target']){
-                $target = $_SESSION['target'];
+                if (preg_match("/^\/$this->type\/.*$/", $_SESSION['target'])){ // redirect only if the target is allowed for the logged in user
+                    $target = $_SESSION['target'];
+                }
+                unset($_SESSION['target']);
             }
             session_write_close();
             header('HTTP/1.1 302 Found');
