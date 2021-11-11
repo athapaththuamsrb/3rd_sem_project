@@ -64,13 +64,16 @@ class DatabaseConn
     return false;
   }
 */
-  public function create_user($uname, $pw, $type)
+  public function create_user($uname, $pw, $type, $place)
   {
+    if ($type === 'vaccination' && $place == null){
+      return false;
+    }
     if ($this->validate($uname, $pw)) {
       $hashed = password_hash($pw, PASSWORD_BCRYPT, ["cost" => 12]);
-      $q = "INSERT INTO admins (username, password, type) VALUES (?, ?, ?)";
+      $q = "INSERT INTO admins (username, password, type, place) VALUES (?, ?, ?, ?)";
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("sss", $uname, $hashed, $type);
+      $stmt->bind_param("ssss", $uname, $hashed, $type, $place);
       $stmt->execute();
       return $stmt->close();
     }
