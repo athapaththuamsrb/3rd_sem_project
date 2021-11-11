@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //location input only for vaccine accounts
         if(n==1){
-          console.log(document.getElementById("Vaccination_center").checked);
+          // console.log(document.getElementById("Vaccination_center").checked);
           if (!document.getElementById("Vaccination_center").checked) {
             document.getElementById('location').classList.add("hide")
           }else{
