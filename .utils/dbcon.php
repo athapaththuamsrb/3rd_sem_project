@@ -28,21 +28,28 @@ class DatabaseConn
   {
     if ($this->validate($uname, $pw)) {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $q = "SELECT password FROM admins WHERE username=? AND type=?";
+      $q = "SELECT password, place FROM admins WHERE username=? AND type=?";
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ss", $uname, $type);
       $stmt->execute();
       $stmt->store_result();
       $rowcount = $stmt->num_rows;
       if ($rowcount == 1) {
-        $stmt->bind_result($password);
+        $stmt->bind_result($password, $place);
         $stmt->fetch();
         if (password_verify($pw, $password)) {
-          return true;
+          $arr = array();
+          if ($type === "vaccination"){
+            $arr["place"] = $place;
+          }
+          else{
+            $arr["place"] = "";
+          }
+          return $arr;
         }
       }
     }
-    return false;
+    return null;
   }
   /*
   public function auth($uname, $pw, $type) {
