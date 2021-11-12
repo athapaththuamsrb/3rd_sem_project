@@ -122,6 +122,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .step.finish {
       background-color: #04aa6d;
     }
+
+    .hide{
+      display: none;
+    }
   </style>
   <body>
     <form id="regForm" method="POST">
@@ -163,14 +167,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="tab">
-        User Name:
-        <p>
-          <input
-            placeholder="User Name"
-            oninput="this.className = ''"
-            name="username"
-          />
-        </p>
+        <div>
+          User Name:
+          <p>
+            <input
+              placeholder="User Name"
+              oninput="this.className = ''"
+              name="username"
+            />
+          </p>
+        </div>
+        <div id="location" class="location">
+          Location:
+          <p>
+            <input
+              placeholder="User Name"
+              oninput="this.className = ''"
+              name="place"
+            />
+          </p>
+        </div>
+        
       </div>
 
       <div class="tab">
@@ -231,9 +248,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       function nextPrev(n) {
         // This function will figure out which tab to display
+       
         var x = document.getElementsByClassName("tab");
+
+        //location input only for vaccine accounts
+        if(n==1){
+          // console.log(document.getElementById("Vaccination_center").checked);
+          if (!document.getElementById("Vaccination_center").checked) {
+            document.getElementById('location').classList.add("hide")
+          }else{
+            document.getElementById('location').classList.remove("hide")
+          }
+        }
+
         // Exit the function if any field in the current tab is invalid:
-        if (n == 1 && !validateForm()) return false;
+        if (n == 1 && !validateForm()){
+          
+          return false;
+
+        } 
         // Hide the current tab:
         x[currentTab].style.display = "none";
         // Increase or decrease the current tab by 1:
@@ -284,6 +317,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //... and adds the "active" class on the current step:
         x[n].className += " active";
       }
+
+     
     </script>
   </body>
 </html>
