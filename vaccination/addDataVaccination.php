@@ -3,13 +3,14 @@ require_once('.auth.php');
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $user = $_SESSION['user'];
   if (isset($_POST['id']) && $_POST['id']) {
     require_once('../.utils/dbcon.php');
     $con = DatabaseConn::get_conn();
-    if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['dose']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['dose'] && $_POST['district']) {
-      $token = $con->add_vaccine_record($_POST['id'], $_POST['name'], $_POST['district'], $_POST['type'], 'Colombo'); // Get place by centre account
-      echo json_encode($token);
-      die();
+    if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['district']) {
+      $vac_data = ['id' => $_POST['id'], 'name' => $_POST['name'], 'district' => $_POST['district'], 'type' => $_POST['type'], 'place' => $user->getPlace()];
+      $token = $con->add_vaccine_record($_POST['id'], $_POST['name'], $_POST['district'], $_POST['type'], $user->getPlace());
+      echo json_encode(['token' => $token]);
     } else {
       $id = $_POST['id'];
       $data = $con->get_vaccination_records($id, null);
@@ -189,32 +190,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       text-align: center;
       left: 13%;
     }
-    .item4{
-        /* height: 300px; */
-        width: 300px;
-        margin: auto;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        
-      }
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
 
-      td, th {
-        border: 1px solid black;
-        text-align: left;
-        padding: 8px;
-      }
+    .item4 {
+      /* height: 300px; */
+      width: 300px;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 30px;
 
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-      tr:nth-child(odd) {
-        background-color: black;
-      }
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+      background-color: black;
+    }
   </style>
 </head>
 
@@ -243,15 +248,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   </div>
   <div class="item4">
-        <table id="resultTable">
-        </table>
+    <table id="resultTable">
+    </table>
   </div>
   <!-- secound form -->
   <div class="topic">
     <h1>Creat account</h1>
   </div>
   <div id="cover">
-    <form id="application"  method="post">
+    <form id="application" method="post">
       <div id="field">
         <br />
         <label for="nic">
@@ -330,7 +335,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
-          console.log(data);
           // document.getElementById("firestName").value=data["name"];
           // document.getElementById("secoundName").value=data["name"];
 
@@ -345,13 +349,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           // }else if(data["doses"][1]["type"]=="AstraZeneca"){
           //   document.getElementById("AstraZeneca2").checked=true;
           // }
-        let output = document.getElementById("resultTable");
-        var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
-        for (index = 0; index < data["doses"].length; index++) {
-          tableContent += "<tr><td>" + data["doses"][index]["type"] + "</td>"
-                          + "<td>" + data["doses"][index]["date"] + "</td></tr>";
-        }
-        output.innerHTML = tableContent;
+          let output = document.getElementById("resultTable");
+          var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
+          for (index = 0; index < data["doses"].length; index++) {
+            tableContent += "<tr><td>" + data["doses"][index]["type"] + "</td>" +
+              "<td>" + data["doses"][index]["date"] + "</td></tr>";
+          }
+          output.innerHTML = tableContent;
 
           // document.getElementById("email").value=data["email"];
           // document.getElementById("ContactNo").value=data["contactNo"];
@@ -371,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       // xhr.send({
       //   nic,
       //   firstName,
@@ -381,9 +385,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //   email,
       //   contactNo,
       // });
-      xhr.send(encodeURIComponent("nic=")+encodeURIComponent(nic)+encodeURIComponent("&district=")+encodeURIComponent(district)+encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+
-      encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+ encodeURIComponent("&vaccination_type=")+encodeURIComponent(vaccineType)+
-      encodeURIComponent("&email=")+encodeURIComponent(email)+encodeURIComponent("&telephone=")+encodeURIComponent(telephone))
+      xhr.send("id=" + encodeURIComponent(nic) + "&district=" + encodeURIComponent(district) + "&name=" + encodeURIComponent(firstName) + "&type=" + encodeURIComponent(vaccineType) +
+        "&email=" + encodeURIComponent(email) + "&telephone=" + encodeURIComponent(telephone));
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          let data = JSON.parse(xhr.responseText);
+          console.log(data);
+        }
+      }
       // console.log({
       //   "nic":nic,
       //   "firstName":firstName,
