@@ -73,7 +73,7 @@ class DatabaseConn
 */
   public function create_user($uname, $pw, $type, $place)
   {
-    if ($type === 'vaccination' && $place == null){
+    if ($type === 'vaccination' && !$place){
       return false;
     }
     if ($this->validate($uname, $pw)) {

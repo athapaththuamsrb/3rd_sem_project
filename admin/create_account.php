@@ -9,7 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   require_once('../.utils/dbcon.php');
   $conn = DatabaseConn::get_conn();
-  if (!$conn || !$conn->create_user($_POST['username'], $_POST['password'], $_POST['type'])){
+  $place = null;
+  if (isset($_POST['place']) && $_POST['place']){
+    $place = $_POST['place'];
+  }
+  if (!$conn || !$conn->create_user($_POST['username'], $_POST['password'], $_POST['type'], $place)){
     header('Location: ' . $_SERVER['REQUEST_URI']);
     die();
   }
@@ -195,6 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>
           <input
             placeholder="Password"
+            type="password"
             oninput="this.className = ''"
             name="password"
           />
@@ -202,8 +207,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>
           <input
             placeholder="conform password"
+            type="password"
             oninput="this.className = ''"
-            name="conform_passsword"
           />
         </p>
       </div>
