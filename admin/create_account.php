@@ -188,6 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               placeholder="User Name"
               oninput="this.className = ''"
               name="place"
+              value=""
             />
           </p>
         </div>

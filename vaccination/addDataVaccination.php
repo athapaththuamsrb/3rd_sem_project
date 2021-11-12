@@ -189,6 +189,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       text-align: center;
       left: 13%;
     }
+    .item4{
+        /* height: 300px; */
+        width: 300px;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid black;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      tr:nth-child(odd) {
+        background-color: black;
+      }
   </style>
 </head>
 
@@ -216,7 +242,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
   </div>
-  <br /><br /><br />
+  <div class="item4">
+        <table id="resultTable">
+        </table>
+  </div>
   <!-- secound form -->
   <div class="topic">
     <h1>Creat account</h1>
@@ -232,34 +261,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div id="field">
         <br />
-        <label for="firestName">
+        <label for="district">
           <h2 class="field">Firest name</h2>
         </label>
-        <input placeholder="firest name" type="text" id="firestName" name="firestName" required />
+        <input placeholder="District" type="text" id="district" name="district" value="" required />
       </div>
       <div id="field">
         <br />
-        <label for="secoundName">
-          <h2 class="field">secound name</h2>
+        <label for="firestName">
+          <h2 class="field">Firest name</h2>
         </label>
-        <input placeholder="secound name" type="text" id="secoundName" name="secoundName" required />
+        <input placeholder="firest name" type="text" id="firestName" name="firestName" value="" required />
       </div>
       <div class="textbox">
-        <p class="field">Firest doce:</p>
         <label for="Type">
           <h2 class="field">Vaccination Type</h2>
         </label>
         <br />
         <div id="type">
           <label for="Pfizer">Pfizer</label>
-          <input type="radio" name="vaccination_type1" id="Pfizer" value="Pfizer" checked />
+          <input type="radio" name="vaccination_type" id="Pfizer" value="Pfizer" />
           <br />
           <label for="AstraZeneca">AstraZeneca</label>
-          <input type="radio" name="vaccination_type1" id="AstraZeneca" value="AstraZeneca" />
+          <input type="radio" name="vaccination_type" id="AstraZeneca" value="AstraZeneca" />
           <br />
         </div>
       </div>
-      <div class="textbox">
+      <!-- <div class="textbox">
         <p class="field">Secound doce:</p>
         <label for="Type">
           <h2 class="field">Vaccination Type</h2>
@@ -267,22 +295,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br />
         <div id="type">
           <label for="Pfizer">Pfizer</label>
-          <input type="radio" name="vaccination_type2" id="Pfizer" value="Pfizer" checked />
+          <input type="radio" name="vaccination_type2" id="Pfizer2" value="Pfizer" />
           <br />
           <label for="AstraZeneca">AstraZeneca</label>
-          <input type="radio" name="vaccination_type2" id="AstraZeneca" value="AstraZeneca" />
+          <input type="radio" name="vaccination_type2" id="AstraZeneca2" value="AstraZeneca" />
           <br />
         </div>
-      </div>
+      </div> -->
       <label for="Email">
         <h2 class="field">Email Address</h2>
       </label>
-      <input placeholder="Email Address" type="email" id="email" name="email" required />
+      <input placeholder="Email Address" type="email" id="email" name="email" value="" required />
 
       <label for="ContactNo">
         <h2 class="field">Contact Number</h2>
       </label>
-      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="telephone" required />
+      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="telephone" value="" required />
       <div class="buttons">
         <button id="submitButton2" type="button" name="submit" onclick="submit2()">
           Submit
@@ -303,6 +331,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
           console.log(data);
+          document.getElementById("firestName").value=data["name"];
+          // document.getElementById("secoundName").value=data["name"];
+
+          // if(data["doses"][0]["type"]=="Pfizer"){
+          //   document.getElementById("Pfizer1").checked=true;
+          // }else if(data["doses"][0]["type"]=="AstraZeneca"){
+          //   document.getElementById("AstraZeneca1").checked=true;
+          // }
+
+          // if(data["doses"][1]["type"]=="Pfizer"){
+          //   document.getElementById("Pfizer2").checked=true;
+          // }else if(data["doses"][1]["type"]=="AstraZeneca"){
+          //   document.getElementById("AstraZeneca2").checked=true;
+          // }
+        let output = document.getElementById("resultTable");
+        var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
+        for (index = 0; index < data["doses"].length; index++) {
+          tableContent += "<tr><td>" + data["doses"][index]["type"] + "</td>"
+                          + "<td>" + data["doses"][index]["date"] + "</td></tr>";
+        }
+        output.innerHTML = tableContent;
+
+          // document.getElementById("email").value=data["email"];
+          // document.getElementById("ContactNo").value=data["contactNo"];
         }
       }
     }
@@ -310,35 +362,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     function submit2() {
       let nic = document.getElementById("nic2").value;
       let firstName = document.getElementById("firestName").value;
-      let secondName = document.getElementById("secoundName").value;
-      let firstVaccineType = document.querySelector('input[name="vaccination_type1"]:checked').value;
-      let secondVaccineType = document.querySelector('input[name="vaccination_type2"]:checked').value;
+      let district = document.getElementById("district").value;
+      let vaccineType = document.querySelector('input[name="vaccination_type"]:checked').value;
+      // let secondVaccineType = document.querySelector('input[name="vaccination_type2"]:checked').value;
       let email = document.getElementById("email").value;
-      let contactNo = document.getElementById("ContactNo").value;
+      let telephone = document.getElementById("ContactNo").value;
 
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.send({
-        nic,
-        firstName,
-        secondName,
-        firstVaccineType,
-        secondVaccineType,
-        email,
-        contactNo,
-      });
-      // console.log({
-      //   "nic":nic,
-      //   "firstName":firstName,
-      //   "secondName":secondName,
-      //   "firstVaccineType":firstVaccineType,
-      //   "secondVaccineType":secondVaccineType,
-      //   "email":email,
-      //   "contactNo":contactNo,
-      // });
-      // console.log({
+      // xhr.send({
       //   nic,
       //   firstName,
       //   secondName,
@@ -347,6 +381,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //   email,
       //   contactNo,
       // });
+      xhr.send(encodeURIComponent("nic=")+encodeURIComponent(nic)+encodeURIComponent("&district=")+encodeURIComponent(district)+encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+
+      encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+ encodeURIComponent("&vaccination_type=")+encodeURIComponent(vaccineType)+
+      encodeURIComponent("&email=")+encodeURIComponent(email)+encodeURIComponent("&telephone=")+encodeURIComponent(telephone))
+      // console.log({
+      //   "nic":nic,
+      //   "firstName":firstName,
+      //   "vaccineType":vaccineType,
+      //   "email":email,
+      //   "telephone":telephone,
+      // });
+      // console.log(encodeURIComponent("nic=")+encodeURIComponent(nic)+encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+
+      // encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+ encodeURIComponent("&vaccination_type=")+encodeURIComponent(vaccineType)+
+      // encodeURIComponent("&email=")+encodeURIComponent(email)+encodeURIComponent("&telephone=")+encodeURIComponent(telephone));
     }
   </script>
 </body>

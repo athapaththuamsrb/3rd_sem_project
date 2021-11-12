@@ -17,6 +17,21 @@
     <script src="./css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
     <title>Document</title>
     <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
       /* .item1 {
         grid-area: nav;
       }
@@ -65,11 +80,11 @@
       }
 
       .item4{
-        height: 300px;
+        /* height: 300px; */
         width: 300px;
         margin: auto;
         margin-top: 60px;
-        background-color: aqua;
+        
       }
     
     </style>
@@ -130,7 +145,8 @@
         </form>
       </div>
       <div class="item4">
-        Result
+        <table id="resultTable">
+        </table>
       </div>
       
      
@@ -151,6 +167,19 @@
         //   if (xhr.readyState == XMLHttpRequest.DONE) {
         //     let data = JSON.parse(xhr.responseText);
         //     console.log(data);
+        
+        var data = [{type: 'Pfizer', date: '02/11/2021', place: 'colombo'},
+                    {type: 'Astrsasenica', date: '03/11/2021', place: 'homagama'},
+                    {type: 'Pfizer', date: '10/11/2021', place: 'colombo'},
+                    {type: 'Astrsasenica', date: '30/11/2021', place: 'homagama'}] 
+        let output = document.getElementById("resultTable");
+        var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
+        for (index = 0; index < data.length; index++) {
+          tableContent += "<tr><td>" + data[index]["type"] + "</td>"
+                          + "<td>" + data[index]["date"] + "</td></tr>";
+        }
+        output.innerHTML = tableContent;
+        
         //   }
         // }
       }
