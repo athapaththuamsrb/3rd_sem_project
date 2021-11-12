@@ -267,7 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div id="field">
         <br />
         <label for="district">
-          <h2 class="field">Firest name</h2>
+          <h2 class="field">District</h2>
         </label>
         <input placeholder="District" type="text" id="district" name="district" value="" required />
       </div>

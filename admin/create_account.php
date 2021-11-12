@@ -267,6 +267,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById('location').classList.remove("hide")
           }
         }
+        // else{
+        //   console.log(document.getElementById('location').classList)
+        //   document.getElementById('location').className="location";
+        // }
 
         // Exit the function if any field in the current tab is invalid:
         if (n == 1 && !validateForm()){
@@ -290,6 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       function validateForm() {
         // This function deals with validation of the form fields
+        console.log(document.getElementById("Vaccination_center").checked)
         var x,
           y,
           i,
@@ -299,9 +304,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // A loop that checks every input field in the current tab:
         for (i = 0; i < y.length; i++) {
           // If a field is empty...
-          if ((y[i].value == "" && y[i].className!="location") || (y[i].value == "" && document.getElementById("Vaccination_center").checked) ) {
+          console.log(y[i].value)
+          console.log(y[i].className)
+          if ((y[i].value == "" && (y[i].className!="location")) || (y[i].value == "" && document.getElementById("Vaccination_center").checked) ) {
             // add an "invalid" class to the field:
-            y[i].className += " invalid";
+            if (y[i].className=="location"){
+              y[i].className += " invalid";
+            }
+            if (y[i].className=="location invalid"){
+              y[i].className = "location";
+            }
+            
             // and set the current valid status to false
             valid = false;
           }
