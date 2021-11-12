@@ -185,10 +185,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           Location:
           <p>
             <input
-              placeholder="User Name"
+              placeholder="Location"
               oninput="this.className = ''"
               name="place"
-              value=""
+              value="" 
+              class="location"
             />
           </p>
         </div>
@@ -298,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // A loop that checks every input field in the current tab:
         for (i = 0; i < y.length; i++) {
           // If a field is empty...
-          if (y[i].value == "") {
+          if ((y[i].value == "" && y[i].className!="location") || (y[i].value == "" && document.getElementById("Vaccination_center").checked) ) {
             // add an "invalid" class to the field:
             y[i].className += " invalid";
             // and set the current valid status to false

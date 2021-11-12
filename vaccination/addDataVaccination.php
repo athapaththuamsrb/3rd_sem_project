@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Creat account</h1>
   </div>
   <div id="cover">
-    <form id="application" action="/signUp" method="post">
+    <form id="application"  method="post">
       <div id="field">
         <br />
         <label for="nic">
@@ -331,7 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
           console.log(data);
-          document.getElementById("firestName").value=data["name"];
+          // document.getElementById("firestName").value=data["name"];
           // document.getElementById("secoundName").value=data["name"];
 
           // if(data["doses"][0]["type"]=="Pfizer"){
