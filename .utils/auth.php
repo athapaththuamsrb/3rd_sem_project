@@ -4,15 +4,22 @@ require_once('dbcon.php');
 class User
 {
     private $type;
+    private $place;
 
-    public function __construct($type)
+    public function __construct($type, $place)
     {
         $this->type = $type;
+        $this->place = $place;
     }
 
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getPlace()
+    {
+        return $this->place;
     }
 }
 
@@ -27,7 +34,11 @@ class Authenticator
     public function authenticate($uname, $passwd)
     {
         $dbcon = DatabaseConn::get_conn();
-        if (!$dbcon || !$dbcon->auth($uname, $passwd, $this->type)) {
+        $arr = null;
+        if ($dbcon){
+            $arr = $dbcon->auth($uname, $passwd, $this->type);
+        }
+        if (!$dbcon || !$arr) {
             session_start();
             $_SESSION['invalidPass'] = true;
             session_write_close();
@@ -35,7 +46,7 @@ class Authenticator
             header("Location: /$this->type/login.php");
             die();
         } else {
-            $user = new User($this->type);
+            $user = new User($this->type, $arr['place']);
             session_start();
             $_SESSION['invalidPass'] = false;
             $_SESSION['user'] = $user;
