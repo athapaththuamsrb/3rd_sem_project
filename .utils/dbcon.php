@@ -120,20 +120,20 @@ class DatabaseConn
   {
     try{
       $id = $details['id']; $date = date("Y/m/d");
-      if (!$online){
+      $Q = "SELECT * FROM appointments WHERE id=?";
+      $Stmt = $this->conn->prepare($Q);
+      $Stmt->bind_param("s", $id);
+      $Stmt->execute();
+      $Result = $Stmt->get_result();
+      if ($Result->num_rows == 0){
         $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email'];
-        $this->update_stocks($district, $place, $date, $type, "offline");
+        $this->update_stocks($district, $place, $date, $type, "offline",-1);
       }
       else{
-        $Q = "SELECT * FROM appointments WHERE id=?";
-        $Stmt = $this->conn->prepare($Q);
-        $Stmt->bind_param("s", $id);
-        $Stmt->execute();
-        $Result = $Stmt->get_result();
         while ($Row = $Result->fetch_assoc()){
           $name = $Row['name']; $district = $Row['district']; $type = $Row['type']; $place = $Row['place']; $address = $Row['address']; $contact = $Row['contact']; $email = $Row['email'];
         }
-        $this->update_stocks($district, $place, $date, $type, "online");
+        $this->update_stocks($district, $place, $date, $type, "online",-1);
       }
       $q0 = "SELECT token, last_dose FROM persons WHERE id=?";
       $stmt = $this->conn->prepare($q0);
@@ -218,16 +218,16 @@ class DatabaseConn
     }
   }
 
-  public function update_stocks($district, $place, $date, $type, $field){
+  public function update_stocks($district, $place, $date, $type, $field, $amount){
     try{
       if ($field === "online"){
-        $q = "UPDATE table stocks online = online - 1 WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks online = online + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
       }
       else if ($field === "offline"){
-        $q = "UPDATE table stocks offline = offline - 1 WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks offline = offline + $amount district = ? AND place = ? AND date = ? and type = ?";
       }
       else{
-        $q = "UPDATE table stocks appointments = appointements - 1 WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks appointments = appointements + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
       }
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ssss", $district, $place, $date, $type);
@@ -276,7 +276,7 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("sssssssss", $id, $name, $address, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
-      $this->update_stocks($district, $place, $date, $type, "appointment");
+      $this->update_stocks($district, $place, $date, $type, "appointment", -1);
     }
     catch (Exception $e){
       return false;
