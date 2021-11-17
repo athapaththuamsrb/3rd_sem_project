@@ -122,11 +122,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <form>
-        <label for="district">District:</label><br>
-        <input type="text" id="district" name="district" value=""><br>
+        <label for="districts">Districts:</label>
+        <select name="districts" id="districts">
+            <option value="Colombo">Colombo</option>
+            <option value="Kalutara">Kalutara</option>
+            <option value="Gampaha">Gampaha</option>
+            <option value="Puttalam">Puttalam</option>
+            <option value="Kurunegala">Kurunegala</option>
+            <option value="Anuradhapura">Anuradhapura</option>
+            <option value="Polonnaruwa">Polonnaruwa</option>
+            <option value="Matale">Matale</option>
+            <option value="Nuwara Eliya">Nuwara Eliya</option>
+            <option value="Kegalle">Kegalle</option>
+            <option value="Ratnapura">Ratnapura</option>
+            <option value="Trincomalee">Trincomalee</option>
+            <option value="Batticaloa">Batticaloa</option>
+            <option value="Ampara">Ampara</option>
+            <option value="Badulla">Badulla</option>
+            <option value="Monaragala">Monaragala</option>
+            <option value="Hambantota">Hambantota</option>
+            <option value="Matara">Matara</option>
+            <option value="Galle">Galle</option>
+            <option value="Jaffna">Jaffna</option>
+            <option value="Kilinochchi">Kilinochchi</option>
+            <option value="Mannar">Mannar</option>
+            <option value="Mullaitivu">Mullaitivu</option>
+            <option value="Vavuniya">Vavuniya</option>
+            <option value="Kandy">Kandy</option>
+        </select><br>
 
-        <label for="date">Date:</label><br>
-        <input type="text" id="date" name="date" value=""><br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date">
 
         <input type="button" value="Submit" onclick="submit1()">
     </form>
@@ -158,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <script type="text/javascript">
         function submit1() {
-            let district = document.getElementById("district").value;
+            let district = document.getElementById("districts").value;
             let date = document.getElementById("date").value;
             let output = document.getElementById("centers");
             var xhr = new XMLHttpRequest();
@@ -216,12 +242,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var text = elem.value.replace(/@/g, " ").split("?");
             // var editedText = text.replace(/@/g," ").split("&")
             // var text = document.querySelector('input[name="appoinment"]:checked').className;
-            let district = document.getElementById("district").value;
+            let district = document.getElementById("districts").value;
             let date = document.getElementById("date").value;
+
             let vaccineCenter = text[0]
             let vaccineType = text[1]
-
-            // console.log(text)
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
