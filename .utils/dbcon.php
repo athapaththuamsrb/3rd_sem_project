@@ -251,14 +251,14 @@ class DatabaseConn
         $record = array();
         $place = $row['place'];
         $record["place"] = $place;
-        $q1 = "SELECT type, total, online FROM stocks WHERE district=? AND place=? AND date=?";
+        $q1 = "SELECT type, offline, online FROM stocks WHERE district=? AND place=? AND date=?";
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param("sss", $district, $place, $date);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
         while ($center = $result1->fetch_assoc()){
-          $type = $center['type']; $total = $center['total']; $online = $center['online']; 
-          $availability = array("total"=>$total, "online"=>$online);
+          $type = $center['type']; $offline = $center['offline']; $online = $center['online']; 
+          $availability = array("offline"=>$offline, "online"=>$online);
           $record[$type] = $availability;
         }
         array_push($arr, $record);
