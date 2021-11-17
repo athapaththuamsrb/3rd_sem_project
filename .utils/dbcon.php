@@ -116,7 +116,7 @@ class DatabaseConn
     }   
   }
 
-  public function add_vaccine_record($online, $details)
+  public function add_vaccine_record($details)
   {
     try{
       $id = $details['id']; $date = date("Y/m/d");
