@@ -119,21 +119,15 @@ class DatabaseConn
   public function add_vaccine_record($details)
   {
     try{
-      $id = $details['id']; $date = date("Y/m/d");
-      $Q = "SELECT * FROM appointments WHERE id=?";
+      $online = true;
+      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y/m/d");
+      $Q = "SELECT * FROM appointments WHERE id=? AND date=? AND type=? AND district=? AND place=?";
       $Stmt = $this->conn->prepare($Q);
-      $Stmt->bind_param("s", $id);
+      $Stmt->bind_param("sssss", $id, $date, $type, $district, $place);
       $Stmt->execute();
       $Result = $Stmt->get_result();
       if ($Result->num_rows == 0){
-        $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email'];
-        $this->update_stocks($district, $place, $date, $type, "offline",-1);
-      }
-      else{
-        while ($Row = $Result->fetch_assoc()){
-          $name = $Row['name']; $district = $Row['district']; $type = $Row['type']; $place = $Row['place']; $address = $Row['address']; $contact = $Row['contact']; $email = $Row['email'];
-        }
-        $this->update_stocks($district, $place, $date, $type, "online",-1);
+        $online = false;
       }
       $q0 = "SELECT token, last_dose FROM persons WHERE id=?";
       $stmt = $this->conn->prepare($q0);
@@ -150,6 +144,12 @@ class DatabaseConn
           $stmt->bind_param("sssssssi", $id, $name, $district, $address, $contact, $email, $token, $new_dose);
           $success = $stmt->execute();
           if ($success){
+            if ($online){
+              $this->update_stocks($district, $place, $date, $type, "online",-1, $new_dose);
+            }
+            else{
+              $this->update_stocks($district, $place, $date, $type, "offline",-1, $new_dose);
+            }
             break;
           }
         }
@@ -161,6 +161,12 @@ class DatabaseConn
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param("is", $new_dose, $id);
         $stmt1->execute();
+        if ($online){
+          $this->update_stocks($district, $place, $date, $type, "online",-1, $new_dose);
+        }
+        else{
+          $this->update_stocks($district, $place, $date, $type, "offline",-1, $new_dose);
+        }
       }
       $q2 = "INSERT INTO vaccines (type, dose, date, place, id) VALUES (?, ?, ?, ?, ?)";
       $stmt2 = $this->conn->prepare($q2);
@@ -205,11 +211,11 @@ class DatabaseConn
     }
   }
 
-  public function add_stock($district, $place, $date, $type, $offline, $online){
+  public function add_stock($district, $place, $date, $type, $dose, $offline, $online){
     try{
-      $q = "INSERT INTO stocks (district, place, date, type, offline, online, appointments) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      $q = "INSERT INTO stocks (district, place, date, type, dose, offline, online, appointments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("ssssiii", $district, $place, $date, $type, $offline, $online, $online);
+      $stmt->bind_param("ssssiiii", $district, $place, $date, $type, $dose, $offline, $online, $online);
       $success = $stmt->execute();
       return $success;
     }
@@ -218,19 +224,19 @@ class DatabaseConn
     }
   }
 
-  public function update_stocks($district, $place, $date, $type, $field, $amount){
+  public function update_stocks($district, $place, $date, $type, $field, $amount, $dose){
     try{
       if ($field === "online"){
-        $q = "UPDATE table stocks online = online + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks online = online + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else if ($field === "offline"){
-        $q = "UPDATE table stocks offline = offline + $amount district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks offline = offline + $amount district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else{
-        $q = "UPDATE table stocks appointments = appointements + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE table stocks appointments = appointements + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("ssss", $district, $place, $date, $type);
+      $stmt->bind_param("ssssi", $district, $place, $date, $type, $dose);
       $success = $stmt->execute();
       return $success;
     }
@@ -276,7 +282,20 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("sssssssss", $id, $name, $address, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
-      $this->update_stocks($district, $place, $date, $type, "appointment", -1);
+      $q0 = "SELECT last_dose FROM persons WHERE id=?";
+      $stmt = $this->conn->prepare($q0);
+      $stmt->bind_param("s", $id);
+      $stmt->execute();
+      $stmt->store_result();
+      if ($stmt->num_rows() == 0) {
+        $dose = 1;
+      }
+      else{
+        $stmt->bind_result($last_dose);
+        $stmt->fetch();
+        $dose = $last_dose + 1;
+      }
+      $this->update_stocks($district, $place, $date, $type, "appointment", -1, $dose);
     }
     catch (Exception $e){
       return false;
