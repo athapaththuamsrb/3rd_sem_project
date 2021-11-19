@@ -28,7 +28,7 @@ class DatabaseConn
   {
     if ($this->validate($uname, $pw)) {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $q = "SELECT password, place FROM admins WHERE username=? AND type=?";
+      $q = "SELECT password, place, district FROM admins WHERE username=? AND type=?";
       $arr = array();
       try{
         $stmt = $this->conn->prepare($q);
@@ -37,14 +37,16 @@ class DatabaseConn
         $stmt->store_result();
         $rowcount = $stmt->num_rows;
         if ($rowcount == 1) {
-          $stmt->bind_result($password, $place);
+          $stmt->bind_result($password, $place, $district);
           $stmt->fetch();
           if (password_verify($pw, $password)) {
             if ($type !== "admin"){
               $arr["place"] = $place;
+              $arr["district"] = $district;
             }
             else{
               $arr["place"] = "";
+              $arr["district"] = "";
             }
             return $arr;
           }
@@ -120,7 +122,7 @@ class DatabaseConn
   {
     try{
       $online = true;
-      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y/m/d");
+      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y-m-d");
       $Q = "SELECT * FROM appointments WHERE id=? AND date=? AND type=? AND district=? AND place=?";
       $Stmt = $this->conn->prepare($Q);
       $Stmt->bind_param("sssss", $id, $date, $type, $district, $place);
@@ -215,7 +217,8 @@ class DatabaseConn
     try{
       $q = "INSERT INTO stocks (district, place, date, type, dose, offline, online, appointments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("ssssiiii", $district, $place, $date, $type, $dose, $offline, $online, $online);
+      $datestr = $date->format('Y-m-d');
+      $stmt->bind_param("ssssiiii", $district, $place, $datestr, $type, $dose, $offline, $online, $online);
       $success = $stmt->execute();
       return $success;
     }

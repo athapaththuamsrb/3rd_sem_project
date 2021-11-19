@@ -5,11 +5,13 @@ class User
 {
     private $type;
     private $place;
+    private $district;
 
-    public function __construct($type, $place)
+    public function __construct($type, $place, $district)
     {
         $this->type = $type;
         $this->place = $place;
+        $this->district = $district;
     }
 
     public function getType()
@@ -20,6 +22,11 @@ class User
     public function getPlace()
     {
         return $this->place;
+    }
+
+    public function getDistrict()
+    {
+        return $this->district;
     }
 }
 
@@ -46,7 +53,7 @@ class Authenticator
             header("Location: /$this->type/login.php");
             die();
         } else {
-            $user = new User($this->type, $arr['place']);
+            $user = new User($this->type, $arr['place'], $arr['district']);
             session_start();
             $_SESSION['invalidPass'] = false;
             $_SESSION['user'] = $user;
