@@ -24,20 +24,20 @@ class DatabaseConn
     return DatabaseConn::$dbconn;
   }
 
-  public function auth($uname, $pw, $type)
+  public function auth($uname, $pw, $type, $place, $district)
   {
     if ($this->validate($uname, $pw)) {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $q = "SELECT password, place FROM admins WHERE username=? AND type=?";
+      $q = "SELECT password FROM admins WHERE username=? AND type=? AND place=? AND district=?";
       $arr = array();
       try{
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("ss", $uname, $type);
+        $stmt->bind_param("ssss", $uname, $type, $place, $district);
         $stmt->execute();
         $stmt->store_result();
         $rowcount = $stmt->num_rows;
         if ($rowcount == 1) {
-          $stmt->bind_result($password, $place);
+          $stmt->bind_result($password);
           $stmt->fetch();
           if (password_verify($pw, $password)) {
             if ($type !== "admin"){
@@ -120,7 +120,7 @@ class DatabaseConn
   {
     try{
       $online = true;
-      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y/m/d");
+      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y-m-d");
       $Q = "SELECT * FROM appointments WHERE id=? AND date=? AND type=? AND district=? AND place=?";
       $Stmt = $this->conn->prepare($Q);
       $Stmt->bind_param("sssss", $id, $date, $type, $district, $place);
@@ -257,14 +257,14 @@ class DatabaseConn
         $record = array();
         $place = $row['place'];
         $record["place"] = $place;
-        $q1 = "SELECT type, offline, online FROM stocks WHERE district=? AND place=? AND date=?";
+        $q1 = "SELECT type, offline, appointments FROM stocks WHERE district=? AND place=? AND date=?";
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param("sss", $district, $place, $date);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
         while ($center = $result1->fetch_assoc()){
-          $type = $center['type']; $offline = $center['offline']; $online = $center['online']; 
-          $availability = array("offline"=>$offline, "online"=>$online);
+          $type = $center['type']; $offline = $center['offline']; $appointments = $center['appointments']; 
+          $availability = array("offline"=>$offline, "appointments"=>$appointments);
           $record[$type] = $availability;
         }
         array_push($arr, $record);
