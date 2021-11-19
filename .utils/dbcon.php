@@ -32,7 +32,7 @@ class DatabaseConn
       $arr = array();
       try{
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("ss", $uname, $type);
+        $stmt->bind_param("ssss", $uname, $type, $place, $district);
         $stmt->execute();
         $stmt->store_result();
         $rowcount = $stmt->num_rows;
@@ -260,14 +260,14 @@ class DatabaseConn
         $record = array();
         $place = $row['place'];
         $record["place"] = $place;
-        $q1 = "SELECT type, offline, online FROM stocks WHERE district=? AND place=? AND date=?";
+        $q1 = "SELECT type, offline, appointments FROM stocks WHERE district=? AND place=? AND date=?";
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param("sss", $district, $place, $date);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
         while ($center = $result1->fetch_assoc()){
-          $type = $center['type']; $offline = $center['offline']; $online = $center['online']; 
-          $availability = array("offline"=>$offline, "online"=>$online);
+          $type = $center['type']; $offline = $center['offline']; $appointments = $center['appointments']; 
+          $availability = array("offline"=>$offline, "appointments"=>$appointments);
           $record[$type] = $availability;
         }
         array_push($arr, $record);
