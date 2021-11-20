@@ -1,10 +1,19 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['district']) && isset($_POST['date']) && $_POST['district'] && $_POST['date']) {
+    if (isset($_POST['district']) && isset($_POST['date']) && isset($_POST['id']) && $_POST['district'] && $_POST['date'] && $_POST['id']) {
         if (isset($_POST['vaccineCenter']) && isset($_POST['vaccineType']) && $_POST['vaccineCenter'] && $_POST['vaccineType']) {
             $data = ['status' => true];
         } else {
-            $data = [['place' => 'General Hosp. Kalutara', 'Pfizer' => 50, 'Sinopharm' => 20], ['place' => 'Base Hosp. Horana', 'Aztraseneca' => 40, 'Sinopharm' => 100, 'Moderna' => 30], ['place' => 'MOH Gampaha', 'Pfizer' => 50, 'Moderna' => 50]];
+            require_once('.utils/dbcon.php');
+            $district = $_POST['district'];
+            $date = new DateTime($_POST['date']);
+            $id = $_POST['id'];
+            if ($con = DatabaseConn::get_conn()){
+                $data = $con->filter_vaccine_centers($district, $date, $id);
+            }else{
+                $data = [];
+            }
+            //$data = [['place' => 'General Hosp. Kalutara', 'Pfizer' => 50, 'Sinopharm' => 20], ['place' => 'Base Hosp. Horana', 'Aztraseneca' => 40, 'Sinopharm' => 100, 'Moderna' => 30], ['place' => 'MOH Gampaha', 'Pfizer' => 50, 'Moderna' => 50]];
         }
         echo json_encode($data);
     }
@@ -154,6 +163,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="date">Date:</label>
         <input type="date" id="date" name="date">
 
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id">
+
         <input type="button" value="Submit" onclick="submit1()">
     </form>
     <ul id="centers">
@@ -186,62 +198,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function submit1() {
             let district = document.getElementById("districts").value;
             let date = document.getElementById("date").value;
+            let id = document.getElementById("id").value;
             let output = document.getElementById("centers");
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("district=" + encodeURIComponent(district) + '&date=' + encodeURIComponent(date));
+            xhr.send("district=" + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     let data = JSON.parse(xhr.responseText);
                     var content = "";
                     var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
-                    for (index = 0; index < data.length; index++) {
-                        // console.log(data[index]["place"])
-                        // var pl = data[index]["place"];
-                        content += "<li>" + data[index]["place"] + "<ol>";
+                    data.forEach(centre => {
+                        content += "<li>" + centre["place"] + "<ol>";
                         for (i = 0; i < possibleVaccines.length; i++) {
-                            if (data[index][possibleVaccines[i]] != undefined) {
-                                var text = data[index]["place"] + "?" + [possibleVaccines[i]];
-                                // const myArray = text.split("&");
-                                // console.log(myArray)
+                            if (centre[possibleVaccines[i]] != undefined) {
+                                let vaccine_name = possibleVaccines[i];
+                                let availability = centre[possibleVaccines[i]]['appointments'];
+                                var text = centre["place"] + "?" + [vaccine_name];
                                 var editText = text.replace(/ /g, "@");
-                                // console.log(editText)
-                                content += "<li>" + [possibleVaccines[i]] + ":" + data[index][possibleVaccines[i]] +
+                                content += "<li>" + [vaccine_name] + ":" + availability +
                                     '<input type = "radio"  name ="appoinment" value =' + editText + ' /> ' + '</li>';
                             }
                         }
                         content += "</ol></li>"
-                    }
+                    });
                     output.innerHTML = content;
                 }
             }
-
-            // let data = [{
-            //         place: 'General Hosp. Kalutara',
-            //         Pfizer: 30,
-            //         Sinopharm: 40
-            //     },
-            //     {
-            //         place: 'Base Hosp. Horana',
-            //         Aztraseneca: 70,
-            //         Sinopharm: 40,
-            //         Moderna: 50
-            //     },
-            //     {
-            //         place: 'MOH Gampaha',
-            //         Pfizer: 60,
-            //         Moderna: 100
-            //     }
-            // ]
         }
 
         function submit2() {
             let elem = document.querySelector('input[name="appoinment"]:checked');
             if (!elem) return;
             var text = elem.value.replace(/@/g, " ").split("?");
-            // var editedText = text.replace(/@/g," ").split("&")
-            // var text = document.querySelector('input[name="appoinment"]:checked').className;
             let district = document.getElementById("districts").value;
             let date = document.getElementById("date").value;
 
