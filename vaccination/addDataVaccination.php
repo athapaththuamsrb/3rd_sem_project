@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     #firestName,
     #secoundName,
-    #nic,
+    #id,
     #email,
     #ContactNo,
     #password,
@@ -233,10 +233,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form id="application" method="post">
       <div id="field">
         <br />
-        <label for="nic">
-          <h2 class="field">Nic</h2>
+        <label for="id">
+          <h2 class="field">ID</h2>
         </label>
-        <input placeholder="Nic" type="text" id="nic" name="ID" required />
+        <input placeholder="ID" type="text" id="id" name="ID" required />
       </div>
       <div class="buttons">
         <button id="submitButton1" type="button" name="submit" onclick="submit1()">
@@ -259,10 +259,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form id="application" method="post">
       <div id="field">
         <br />
-        <label for="nic">
-          <h2 class="field">Nic</h2>
+        <label for="id">
+          <h2 class="field">ID</h2>
         </label>
-        <input placeholder="Nic" type="text" id="nic2" name="nic" required />
+        <input placeholder="ID" type="text" id="id2" name="id" required />
       </div>
       <div id="field">
         <br />
@@ -326,29 +326,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   <script type="text/javascript">
     function submit1() {
-      let nic = document.getElementById("nic").value;
+      let id = document.getElementById("id").value;
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("id=" + encodeURIComponent(nic));
+      xhr.send("id=" + encodeURIComponent(id));
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
-          // document.getElementById("firestName").value=data["name"];
-          // document.getElementById("secoundName").value=data["name"];
-
-          // if(data["doses"][0]["type"]=="Pfizer"){
-          //   document.getElementById("Pfizer1").checked=true;
-          // }else if(data["doses"][0]["type"]=="AstraZeneca"){
-          //   document.getElementById("AstraZeneca1").checked=true;
-          // }
-
-          // if(data["doses"][1]["type"]=="Pfizer"){
-          //   document.getElementById("Pfizer2").checked=true;
-          // }else if(data["doses"][1]["type"]=="AstraZeneca"){
-          //   document.getElementById("AstraZeneca2").checked=true;
-          // }
           let output = document.getElementById("resultTable");
           var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
           for (index = 0; index < data["doses"].length; index++) {
@@ -356,15 +342,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               "<td>" + data["doses"][index]["date"] + "</td></tr>";
           }
           output.innerHTML = tableContent;
-
-          // document.getElementById("email").value=data["email"];
-          // document.getElementById("ContactNo").value=data["contactNo"];
         }
       }
     }
 
     function submit2() {
-      let nic = document.getElementById("nic2").value;
+      let id = document.getElementById("id2").value;
       let firstName = document.getElementById("firestName").value;
       let district = document.getElementById("district").value;
       let vaccineType = document.querySelector('input[name="vaccination_type"]:checked').value;
@@ -377,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       // xhr.send({
-      //   nic,
+      //   id,
       //   firstName,
       //   secondName,
       //   firstVaccineType,
@@ -385,7 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //   email,
       //   contactNo,
       // });
-      xhr.send("id=" + encodeURIComponent(nic) + "&district=" + encodeURIComponent(district) + "&name=" + encodeURIComponent(firstName) + "&type=" + encodeURIComponent(vaccineType) +
+      xhr.send("id=" + encodeURIComponent(id) + "&district=" + encodeURIComponent(district) + "&name=" + encodeURIComponent(firstName) + "&type=" + encodeURIComponent(vaccineType) +
         "&email=" + encodeURIComponent(email) + "&telephone=" + encodeURIComponent(telephone));
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -393,16 +376,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           console.log(data);
         }
       }
-      // console.log({
-      //   "nic":nic,
-      //   "firstName":firstName,
-      //   "vaccineType":vaccineType,
-      //   "email":email,
-      //   "telephone":telephone,
-      // });
-      // console.log(encodeURIComponent("nic=")+encodeURIComponent(nic)+encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+
-      // encodeURIComponent("&firstName=")+encodeURIComponent(firstName)+ encodeURIComponent("&vaccination_type=")+encodeURIComponent(vaccineType)+
-      // encodeURIComponent("&email=")+encodeURIComponent(email)+encodeURIComponent("&telephone=")+encodeURIComponent(telephone));
     }
   </script>
 </body>

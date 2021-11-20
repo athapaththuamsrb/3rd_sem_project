@@ -32,7 +32,7 @@ class DatabaseConn
       $arr = array();
       try{
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param("ssss", $uname, $type, $place, $district);
+        $stmt->bind_param("ss", $uname, $type);
         $stmt->execute();
         $stmt->store_result();
         $rowcount = $stmt->num_rows;
@@ -78,6 +78,27 @@ class DatabaseConn
       }
     }
     return false;
+  }
+
+  private function get_last_dose($id){
+    try{
+      $q0 = "SELECT last_dose FROM persons WHERE id=?";
+      $stmt = $this->conn->prepare($q0);
+      $stmt->bind_param("s", $id);
+      $stmt->execute();
+      $stmt->store_result();
+      if ($stmt->num_rows() == 0) {
+        $dose = 0;
+      }
+      else{
+        $stmt->bind_result($dose);
+        $stmt->fetch();
+      }
+      return intval($dose);
+    }
+    catch (Exception $e){
+      return 0;
+    }
   }
 
   public function get_vaccination_records($id, $token)
@@ -215,9 +236,9 @@ class DatabaseConn
 
   public function add_stock($district, $place, $date, $type, $dose, $offline, $online){
     try{
+      $datestr = $date->format('Y-m-d');
       $q = "INSERT INTO stocks (district, place, date, type, dose, offline, online, appointments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       $stmt = $this->conn->prepare($q);
-      $datestr = $date->format('Y-m-d');
       $stmt->bind_param("ssssiiii", $district, $place, $datestr, $type, $dose, $offline, $online, $online);
       $success = $stmt->execute();
       return $success;
@@ -248,8 +269,11 @@ class DatabaseConn
     }  
   }
 
-  public function filter_vaccine_centers($district, $date){
+  public function filter_vaccine_centers($district, $date, $id){
     try{
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $date = $date->format('Y-m-d');
+      $dose = $this->get_last_dose($id) + 1;
       $q0 = "SELECT place FROM admins WHERE district=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param("s", $district);
@@ -260,9 +284,9 @@ class DatabaseConn
         $record = array();
         $place = $row['place'];
         $record["place"] = $place;
-        $q1 = "SELECT type, offline, appointments FROM stocks WHERE district=? AND place=? AND date=?";
+        $q1 = "SELECT type, offline, appointments FROM stocks WHERE district=? AND place=? AND date=? AND dose=?";
         $stmt1 = $this->conn->prepare($q1);
-        $stmt1->bind_param("sss", $district, $place, $date);
+        $stmt1->bind_param("sssi", $district, $place, $date, $dose);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
         while ($center = $result1->fetch_assoc()){
@@ -270,12 +294,14 @@ class DatabaseConn
           $availability = array("offline"=>$offline, "appointments"=>$appointments);
           $record[$type] = $availability;
         }
-        array_push($arr, $record);
+        if (count($record) > 1){
+          array_push($arr, $record);
+        }
       }
       return $arr;
     }
     catch (Exception $e){
-      return false;
+      return [];
     } 
   }
 
@@ -285,19 +311,7 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("sssssssss", $id, $name, $address, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
-      $q0 = "SELECT last_dose FROM persons WHERE id=?";
-      $stmt = $this->conn->prepare($q0);
-      $stmt->bind_param("s", $id);
-      $stmt->execute();
-      $stmt->store_result();
-      if ($stmt->num_rows() == 0) {
-        $dose = 1;
-      }
-      else{
-        $stmt->bind_result($last_dose);
-        $stmt->fetch();
-        $dose = $last_dose + 1;
-      }
+      $dose = $this->get_last_dose($id) + 1;
       $this->update_stocks($district, $place, $date, $type, "appointment", -1, $dose);
     }
     catch (Exception $e){
