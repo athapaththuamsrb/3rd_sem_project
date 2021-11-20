@@ -105,12 +105,12 @@ class DatabaseConn
   {
     try{
       if ($token == null){
-        $q0 = "SELECT name, district FROM persons WHERE id=?";
+        $q0 = "SELECT name, district, address, contact, email FROM persons WHERE id=?";
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param("s", $id);
       }
       else{
-        $q0 = "SELECT name, district FROM persons WHERE id=? and token=?";
+        $q0 = "SELECT name, district, address, contact, email FROM persons WHERE id=? and token=?";
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param("ss", $id, $token);
       }
@@ -120,9 +120,9 @@ class DatabaseConn
       if ($stmt->num_rows() == 0){
         return $arr;
       }
-      $stmt->bind_result($name, $district);
+      $stmt->bind_result($name, $district, $address, $contact, $email);
       $stmt->fetch();
-      $arr["name"] = $name; $arr["district"] = $district; $arr["id"] = $id; $arr["doses"] = array();
+      $arr["name"] = $name; $arr["district"] = $district; $arr["id"] = $id; $arr['address'] = $address; $arr['contact'] = $contact; $arr['email'] = $email;  $arr["doses"] = array();
       $q = "SELECT * FROM vaccines WHERE id=? ORDER BY dose";
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("s", $id);
@@ -135,7 +135,7 @@ class DatabaseConn
       return $arr;
     }
     catch (Exception $e){
-      return false;
+      return null;
     }   
   }
 

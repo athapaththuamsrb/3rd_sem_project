@@ -5,15 +5,34 @@ check_auth();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $user = $_SESSION['user'];
   if (isset($_POST['id']) && $_POST['id']) {
+    $id = $_POST['id'];
     require_once('../.utils/dbcon.php');
     $con = DatabaseConn::get_conn();
     if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['district']) {
-      $vac_data = ['id' => $_POST['id'], 'name' => $_POST['name'], 'district' => $_POST['district'], 'type' => $_POST['type'], 'place' => $user->getPlace()];
-      $token = $con->add_vaccine_record($_POST['id'], $_POST['name'], $_POST['district'], $_POST['type'], $user->getPlace());
+      $name = $_POST['name'];
+      $type = $_POST['type'];
+      $district = $_POST['district'];
+      $address = '';
+      $contact = '';
+      $email = '';
+      if (isset($_POST['address']) && $_POST['address']) {
+        $address = $_POST['address'];
+      }
+      if (isset($_POST['contact']) && $_POST['contact']) {
+        $address = $_POST['contact'];
+      }
+      if (isset($_POST['email']) && $_POST['email']) {
+        $address = $_POST['email'];
+      }
+      $vac_data = ['id' => $id, 'name' => $name, 'district' => $district, 'type' => $type, 'place' => $user->getPlace(), 'address' => $address, 'contact' => $contact, 'email' => $email];
+      $token = $con->add_vaccine_record($vac_data);
       echo json_encode(['token' => $token]);
     } else {
       $id = $_POST['id'];
       $data = $con->get_vaccination_records($id, null);
+      if (!$data || !is_array($data)) {
+        $data = [];
+      }
       echo json_encode($data);
     }
   }
@@ -164,8 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       border: 2px solid black;
     }
 
-    #firestName,
-    #secoundName,
+    #name,
     #id,
     #email,
     #ContactNo,
@@ -251,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <table id="resultTable">
     </table>
   </div>
-  <!-- secound form -->
+  <!-- second form -->
   <div class="topic">
     <h1>Creat account</h1>
   </div>
@@ -273,10 +291,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div id="field">
         <br />
-        <label for="firestName">
-          <h2 class="field">Firest name</h2>
+        <label for="name">
+          <h2 class="field">Name</h2>
         </label>
-        <input placeholder="firest name" type="text" id="firestName" name="firestName" value="" required />
+        <input placeholder="Name" type="text" id="name" name="name" value="" required />
       </div>
       <div class="textbox">
         <label for="Type">
@@ -285,37 +303,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br />
         <div id="type">
           <label for="Pfizer">Pfizer</label>
-          <input type="radio" name="vaccination_type" id="Pfizer" value="Pfizer" />
+          <input type="radio" name="type" id="Pfizer" value="Pfizer" />
           <br />
-          <label for="AstraZeneca">AstraZeneca</label>
-          <input type="radio" name="vaccination_type" id="AstraZeneca" value="AstraZeneca" />
+          <label for="Aztraseneca">AstraZeneca</label>
+          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
           <br />
         </div>
       </div>
-      <!-- <div class="textbox">
-        <p class="field">Secound doce:</p>
-        <label for="Type">
-          <h2 class="field">Vaccination Type</h2>
-        </label>
-        <br />
-        <div id="type">
-          <label for="Pfizer">Pfizer</label>
-          <input type="radio" name="vaccination_type2" id="Pfizer2" value="Pfizer" />
-          <br />
-          <label for="AstraZeneca">AstraZeneca</label>
-          <input type="radio" name="vaccination_type2" id="AstraZeneca2" value="AstraZeneca" />
-          <br />
-        </div>
-      </div> -->
+      <label for="Address">
+        <h2 class="field">Resident Address</h2>
+      </label>
+      <input placeholder="Resident Address" type="text" id="address" name="address" value="" required />
+
       <label for="Email">
         <h2 class="field">Email Address</h2>
       </label>
-      <input placeholder="Email Address" type="email" id="email" name="email" value="" required />
+      <input placeholder="Email Address" type="email" id="email" name="email" value="" />
 
       <label for="ContactNo">
         <h2 class="field">Contact Number</h2>
       </label>
-      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="telephone" value="" required />
+      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
       <div class="buttons">
         <button id="submitButton2" type="button" name="submit" onclick="submit2()">
           Submit
@@ -335,6 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
+          if (!data) return;
           let output = document.getElementById("resultTable");
           var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
           for (index = 0; index < data["doses"].length; index++) {
@@ -342,38 +351,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               "<td>" + data["doses"][index]["date"] + "</td></tr>";
           }
           output.innerHTML = tableContent;
+
+          if (data['id']) document.getElementById("id2").value = data['id'];
+          if (data['district']) document.getElementById("district").value = data['district'];
+          if (data['name']) document.getElementById("name").value = data['name'];
+          if (data['address']) document.getElementById("address").value = data['address'];
+          if (data['contact']) document.getElementById("ContactNo").value = data['contact'];
+          if (data['email']) document.getElementById("email").value = data['email'];
         }
       }
     }
 
     function submit2() {
       let id = document.getElementById("id2").value;
-      let firstName = document.getElementById("firestName").value;
+      let name = document.getElementById("name").value;
       let district = document.getElementById("district").value;
-      let vaccineType = document.querySelector('input[name="vaccination_type"]:checked').value;
-      // let secondVaccineType = document.querySelector('input[name="vaccination_type2"]:checked').value;
+      let vaccineType = document.querySelector('input[name="type"]:checked').value;
+      let address = document.getElementById("address").value;
       let email = document.getElementById("email").value;
-      let telephone = document.getElementById("ContactNo").value;
+      let contact = document.getElementById("ContactNo").value;
 
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      // xhr.send({
-      //   id,
-      //   firstName,
-      //   secondName,
-      //   firstVaccineType,
-      //   secondVaccineType,
-      //   email,
-      //   contactNo,
-      // });
-      xhr.send("id=" + encodeURIComponent(id) + "&district=" + encodeURIComponent(district) + "&name=" + encodeURIComponent(firstName) + "&type=" + encodeURIComponent(vaccineType) +
-        "&email=" + encodeURIComponent(email) + "&telephone=" + encodeURIComponent(telephone));
+      xhr.send("id=" + encodeURIComponent(id) + "&district=" + encodeURIComponent(district) + "&name=" + encodeURIComponent(name) + "&type=" + encodeURIComponent(vaccineType) +
+        "&address=" + encodeURIComponent(address) + "&email=" + encodeURIComponent(email) + "&contact=" + encodeURIComponent(contact));
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
-          console.log(data);
+          if (data && data['token']){
+            alert("token is: " + data['token']);
+          }
         }
       }
     }
