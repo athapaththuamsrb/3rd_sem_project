@@ -306,13 +306,22 @@ class DatabaseConn
     } 
   }
 
-  public function add_appointment($id, $name, $address, $contact, $email, $district, $place, $date, $type){
+  public function add_appointment($details){
     try{
-      $q = "INSERT INTO appointments (id, name, address, contact, email, district, place, date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      $stmt = $this->conn->prepare($q);
-      $stmt->bind_param("sssssssss", $id, $name, $address, $contact, $email, $district, $place, $date, $type);
-      $stmt->execute();
+      $id = $details["id"]; $name = $details["name"]; $contact = $details["contact"]; $email = $details["email"]; $district = $details["district"]; $place = $details["place"]; $date = $details["date"]; $type = $details["type"];
       $dose = $this->get_last_dose($id) + 1;
+      $q0 = "SELECT appointments FROM stocks WHERE district = ? AND place = ? AND date = ? AND type = ? AND dose = ? AND appointments > 0";
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param("ssssi", $district, $place, $date, $type, $dose);
+      $stmt0->execute();
+      $result = $stmt0->get_result();
+      if ($result->num_rows == 0){
+        return false;
+      }
+      $q = "INSERT INTO appointments (id, name, contact, email, district, place, date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param("ssssssss", $id, $name, $contact, $email, $district, $place, $date, $type);
+      $stmt->execute();
       $this->update_stocks($district, $place, $date, $type, "appointment", -1, $dose);
     }
     catch (Exception $e){
