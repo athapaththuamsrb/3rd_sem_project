@@ -24,14 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['email']) && $_POST['email']) {
         $address = $_POST['email'];
       }
-      $vac_data = ['id' => $id, 'name' => $name, 'district' => $district, 'type' => $type, 'place' => $user->getPlace(), 'address' => $address, 'contact' => $contact, 'email' => $email];
+      $vac_data = ['id' => $id, 'name' => $name, 'type' => $type, 'centre_district' => $user->getDistrict(), 'place' => $user->getPlace(), 'patient_district' => $district, 'address' => $address, 'contact' => $contact, 'email' => $email];
       $token = $con->add_vaccine_record($vac_data);
       echo json_encode(['token' => $token]);
     } else {
       $id = $_POST['id'];
       $data = $con->get_vaccination_records($id, null);
       if (!$data || !is_array($data)) {
-        $data = [];
+        $data = ['id' => $id, 'doses' => []];
       }
       echo json_encode($data);
     }
@@ -305,8 +305,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label for="Pfizer">Pfizer</label>
           <input type="radio" name="type" id="Pfizer" value="Pfizer" />
           <br />
-          <label for="Aztraseneca">AstraZeneca</label>
-          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
+          <label for="Sinopharm">Sinopharm</label>
+          <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
           <br />
         </div>
       </div>

@@ -160,20 +160,13 @@ class DatabaseConn
       $stmt->store_result();
       if ($stmt->num_rows() == 0) {
         for ($i = 0; $i < 5; $i++) {
-          $token = rand(1, (int)pow(2, 64) - 1);
-          $token = base_convert($token, 10, 32);
+          $token = base_convert(rand(1, (int)pow(2, 30) - 1), 10, 32);
           $q = "INSERT INTO persons (id, name, district, address, contact, email, token, last_dose) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
           $stmt = $this->conn->prepare($q);
           $new_dose = 1;
           $stmt->bind_param("sssssssi", $id, $name, $patient_district, $address, $contact, $email, $token, $new_dose);
           $success = $stmt->execute();
           if ($success){
-            if ($reserved){
-              $this->update_stocks($centre_district, $place, $date, $type, "reserved",-1, $new_dose);
-            }
-            else{
-              $this->update_stocks($centre_district, $place, $date, $type, "not_reserved",-1, $new_dose);
-            }
             break;
           }
         }
@@ -185,12 +178,12 @@ class DatabaseConn
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param("is", $new_dose, $id);
         $stmt1->execute();
-        if ($reserved){
-          $this->update_stocks($centre_district, $place, $date, $type, "reserved",-1, $new_dose);
-        }
-        else{
-          $this->update_stocks($centre_district, $place, $date, $type, "not_reserved",-1, $new_dose);
-        }
+      }
+      if ($reserved){
+        $this->update_stocks($centre_district, $place, $date, $type, "reserved",-1, $new_dose);
+      }
+      else{
+        $this->update_stocks($centre_district, $place, $date, $type, "not_reserved",-1, $new_dose);
       }
       $q2 = "INSERT INTO vaccines (type, dose, date, district, place, id) VALUES (?, ?, ?, ?, ?, ?)";
       $stmt2 = $this->conn->prepare($q2);
@@ -252,13 +245,13 @@ class DatabaseConn
   public function update_stocks($district, $place, $date, $type, $field, $amount, $dose){
     try{
       if ($field === "reserved"){
-        $q = "UPDATE table stocks reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else if ($field === "not_reserved"){
-        $q = "UPDATE table stocks not_reserved = not_reserved + $amount district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET not_reserved = not_reserved + $amount district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else{
-        $q = "UPDATE table stocks appointments = appointements + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET appointments = appointments + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ssssi", $district, $place, $date, $type, $dose);
@@ -308,7 +301,7 @@ class DatabaseConn
 
   public function add_appointment($details){
     try{
-      $id = $details["id"]; $name = $details["name"]; $contact = $details["contact"]; $email = $details["email"]; $district = $details["district"]; $place = $details["place"]; $date = $details["date"]; $type = $details["type"];
+      $id = $details["id"]; $name = $details["name"]; $contact = $details["contact"]; $email = $details["email"]; $district = $details["district"]; $place = $details["place"]; $date = $details["date"]->format('Y-m-d'); $type = $details["type"];
       $dose = $this->get_last_dose($id) + 1;
       $q0 = "SELECT appointments FROM stocks WHERE district = ? AND place = ? AND date = ? AND type = ? AND dose = ? AND appointments > 0";
       $stmt0 = $this->conn->prepare($q0);
@@ -322,7 +315,7 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ssssssss", $id, $name, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
-      $this->update_stocks($district, $place, $date, $type, "appointment", -1, $dose);
+      return $this->update_stocks($district, $place, $date, $type, "appointment", -1, $dose);
     }
     catch (Exception $e){
       return false;
