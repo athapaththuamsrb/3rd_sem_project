@@ -74,9 +74,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="date">Date:</label><br>
                     <input type="date" id="date" name="date" value=""><br>
                 </div>
+                "Pfizer", "Sinopharm", "Aztraseneca", "Moderna"
                 <div class="col">
                     <label for="type">Vaccine Type:</label><br>
-                    <input type="text" id="type" name="type" value=""><br>
+                    <select name="type" id="type">
+                        <option value="Pfizer">Pfizer</option>
+                        <option value="Sinopharm">Sinopharm</option>
+                        <option value="Aztraseneca">Aztraseneca</option>
+                        <option value="Moderna">Moderna</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label for="dose">Dose:</label><br>

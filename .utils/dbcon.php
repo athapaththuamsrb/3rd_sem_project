@@ -105,12 +105,12 @@ class DatabaseConn
   {
     try{
       if ($token == null){
-        $q0 = "SELECT name, district FROM persons WHERE id=?";
+        $q0 = "SELECT name, district, address, contact, email FROM persons WHERE id=?";
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param("s", $id);
       }
       else{
-        $q0 = "SELECT name, district FROM persons WHERE id=? and token=?";
+        $q0 = "SELECT name, district, address, contact, email FROM persons WHERE id=? and token=?";
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param("ss", $id, $token);
       }
@@ -120,9 +120,9 @@ class DatabaseConn
       if ($stmt->num_rows() == 0){
         return $arr;
       }
-      $stmt->bind_result($name, $district);
+      $stmt->bind_result($name, $district, $address, $contact, $email);
       $stmt->fetch();
-      $arr["name"] = $name; $arr["district"] = $district; $arr["id"] = $id; $arr["doses"] = array();
+      $arr["name"] = $name; $arr["district"] = $district; $arr["id"] = $id; $arr['address'] = $address; $arr['contact'] = $contact; $arr['email'] = $email;  $arr["doses"] = array();
       $q = "SELECT * FROM vaccines WHERE id=? ORDER BY dose";
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("s", $id);
@@ -135,7 +135,7 @@ class DatabaseConn
       return $arr;
     }
     catch (Exception $e){
-      return false;
+      return null;
     }   
   }
 
@@ -143,11 +143,11 @@ class DatabaseConn
   {
     try{
       $reserved = true;
-      $id = $details['id']; $name = $details['name']; $patient_district = $details['patient_district']; $centre_district = $details['centre_district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y-m-d");
+      $id = $details['id']; $name = $details['name']; $district = $details['district']; $type = $details['type']; $place = $details['place']; $address = $details['address']; $contact = $details['contact']; $email = $details['email']; $date = date("Y-m-d");
       $Q = "SELECT * FROM appointments WHERE id=? AND date=? AND type=? AND district=? AND place=?";
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $Stmt = $this->conn->prepare($Q);
-      $Stmt->bind_param("sssss", $id, $date, $type, $centre_district, $place);
+      $Stmt->bind_param("sssss", $id, $date, $type, $district, $place);
       $Stmt->execute();
       $Result = $Stmt->get_result();
       if ($Result->num_rows == 0){
@@ -165,14 +165,14 @@ class DatabaseConn
           $q = "INSERT INTO persons (id, name, district, address, contact, email, token, last_dose) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
           $stmt = $this->conn->prepare($q);
           $new_dose = 1;
-          $stmt->bind_param("sssssssi", $id, $name, $patient_district, $address, $contact, $email, $token, $new_dose);
+          $stmt->bind_param("sssssssi", $id, $name, $district, $address, $contact, $email, $token, $new_dose);
           $success = $stmt->execute();
           if ($success){
             if ($reserved){
-              $this->update_stocks($centre_district, $place, $date, $type, "reserved",-1, $new_dose);
+              $this->update_stocks($district, $place, $date, $type, "reserved",-1, $new_dose);
             }
             else{
-              $this->update_stocks($centre_district, $place, $date, $type, "not_reserved",-1, $new_dose);
+              $this->update_stocks($district, $place, $date, $type, "not_reserved",-1, $new_dose);
             }
             break;
           }
@@ -186,15 +186,15 @@ class DatabaseConn
         $stmt1->bind_param("is", $new_dose, $id);
         $stmt1->execute();
         if ($reserved){
-          $this->update_stocks($centre_district, $place, $date, $type, "reserved",-1, $new_dose);
+          $this->update_stocks($district, $place, $date, $type, "reserved",-1, $new_dose);
         }
         else{
-          $this->update_stocks($centre_district, $place, $date, $type, "not_reserved",-1, $new_dose);
+          $this->update_stocks($district, $place, $date, $type, "not_reserved",-1, $new_dose);
         }
       }
-      $q2 = "INSERT INTO vaccines (type, dose, date, district, place, id) VALUES (?, ?, ?, ?, ?, ?)";
+      $q2 = "INSERT INTO vaccines (type, dose, date, place, id) VALUES (?, ?, ?, ?, ?)";
       $stmt2 = $this->conn->prepare($q2);
-      $stmt2->bind_param("sissss", $type, $new_dose, $date, $centre_district, $place, $id);
+      $stmt2->bind_param("sisss", $type, $new_dose, $date, $place, $id);
       $stmt2->execute();
       return $token;
     }
@@ -345,4 +345,3 @@ class DatabaseConn
   {
   }
 }
-

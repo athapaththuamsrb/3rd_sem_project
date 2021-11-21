@@ -3,26 +3,36 @@ require_once('.auth.php');
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['password']) || !$_POST['username'] || !$_POST['password'] || !$_POST['type']) {
+  if (!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['type']) || !$_POST['username'] || !$_POST['password'] || !$_POST['type']) {
     header('Location: ' . $_SERVER['REQUEST_URI']);
     die();
   }
-  require_once('../.utils/dbcon.php');
-  $conn = DatabaseConn::get_conn();
-  $place = null;
-  $district = null;
-  if (isset($_POST['district']) && isset($_POST['place']) && $_POST['district'] && $_POST['place']) {
+  $place = '';
+  $district = '';
+  if ($_POST['type'] != 'admin') {
+    if (!isset($_POST['district']) || !isset($_POST['place']) || !$_POST['district'] || !$_POST['place']) {
+      header('Location: ' . $_SERVER['REQUEST_URI']);
+      die();
+    }
     $place = $_POST['place'];
     $district = $_POST['district'];
   }
-  if (!$conn || !$conn->create_user($_POST['username'], $_POST['password'], $_POST['type'], $place, $district)) {
-    header('Location: ' . $_SERVER['REQUEST_URI']);
+  require_once('../.utils/dbcon.php');
+  $conn = DatabaseConn::get_conn();
+  if (!$conn || !$conn->create_user(
+    $_POST['username'],
+    $_POST['password'],
+    $_POST['type'],
+    $place,
+    $district
+  )) {
+    header('Location: ' .
+      $_SERVER['REQUEST_URI']);
     die();
   }
   header('Location: /admin/');
   die();
-}
-?>
+} ?>
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -147,10 +157,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div>
         Administrator
-        <input type="radio" name="type" id="Administrator" value="admin" oninput="this.className = ''" />
+        <input type="radio" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
       </div>
     </div>
-
+    <div class="tab">
+      <div id="address">
+        <label for="districts">Districts:</label>
+        <select name="district" id="districts" oninput="this.className = ''">
+          <option value="Colombo">Colombo</option>
+          <option value="Gampaha">Gampaha</option>
+          <option value="Kalutara">Kalutara</option>
+          <option value="Galle">Galle</option>
+          <option value="Matara">Matara</option>
+          <option value="Hambantota">Hambantota</option>
+          <option value="Kandy">Kandy</option>
+          <option value="Matale">Matale</option>
+          <option value="Nuwara Eliya">Nuwara Eliya</option>
+          <option value="Anuradhapura">Anuradhapura</option>
+          <option value="Polonnaruwa">Polonnaruwa</option>
+          <option value="Puttalam">Puttalam</option>
+          <option value="Kurunegala">Kurunegala</option>
+          <option value="Kegalle">Kegalle</option>
+          <option value="Ratnapura">Ratnapura</option>
+          <option value="Trincomalee">Trincomalee</option>
+          <option value="Batticaloa">Batticaloa</option>
+          <option value="Ampara">Ampara</option>
+          <option value="Badulla">Badulla</option>
+          <option value="Monaragala">Monaragala</option>
+          <option value="Jaffna">Jaffna</option>
+          <option value="Kilinochchi">Kilinochchi</option>
+          <option value="Mannar">Mannar</option>
+          <option value="Mullaitivu">Mullaitivu</option>
+          <option value="Vavuniya">Vavuniya</option>
+        </select><br />
+        <div>
+          Location:
+          <p>
+            <input placeholder="location" oninput="this.className = ''" name="place" />
+          </p>
+        </div>
+      </div>
+    </div>
     <div class="tab">
       <div>
         User Name:
@@ -158,22 +205,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input placeholder="User Name" oninput="this.className = ''" name="username" />
         </p>
       </div>
-      <div id="location" class="location">
-        Location:
-        <p>
-          <input placeholder="Location" oninput="this.className = ''" name="place" value="" class="location" />
-        </p>
-      </div>
-
+      <!-- <div id="location" class="location">
+          Location:
+          <p>
+            <input
+              placeholder="Location"
+              oninput="this.className = ''"
+              name="place"
+              value=""
+              class="location"
+            />
+          </p>
+        </div> -->
     </div>
 
     <div class="tab">
       password:
       <p>
-        <input placeholder="Password" type="password" oninput="this.className = ''" name="password" />
+        <input placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" />
       </p>
       <p>
-        <input placeholder="conform password" type="password" oninput="this.className = ''" />
+        <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" />
       </p>
     </div>
     <div style="overflow: auto">
@@ -186,6 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <!-- Circles which indicates the steps of the form: -->
     <div style="text-align: center; margin-top: 40px">
+      <span class="step"></span>
       <span class="step"></span>
       <span class="step"></span>
       <span class="step"></span>
@@ -223,10 +276,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //location input only for vaccine accounts
       if (n == 1) {
         // console.log(document.getElementById("Vaccination_center").checked);
-        if (!document.getElementById("Vaccination_center").checked) {
-          document.getElementById('location').classList.add("hide")
+        if (document.getElementById("Administrator").checked) {
+          document.getElementById("address").classList.add("hide");
         } else {
-          document.getElementById('location').classList.remove("hide")
+          document.getElementById("address").classList.remove("hide");
         }
       }
       // else{
@@ -236,18 +289,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       // Exit the function if any field in the current tab is invalid:
       if (n == 1 && !validateForm()) {
-
         return false;
-
       }
       // Hide the current tab:
       x[currentTab].style.display = "none";
       // Increase or decrease the current tab by 1:
-      currentTab = currentTab + n;
+      console.log(currentTab);
+      if (
+        currentTab == 0 &&
+        document.getElementById("Administrator").checked
+      ) {
+        currentTab = currentTab + 2 * n;
+      } else if (
+        currentTab == 2 &&
+        document.getElementById("Administrator").checked
+      ) {
+        if (n == 1) currentTab = currentTab + n;
+        else currentTab = currentTab + 2 * n;
+      } else {
+        currentTab = currentTab + n;
+      }
       // if you have reached the end of the form...
       if (currentTab >= x.length) {
         // ... the form gets submitted:
-        document.getElementById("regForm").submit();
+        let pass = document.getElementById("password").value;
+        //
+        // console.log("came1");
+        if (
+          /^[\x21-\x7E]{8,15}$/.test(pass) &&
+          pass === document.getElementById("conPassword").value.trim()
+        ) {
+          // console.log("came2");
+          document.getElementById("regForm").submit();
+        } else {
+          // console.log("came3");
+          alert("check your password again");
+        }
         return false;
       }
       // Otherwise, display the correct tab:
@@ -256,7 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function validateForm() {
       // This function deals with validation of the form fields
-      console.log(document.getElementById("Vaccination_center").checked)
+      console.log(document.getElementById("Vaccination_center").checked);
       var x,
         y,
         i,
@@ -265,20 +342,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       y = x[currentTab].getElementsByTagName("input");
       // A loop that checks every input field in the current tab:
       for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        console.log(y[i].value)
-        console.log(y[i].className)
-        if ((y[i].value == "" && (y[i].className != "location")) || (y[i].value == "" && document.getElementById("Vaccination_center").checked)) {
-          // add an "invalid" class to the field:
-          if (y[i].className == "location") {
-            y[i].className += " invalid";
-          }
-          if (y[i].className == "location invalid") {
-            y[i].className = "location";
-          }
-
-          // and set the current valid status to false
-          valid = false;
+        if (currentTab != 0 && valid == true) {
+          console.log(y[i].value.trim());
+          valid = y[i].value.trim() == "" ? false : true;
+          if (!valid) return false;
         }
       }
       // If the valid status is true, mark the step as finished and valid:
