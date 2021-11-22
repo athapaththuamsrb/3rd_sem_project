@@ -1,16 +1,30 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['district']) && isset($_POST['date']) && isset($_POST['id']) && $_POST['district'] && $_POST['date'] && $_POST['id']) {
+        $district = $_POST['district'];
+        $date = new DateTime($_POST['date']);
+        $id = $_POST['id'];
+        require_once('.utils/dbcon.php');
         if (isset($_POST['vaccineCenter']) && isset($_POST['vaccineType']) && $_POST['vaccineCenter'] && $_POST['vaccineType']) {
-            $data = ['status' => true];
+            if ($con = DatabaseConn::get_conn()) {
+                $place = $_POST['vaccineCenter'];
+                $type = $_POST['vaccineType'];
+                $name = isset($_POST['name']) ? $_POST['name'] : '';
+                $email = isset($_POST['email']) ? $_POST['email'] : '';
+                $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
+                $details = ['id' => $id, 'name' => $name, 'contact' => $contact, 'email' => $email, 'district' => $district, 'place' => $place, 'date' => $date, 'type' => $type];
+                if ($con->add_appointment($details)) {
+                    $data = ['status' => true];
+                } else {
+                    $data = ['status' => false];
+                }
+            } else {
+                $data = ['status' => false];
+            }
         } else {
-            require_once('.utils/dbcon.php');
-            $district = $_POST['district'];
-            $date = new DateTime($_POST['date']);
-            $id = $_POST['id'];
-            if ($con = DatabaseConn::get_conn()){
+            if ($con = DatabaseConn::get_conn()) {
                 $data = $con->filter_vaccine_centers($district, $date, $id);
-            }else{
+            } else {
                 $data = [];
             }
             //$data = [['place' => 'General Hosp. Kalutara', 'Pfizer' => 50, 'Sinopharm' => 20], ['place' => 'Base Hosp. Horana', 'Aztraseneca' => 40, 'Sinopharm' => 100, 'Moderna' => 30], ['place' => 'MOH Gampaha', 'Pfizer' => 50, 'Moderna' => 50]];
@@ -167,6 +181,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" id="id" name="id">
 
         <input type="button" value="Submit" onclick="submit1()">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact">
     </form>
     <ul id="centers">
 
@@ -234,6 +257,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var text = elem.value.replace(/@/g, " ").split("?");
             let district = document.getElementById("districts").value;
             let date = document.getElementById("date").value;
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let contact = document.getElementById("contact").value;
 
             let vaccineCenter = text[0]
             let vaccineType = text[1]
@@ -241,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            let msg = 'district=' + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&vaccineCenter=' + encodeURIComponent(vaccineCenter) + '&vaccineType=' + encodeURIComponent(vaccineType);
+            let msg = 'district=' + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&contact=' + encodeURIComponent(contact) + '&vaccineCenter=' + encodeURIComponent(vaccineCenter) + '&vaccineType=' + encodeURIComponent(vaccineType);
             xhr.send(msg);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
