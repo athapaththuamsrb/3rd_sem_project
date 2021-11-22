@@ -268,7 +268,7 @@ class DatabaseConn
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $date = $date->format('Y-m-d');
       $dose = $this->get_last_dose($id) + 1;
-      $q0 = "SELECT place FROM admins WHERE district=?";
+      $q0 = "SELECT place FROM admins WHERE district=? AND type='vaccination'";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param("s", $district);
       $stmt0->execute();
