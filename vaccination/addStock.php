@@ -8,30 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $_SESSION['user'];
     $district = $user->getDistrict();
     $place = $user->getPlace();
-    $date =
-      new DateTime($_POST['date']);
+    $date = new DateTime($_POST['date']);
     $type = $_POST['type'];
-    $dose =
-      intval($_POST['dose']);
+    $dose = intval($_POST['dose']);
     $amount = intval($_POST['amount']);
-    $online =
-      intval($_POST['onlineAmount']);
+    $online = intval($_POST['onlineAmount']);
     require_once('../.utils/dbcon.php');
-    $con =
-      DatabaseConn::get_conn();
-    if ($con->add_stock(
-      $district,
-      $place,
-      $date,
-      $type,
-      $dose,
-      $amount - $online,
-      $online
-    )) {
-      echo json_encode(['success' => true]);
-    } else {
-      echo json_encode(['success' => false]);
+    $con = DatabaseConn::get_conn();
+    $success = false;
+    if ($dose > 0 && $amount > 0 && $online >= 0 && $amount >= $online) {
+      if ($con->add_stock($district, $place, $date, $type, $dose, $amount - $online, $online)) {
+        $success = true;
+      }
     }
+    echo json_encode(['success' => $success]);
   }
   die();
 } ?>
@@ -204,19 +194,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <br /><br />
     </div>
 
-    <!-- <form>
-            <label for="date">Date:</label><br>
-            <input type="text" id="date" name="date" value=""><br>
-
-
-            <input type="button" value="Submit" onclick="submit2()">
-
-        </form> -->
-
-    <!-- <div class="item4">
-            <table id="resultTable">
-            </table>
-        </div> -->
   </form>
 
   <script type="text/javascript">
@@ -226,6 +203,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       let dose = document.getElementById("dose").value;
       let amount = document.getElementById("amount").value;
       let onlineAmount = document.getElementById("onlineAmount").value;
+      if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <=0 || onlineAmount < 0 || onlineAmount > amount){
+        alert("Entered data is invalid");
+        return false;}
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
@@ -238,18 +218,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         )}&type=${encodeURIComponent(
           type
         )}&dose=${dose}&amount=${amount}&onlineAmount=${onlineAmount}`;
-        console.log(senddata);
-        xhr.send(senddata);
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == XMLHttpRequest.DONE) {
-            let data = JSON.parse(xhr.responseText);
-            console.log(data["success"] === true ? "success" : "try again");
-            alert(datadata["success"] === true ? "success" : "try again");
+      console.log(senddata);
+      xhr.send(senddata);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          try{
+          let data = JSON.parse(xhr.responseText);
+          alert(data["success"] === true ? "Success" : "Failed!");
+          }catch (error){
+            alert("Error occured");
           }
-        };
-      }
+        }
+      };
+    }
   </script>
 </body>
-<form></form>
 
 </html>

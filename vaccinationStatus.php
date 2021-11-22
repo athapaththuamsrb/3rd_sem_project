@@ -103,10 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="item1">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <!--a class="navbar-brand" href="#">Navbar</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
+          </button-->
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
@@ -138,8 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </form>
     </div>
     <div id="results" class="item4">
-      <table id="resultTable">
-      </table>
     </div>
 
 
@@ -148,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   <script type="text/javascript">
+    const output = document.getElementById("results");
     function submit1() {
       let id = document.getElementById("inputID").value;
 
@@ -157,50 +156,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       xhr.send("id=" + encodeURIComponent(id));
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-          let data = JSON.parse(xhr.responseText);
-          if (data != null && Array.isArray(data)) {
-            let output = document.getElementById("resultTable");
-            var tableContent = "<tr><th>Type</th><th>Date</th></tr>"
-            for (index = 0; index < data.length; index++) {
-              tableContent += "<tr><td>" + data[index]["type"] + "</td>" +
-                "<td>" + data[index]["date"] + "</td></tr>";
+          try {
+            let data = JSON.parse(xhr.responseText);
+            if (data != null && Array.isArray(data) && data.length > 0) {
+              var tableContent = "<table><tr><th>Type</th><th>Date</th></tr>"
+              for (index = 0; index < data.length; index++) {
+                tableContent += "<tr><td>" + data[index]["type"] + "</td>" +
+                  "<td>" + data[index]["date"] + "</td></tr>";
+              }
+              tableContent += "</table>"
+              output.innerHTML = tableContent;
+            } else if(data.length == 0){
+              output.innerHTML = '<h2>Not vaccinated</h2>';
+            } else {
+              output.innerHTML = '<h2>Error occured!</h2><p>Couldn\'t load vaccination status.</p>'
             }
-            output.innerHTML = tableContent;
-          }else{
-            let output = document.getElementById("results");
-            output.innerHTML = '<h2>Error occured!</h3><p>Couldn\'t load vaccination status.</p>'
+          } catch (error) {
+            alert("Error occured");
           }
         }
       };
-      // xhr.onreadystatechange = function() {
-      //   if (xhr.readyState == XMLHttpRequest.DONE) {
-      //     let data = JSON.parse(xhr.responseText);
-      //     console.log(data);
-
-      // var data = [{
-      //     type: 'Pfizer',
-      //     date: '02/11/2021',
-      //     place: 'colombo'
-      //   },
-      //   {
-      //     type: 'Astrsasenica',
-      //     date: '03/11/2021',
-      //     place: 'homagama'
-      //   },
-      //   {
-      //     type: 'Pfizer',
-      //     date: '10/11/2021',
-      //     place: 'colombo'
-      //   },
-      //   {
-      //     type: 'Astrsasenica',
-      //     date: '30/11/2021',
-      //     place: 'homagama'
-      //   }
-      // ]
-
-      //   }
-      // }
     }
   </script>
 </body>
