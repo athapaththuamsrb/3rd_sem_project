@@ -252,13 +252,13 @@ class DatabaseConn
   public function update_stocks($district, $place, $date, $type, $field, $amount, $dose){
     try{
       if ($field === "reserved"){
-        $q = "UPDATE table stocks reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks set reserved = reserved + '$amount' WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else if ($field === "not_reserved"){
-        $q = "UPDATE table stocks not_reserved = not_reserved + $amount district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks set not_reserved = not_reserved + '$amount' district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       else{
-        $q = "UPDATE table stocks appointments = appointements + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks set appointments = appointements + '$amount' WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param("ssssi", $district, $place, $date, $type, $dose);
