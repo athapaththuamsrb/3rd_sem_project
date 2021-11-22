@@ -42,350 +42,307 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Request Application</title>
-    <link rel="stylesheet" type="text/css" href="/styles/all.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="/styles/all.css" />
-    <link
-      rel="stylesheet"
-      href="/css/bootstrap-5.1.3-dist/css/bootstrap.min.css"
-    />
-    <script src="/css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-    <style type="text/css">
-      * {
-        margin: 0;
-        padding: 0;
-        color: red;
-      }
 
-      #application {
-        padding: 10px;
-      }
+<head>
+  <title>Request Application</title>
+  <link rel="stylesheet" type="text/css" href="/styles/all.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/styles/all.css" />
+  <link rel="stylesheet" href="/css/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
+  <script src="/css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      color: red;
+    }
 
-      #loginButton {
-        width: 250px;
-        background-color: blue;
-      }
+    #application {
+      padding: 10px;
+    }
 
-      body,
-      html {
-        margin-top: 10px;
-        background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        font-family: sans-serif;
-      }
+    #loginButton {
+      width: 250px;
+      background-color: blue;
+    }
 
-      html {
-        overflow-x: scroll;
-        overflow-y: scroll;
-      }
+    body,
+    html {
+      margin-top: 10px;
+      background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: sans-serif;
+    }
 
-      #cover {
-        background-color: rgb(0, 0, 0, 0.8);
-        width: 800px;
-        margin: auto;
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
-      }
+    html {
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
 
-      #other {
-        text-align: left;
-        padding: 20px;
-      }
+    #cover {
+      background-color: rgb(0, 0, 0, 0.8);
+      width: 800px;
+      margin: auto;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
 
-      #field {
-        width: 100%;
-        height: 100px;
-      }
+    #other {
+      text-align: left;
+      padding: 20px;
+    }
 
-      .field {
-        margin-left: 100px;
-        width: 200 px;
-        font-size: 18px;
-        font-weight: 700;
-      }
+    #field {
+      width: 100%;
+      height: 100px;
+    }
 
-      #intro {
-        text-align: center;
-      }
+    .field {
+      margin-left: 100px;
+      width: 200 px;
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-      .buttons {
-        text-align: center;
-      }
+    #intro {
+      text-align: center;
+    }
 
-      #submitButton {
-        background-color: rgb(225, 220, 220);
-        display: inline-block;
-        font-size: 20px;
-        text-align: center;
-        border-radius: 12px;
-        border: 2px solid black;
-        padding: 5px 15px;
-        outline: none;
-        cursor: pointer;
-        transition: 0.25px;
-      }
+    .buttons {
+      text-align: center;
+    }
 
-      #hideWord {
-        visibility: hidden;
-        /* Position the tooltip */
-        position: absolute;
-        z-index: 1;
-        font-size: 50%;
-        background-color: red;
-        padding-left: 2px;
-      }
+    #submitButton {
+      background-color: rgb(225, 220, 220);
+      display: inline-block;
+      font-size: 20px;
+      text-align: center;
+      border-radius: 12px;
+      border: 2px solid black;
+      padding: 5px 15px;
+      outline: none;
+      cursor: pointer;
+      transition: 0.25px;
+    }
 
-      #iconBack #hideWord::after {
-        content: " ";
-        position: absolute;
-        top: 50%;
-        right: 100%;
-        /* To the left of the tooltip */
-        margin-top: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent red transparent transparent;
-      }
+    #hideWord {
+      visibility: hidden;
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      font-size: 50%;
+      background-color: red;
+      padding-left: 2px;
+    }
 
-      #iconBack:hover #hideWord {
-        visibility: visible;
-      }
+    #iconBack #hideWord::after {
+      content: " ";
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      /* To the left of the tooltip */
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent red transparent transparent;
+    }
 
-      .topic {
-        width: 800px;
-        background-color: rgb(0, 0, 0, 0.8);
-        margin: auto;
-        color: white;
-        padding: 10px 0px 10px 0px;
-        text-align: center;
-        border-radius: 15px 15px 0px 0px;
-      }
+    #iconBack:hover #hideWord {
+      visibility: visible;
+    }
 
-      #index {
-        position: relative;
-        line-height: 40px;
-        border-radius: 6px;
-        padding: 0 37px;
-        font-size: 16px;
-        left: 400px;
-        top: -20px;
-      }
+    .topic {
+      width: 800px;
+      background-color: rgb(0, 0, 0, 0.8);
+      margin: auto;
+      color: white;
+      padding: 10px 0px 10px 0px;
+      text-align: center;
+      border-radius: 15px 15px 0px 0px;
+    }
 
-      #Department {
-        position: relative;
-        line-height: 40px;
-        border-radius: 6px;
-        padding: 0 13px;
-        font-size: 16px;
-        left: 400px;
-        top: -20px;
-        margin-bottom: 15px;
-        border: 2px solid black;
-      }
+    #index {
+      position: relative;
+      line-height: 40px;
+      border-radius: 6px;
+      padding: 0 37px;
+      font-size: 16px;
+      left: 400px;
+      top: -20px;
+    }
 
-      #name,
-      #id,
-      #id2,
-      #district,
-      #address,
-      #email,
-      #ContactNo,
-      #type {
-        position: relative;
-        line-height: 40px;
-        border-radius: 6px;
-        padding: 0 37px;
-        font-size: 16px;
-      }
+    #Department {
+      position: relative;
+      line-height: 40px;
+      border-radius: 6px;
+      padding: 0 13px;
+      font-size: 16px;
+      left: 400px;
+      top: -20px;
+      margin-bottom: 15px;
+      border: 2px solid black;
+    }
 
-      #name {
-        left: 29%;
-      }
-      #id {
-        left: 32%;
-      }
-      #id2 {
-        left: 32%;
-      }
-      #district {
-        left: 25%;
-        height: 40%;
-      }
-      #address {
-        left: 15%;
-      }
-      #email {
-        left: 18%;
-      }
-      #ContactNo {
-        left: 16%;
-      }
-      #type {
-        left: 50%;
-      }
+    #name,
+    #id,
+    #id2,
+    #district,
+    #address,
+    #email,
+    #ContactNo,
+    #type {
+      position: relative;
+      line-height: 40px;
+      border-radius: 6px;
+      padding: 0 37px;
+      font-size: 16px;
+    }
 
-      #invalid {
-        width: 72%;
-        height: 40px;
-        position: relative;
-        text-align: center;
-        left: 13%;
-      }
+    #name {
+      left: 29%;
+    }
 
-      .item4 {
-        /* height: 300px; */
-        width: 300px;
-        margin: auto;
-        margin-top: 30px;
-        margin-bottom: 30px;
-      }
+    #id {
+      left: 32%;
+    }
 
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
+    #id2 {
+      left: 32%;
+    }
 
-      td,
-      th {
-        border: 1px solid black;
-        text-align: left;
-        padding: 8px;
-      }
+    #district {
+      left: 25%;
+      height: 40%;
+    }
 
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
+    #address {
+      left: 15%;
+    }
 
-      tr:nth-child(odd) {
-        background-color: black;
-      }
-    </style>
-  </head>
+    #email {
+      left: 18%;
+    }
 
-  <body>
-    <br /><br /><br />
-    <div class="topic">
-      <h1>Add data for Vaccination</h1>
-    </div>
-    <div id="cover">
-      <form id="application" method="post">
-        <div id="field">
-          <br />
-          <label for="id">
-            <h2 class="field">ID</h2>
-          </label>
-          <input placeholder="ID" type="text" id="id" name="ID" required />
-        </div>
-        <div class="buttons">
-          <button
-            id="submitButton1"
-            type="button"
-            name="submit"
-            class="btn btn-success"
-            onclick="submit1()"
-          >
-            Submit
-          </button>
-        </div>
-        <p id="other"><a href="./">Do you need to go back?</a></p>
-      </form>
-    </div>
-    <div class="item4">
-      <table id="resultTable"></table>
-    </div>
-    <!-- second form -->
-    <div class="topic">
-      <h1>Creat account</h1>
-    </div>
-    <div id="cover">
-      <form id="application" method="post">
-        <div id="field">
-          <br />
-          <label for="id">
-            <h2 class="field">ID</h2>
-          </label>
-          <input placeholder="ID" type="text" id="id2" name="id" required />
-        </div>
-        <div id="field">
-          <br />
-          <label for="district"><h2 class="field">Districts:</h2></label>
-            <select name="district" id="district" oninput="this.className = ''">
-              <option value="Colombo">Colombo</option>
-              <option value="Gampaha">Gampaha</option>
-              <option value="Kalutara">Kalutara</option>
-              <option value="Galle">Galle</option>
-              <option value="Matara">Matara</option>
-              <option value="Hambantota">Hambantota</option>
-              <option value="Kandy">Kandy</option>
-              <option value="Matale">Matale</option>
-              <option value="Nuwara Eliya">Nuwara Eliya</option>
-              <option value="Anuradhapura">Anuradhapura</option>
-              <option value="Polonnaruwa">Polonnaruwa</option>
-              <option value="Puttalam">Puttalam</option>
-              <option value="Kurunegala">Kurunegala</option>
-              <option value="Kegalle">Kegalle</option>
-              <option value="Ratnapura">Ratnapura</option>
-              <option value="Trincomalee">Trincomalee</option>
-              <option value="Batticaloa">Batticaloa</option>
-              <option value="Ampara">Ampara</option>
-              <option value="Badulla">Badulla</option>
-              <option value="Monaragala">Monaragala</option>
-              <option value="Jaffna">Jaffna</option>
-              <option value="Kilinochchi">Kilinochchi</option>
-              <option value="Mannar">Mannar</option>
-              <option value="Mullaitivu">Mullaitivu</option>
-              <option value="Vavuniya">Vavuniya</option>
-            </select><br />
-        </div>
-        <div id="field">
-          <br />
-          <label for="name">
-            <h2 class="field">Name</h2>
-          </label>
-          <input
-            placeholder="Name"
-            type="text"
-            id="name"
-            name="name"
-            value=""
-            required
-          />
-        </div>
-        <div class="textbox">
-          <label for="Type">
-            <h2 class="field">Vaccination Type</h2>
-          </label>
-          <br />
-          <div id="type">
-            <label for="Pfizer">Pfizer</label>
-            <input type="radio" name="type" id="Pfizer" value="Pfizer" />
-            <br />
-            <label for="Aztraseneca">AstraZeneca</label>
-            <input
-              type="radio"
-              name="type"
-              id="AstraZeneca"
-              value="Aztraseneca"
-            />
-            <br />
-            <label for="Sinopharm">Sinopharm</label>
-            <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
-            <br />
-            <label for="Moderna">Moderna</label>
-            <input type="radio" name="type" id="Moderna" value="Moderna" />
-            <br /><br />
-          </div>
-        </div>
-        <label for="Address">
-          <h2 class="field">Resident Address</h2>
+    #ContactNo {
+      left: 16%;
+    }
+
+    #type {
+      left: 50%;
+    }
+
+    #invalid {
+      width: 72%;
+      height: 40px;
+      position: relative;
+      text-align: center;
+      left: 13%;
+    }
+
+    .item4 {
+      /* height: 300px; */
+      width: 300px;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <br /><br /><br />
+  <div class="topic">
+    <h1>Add data for Vaccination</h1>
+  </div>
+  <div id="cover">
+    <form id="application" method="post">
+      <div id="field">
+        <br />
+        <label for="id">
+          <h2 class="field">ID</h2>
         </label>
-        <input placeholder="District" type="text" id="district" name="district" value="" required />
+        <input placeholder="ID" type="text" id="id" name="ID" required />
+      </div>
+      <div class="buttons">
+        <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="submit1()">
+          Submit
+        </button>
+      </div>
+      <p id="other"><a href="./">Do you need to go back?</a></p>
+    </form>
+  </div>
+  <div class="item4">
+    <table id="resultTable"></table>
+  </div>
+  <!-- second form -->
+  <div class="topic">
+    <h1>Creat account</h1>
+  </div>
+  <div id="cover">
+    <form id="application" method="post">
+      <div id="field">
+        <br />
+        <label for="id">
+          <h2 class="field">ID</h2>
+        </label>
+        <input placeholder="ID" type="text" id="id2" name="id" required />
+      </div>
+      <div id="field">
+        <br />
+        <label for="district">
+          <h2 class="field">District:</h2>
+        </label>
+        <select name="district" id="district" oninput="this.className = ''">
+          <option value="Colombo">Colombo</option>
+          <option value="Gampaha">Gampaha</option>
+          <option value="Kalutara">Kalutara</option>
+          <option value="Galle">Galle</option>
+          <option value="Matara">Matara</option>
+          <option value="Hambantota">Hambantota</option>
+          <option value="Kandy">Kandy</option>
+          <option value="Matale">Matale</option>
+          <option value="Nuwara Eliya">Nuwara Eliya</option>
+          <option value="Anuradhapura">Anuradhapura</option>
+          <option value="Polonnaruwa">Polonnaruwa</option>
+          <option value="Puttalam">Puttalam</option>
+          <option value="Kurunegala">Kurunegala</option>
+          <option value="Kegalle">Kegalle</option>
+          <option value="Ratnapura">Ratnapura</option>
+          <option value="Trincomalee">Trincomalee</option>
+          <option value="Batticaloa">Batticaloa</option>
+          <option value="Ampara">Ampara</option>
+          <option value="Badulla">Badulla</option>
+          <option value="Monaragala">Monaragala</option>
+          <option value="Jaffna">Jaffna</option>
+          <option value="Kilinochchi">Kilinochchi</option>
+          <option value="Mannar">Mannar</option>
+          <option value="Mullaitivu">Mullaitivu</option>
+          <option value="Vavuniya">Vavuniya</option>
+        </select><br />
       </div>
       <div id="field">
         <br />
@@ -403,8 +360,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label for="Pfizer">Pfizer</label>
           <input type="radio" name="type" id="Pfizer" value="Pfizer" />
           <br />
-          <label for="Aztraseneca">Aztraseneca</label>
-          <input type="radio" name="type" id="Aztraseneca" value="Aztraseneca" />
+          <label for="Aztraseneca">AstraZeneca</label>
+          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
           <br />
           <label for="Sinopharm">Sinopharm</label>
           <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
@@ -414,28 +371,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <br /><br />
         </div>
       </div>
-      <label for="Address">
-        <h2 class="field">Resident Address</h2>
-      </label>
-      <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
-      <br /><br /><br />
-
-      <label for="email">
-        <h2 class="field">Email Address</h2>
-      </label>
-      <input placeholder="Email Address" type="email" id="email" name="email" value="" />
-      <br /><br /><br />
-      <label for="ContactNo">
-        <h2 class="field">Contact Number</h2>
-      </label>
-      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
-      <br /><br />
-      <div class="buttons">
-        <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submit2()">
-          Submit
-        </button>
+      <div id="field">
+        <label for="Address">
+          <h2 class="field">Resident Address</h2>
+        </label>
+        <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
       </div>
-      <p id="other"><a href="./">Do you need to go back?</a></p>
+      <br /><br />
+      <div id="field">
+        <label for="email">
+          <h2 class="field">Email Address</h2>
+        </label>
+        <input placeholder="Email Address" type="email" id="email" name="email" value="" />
+      </div>
+      <div id="field">
+        <label for="ContactNo">
+          <h2 class="field">Contact Number</h2>
+        </label>
+        <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
+      </div>
+      <div id="field">
+        <div class="buttons">
+          <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submit2()">
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
   </div>
   <script type="text/javascript">
@@ -474,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById("district").value = data["district"];
             document
               .getElementById("district")
-              .setAttribute("readonly", true);
+              .setAttribute("disabled", true);
           }
           if (data["name"]) {
             document.getElementById("name").value = data["name"];
