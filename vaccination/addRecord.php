@@ -196,28 +196,29 @@ $con->get_vaccination_records($id, null);if (!$data || !is_array($data)) { $data
       }
 
       #name {
-        left: 220px;
+        left: 29%;
       }
       #id {
-        left: 250px;
+        left: 32%;
       }
       #id2 {
-        left: 250px;
+        left: 32%;
       }
       #district {
-        left: 205px;
+        left: 25%;
+        height: 40%;
       }
       #address {
-        left: 120px;
+        left: 15%;
       }
       #email {
-        left: 145px;
+        left: 18%;
       }
       #ContactNo {
-        left: 130px;
+        left: 16%;
       }
       #type {
-        left: 340px;
+        left: 50%;
       }
 
       #invalid {
@@ -305,17 +306,34 @@ $con->get_vaccination_records($id, null);if (!$data || !is_array($data)) { $data
         </div>
         <div id="field">
           <br />
-          <label for="district">
-            <h2 class="field">District</h2>
-          </label>
-          <input
-            placeholder="District"
-            type="text"
-            id="district"
-            name="district"
-            value=""
-            required
-          />
+          <label for="district"><h2 class="field">Districts:</h2></label>
+            <select name="district" id="district" oninput="this.className = ''">
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kalutara">Kalutara</option>
+              <option value="Galle">Galle</option>
+              <option value="Matara">Matara</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Matale">Matale</option>
+              <option value="Nuwara Eliya">Nuwara Eliya</option>
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Polonnaruwa">Polonnaruwa</option>
+              <option value="Puttalam">Puttalam</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Kegalle">Kegalle</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+              <option value="Batticaloa">Batticaloa</option>
+              <option value="Ampara">Ampara</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Monaragala">Monaragala</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kilinochchi">Kilinochchi</option>
+              <option value="Mannar">Mannar</option>
+              <option value="Mullaitivu">Mullaitivu</option>
+              <option value="Vavuniya">Vavuniya</option>
+            </select><br />
         </div>
         <div id="field">
           <br />

@@ -69,6 +69,7 @@ else { echo json_encode(['success' => false]); } } die(); } ?>
       }
       #type {
         left: 160px;
+        height: 150%;
       }
       .container {
         background-color: rgb(0, 0, 0, 0.8);
@@ -221,8 +222,8 @@ else { echo json_encode(['success' => false]); } } die(); } ?>
         xhr.onreadystatechange = function () {
           if (xhr.readyState == XMLHttpRequest.DONE) {
             let data = JSON.parse(xhr.responseText);
-            console.log(data);
-            alert(data);
+            console.log(data["success"] === true ? "success" : "try again");
+            alert(datadata["success"] === true ? "success" : "try again");
           }
         };
       }
