@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $address = $_POST['address'];
       }
       if (isset($_POST['contact']) && $_POST['contact']) {
-        $address = $_POST['contact'];
+        $contact = $_POST['contact'];
       }
       if (isset($_POST['email']) && $_POST['email']) {
-        $address = $_POST['email'];
+        $email = $_POST['email'];
       }
       $vac_data = ['id' => $id, 'name' => $name, 'type' => $type, 'centre_district' => $user->getDistrict(), 'place' => $user->getPlace(), 'patient_district' => $district, 'address' => $address, 'contact' => $contact, 'email' => $email];
       $token = $con->add_vaccine_record($vac_data);
