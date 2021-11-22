@@ -55,7 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     * {
       margin: 0;
       padding: 0;
-      color: red;
+    }
+
+    h2,
+    h1,
+    label {
+      color: white;
     }
 
     #application {
@@ -250,6 +255,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin-bottom: 30px;
     }
 
+    #type>label {
+      padding-right: 3px;
+      width: 100px;
+    }
+
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -300,7 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   <!-- second form -->
   <div class="topic">
-    <h1>Creat account</h1>
+    <h1>Add vaccine record</h1>
   </div>
   <div id="cover">
     <form id="application" method="post">
@@ -314,10 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div id="field">
         <br />
         <label for="district">
-          <<<<<<< HEAD <h2 class="field">District</h2>
-            =======
-            <h2 class="field">District:</h2>
-            >>>>>>> 4ea4dcb6ed4aafb4194d8a20fa8bd858b578bbbe
+          <h2 class="field">District:</h2>
         </label>
         <select name="district" id="district" oninput="this.className = ''">
           <option value="Colombo">Colombo</option>
@@ -360,16 +367,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </label>
         <br />
         <div id="type">
-          <label for="Pfizer">Pfizer</label>
+          <label for="Pfizer">Pfizer</label>&nbsp;&nbsp;
           <input type="radio" name="type" id="Pfizer" value="Pfizer" />
           <br />
-          <label for="Aztraseneca">AstraZeneca</label>
+          <label for="Aztraseneca">AstraZeneca</label>&nbsp;&nbsp;
           <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
           <br />
-          <label for="Sinopharm">Sinopharm</label>
+          <label for="Sinopharm">Sinopharm</label>&nbsp;&nbsp;
           <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
           <br />
-          <label for="Moderna">Moderna</label>
+          <label for="Moderna">Moderna</label>&nbsp;&nbsp;
           <input type="radio" name="type" id="Moderna" value="Moderna" />
           <br /><br />
         </div>
