@@ -41,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
+    <script src="/css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
     <title>Vaccine Appoinment</title>
     <style>
         /* The Modal (background) */
@@ -115,6 +117,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
         }
 
+        #centers {
+            text-align: center;
+        }
+
+        ul,
+        ol {
+            list-style-type: none;
+        }
+
+        body,
+        html {
+            margin-top: 10px;
+            background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: sans-serif;
+        }
+
+        html {
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+
+        .cover {
+            background-color: rgb(0, 0, 0, 0.8);
+            width: 50%;
+            margin: auto;
+            border-radius: 10%;
+            color: white;
+        }
+
         .close:hover,
         .close:focus {
             color: #000;
@@ -140,62 +174,117 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             font-size: large;
         }
+
+        .row {
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 5%;
+        }
     </style>
 </head>
 
 <body>
-    <form>
-        <label for="districts">Districts:</label>
-        <select name="districts" id="districts">
-            <option value="Colombo">Colombo</option>
-            <option value="Kalutara">Kalutara</option>
-            <option value="Gampaha">Gampaha</option>
-            <option value="Puttalam">Puttalam</option>
-            <option value="Kurunegala">Kurunegala</option>
-            <option value="Anuradhapura">Anuradhapura</option>
-            <option value="Polonnaruwa">Polonnaruwa</option>
-            <option value="Matale">Matale</option>
-            <option value="Nuwara Eliya">Nuwara Eliya</option>
-            <option value="Kegalle">Kegalle</option>
-            <option value="Ratnapura">Ratnapura</option>
-            <option value="Trincomalee">Trincomalee</option>
-            <option value="Batticaloa">Batticaloa</option>
-            <option value="Ampara">Ampara</option>
-            <option value="Badulla">Badulla</option>
-            <option value="Monaragala">Monaragala</option>
-            <option value="Hambantota">Hambantota</option>
-            <option value="Matara">Matara</option>
-            <option value="Galle">Galle</option>
-            <option value="Jaffna">Jaffna</option>
-            <option value="Kilinochchi">Kilinochchi</option>
-            <option value="Mannar">Mannar</option>
-            <option value="Mullaitivu">Mullaitivu</option>
-            <option value="Vavuniya">Vavuniya</option>
-            <option value="Kandy">Kandy</option>
-        </select><br>
+    <div class="cover">
+        <form>
+            <h1>Vaccine Appointment</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><label for="districts">Districts:</label>
+                        <select name="districts" id="districts">
+                            <option value="Colombo">Colombo</option>
+                            <option value="Kalutara">Kalutara</option>
+                            <option value="Gampaha">Gampaha</option>
+                            <option value="Puttalam">Puttalam</option>
+                            <option value="Kurunegala">Kurunegala</option>
+                            <option value="Anuradhapura">Anuradhapura</option>
+                            <option value="Polonnaruwa">Polonnaruwa</option>
+                            <option value="Matale">Matale</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya</option>
+                            <option value="Kegalle">Kegalle</option>
+                            <option value="Ratnapura">Ratnapura</option>
+                            <option value="Trincomalee">Trincomalee</option>
+                            <option value="Batticaloa">Batticaloa</option>
+                            <option value="Ampara">Ampara</option>
+                            <option value="Badulla">Badulla</option>
+                            <option value="Monaragala">Monaragala</option>
+                            <option value="Hambantota">Hambantota</option>
+                            <option value="Matara">Matara</option>
+                            <option value="Galle">Galle</option>
+                            <option value="Jaffna">Jaffna</option>
+                            <option value="Kilinochchi">Kilinochchi</option>
+                            <option value="Mannar">Mannar</option>
+                            <option value="Mullaitivu">Mullaitivu</option>
+                            <option value="Vavuniya">Vavuniya</option>
+                            <option value="Kandy">Kandy</option>
+                        </select><br>
+                    </div>
+                    <div class="col-3"></div>
 
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date">
+                </div>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><label for="date">Date:</label>
+                        <input type="date" id="date" name="date">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
 
-        <label for="id">ID:</label>
-        <input type="text" id="id" name="id">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-3"><label for="id">ID:</label>
+                        <input type="text" id="id" name="id">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
 
-        <input type="button" value="Submit" onclick="submit1()">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><input type="button" class="btn btn-success" value="Submit" onclick="submit1()">
+                        <br>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            <ul id="centers">
 
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
+            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><label for="name">Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><label for="email">Email:</label>
+                        <input type="text" id="email" name="email">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
 
-        <label for="contact">Contact:</label>
-        <input type="text" id="contact" name="contact">
-    </form>
-    <ul id="centers">
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"><label for="contact">Contact:</label>
+                        <input type="text" id="contact" name="contact">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6"> <input type="button" class="btn btn-success" value="select" onclick="submit2()"></div>
+                    <div class="col-3"></div>
+                </div>
 
-    </ul>
-    <input type="button" value="select" onclick="submit2()">
-
+            </div>
+        </form>
+    </div>
     <!-- Trigger/Open The Modal -->
     <!-- <button id="myBtn">Open Modal</button> -->
 
@@ -232,6 +321,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     let data = JSON.parse(xhr.responseText);
                     var content = "";
                     var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
+                    console.log(data);
                     data.forEach(centre => {
                         content += "<li>" + centre["place"] + "<ol>";
                         for (i = 0; i < possibleVaccines.length; i++) {

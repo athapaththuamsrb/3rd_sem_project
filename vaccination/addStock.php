@@ -207,6 +207,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       let dose = document.getElementById("dose").value;
       let amount = document.getElementById("amount").value;
       let onlineAmount = document.getElementById("onlineAmount").value;
+      amount = parseInt(amount);
+      onlineAmount = parseInt(onlineAmount);
+      dose = parseInt(dose);
       if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
         alert("Entered data is invalid");
         return false;

@@ -205,18 +205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input placeholder="User Name" oninput="this.className = ''" name="username" />
         </p>
       </div>
-      <!-- <div id="location" class="location">
-          Location:
-          <p>
-            <input
-              placeholder="Location"
-              oninput="this.className = ''"
-              name="place"
-              value=""
-              class="location"
-            />
-          </p>
-        </div> -->
     </div>
 
     <div class="tab">
@@ -282,10 +270,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           document.getElementById("address").classList.remove("hide");
         }
       }
-      // else{
-      //   console.log(document.getElementById('location').classList)
-      //   document.getElementById('location').className="location";
-      // }
 
       // Exit the function if any field in the current tab is invalid:
       if (n == 1 && !validateForm()) {
