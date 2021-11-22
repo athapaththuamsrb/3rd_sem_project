@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $token = $con->add_vaccine_record($vac_data);
       echo json_encode(['token' => $token]);
     } else {
-      $id = $_POST['id'];
       $data = $con->get_vaccination_records($id, null);
       if (!$data || !is_array($data)) {
         $data = ['id' => $id, 'doses' => []];
@@ -55,7 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     * {
       margin: 0;
       padding: 0;
-      color: red;
+    }
+
+    h2,
+    h1,
+    label {
+      color: white;
     }
 
     #application {
@@ -250,6 +254,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin-bottom: 30px;
     }
 
+    #type>label {
+      padding-right: 3px;
+      width: 100px;
+    }
+
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -263,12 +272,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       padding: 8px;
     }
 
+    th {
+      color: black;
+    }
+
     tr:nth-child(even) {
       background-color: #dddddd;
     }
 
     tr:nth-child(odd) {
-      background-color: black;
+      background-color: #dddddd;
     }
   </style>
 </head>
@@ -285,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="id">
           <h2 class="field">ID</h2>
         </label>
-        <input placeholder="ID" type="text" id="id" name="ID" required />
+        <input placeholder="ID" type="text" id="id" name="id" required />
       </div>
       <div class="buttons">
         <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="submit1()">
@@ -300,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   <!-- second form -->
   <div class="topic">
-    <h1>Creat account</h1>
+    <h1>Add vaccine record</h1>
   </div>
   <div id="cover">
     <form id="application" method="post">
@@ -314,10 +327,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div id="field">
         <br />
         <label for="district">
-          <<<<<<< HEAD <h2 class="field">District</h2>
-            =======
-            <h2 class="field">District:</h2>
-            >>>>>>> 4ea4dcb6ed4aafb4194d8a20fa8bd858b578bbbe
+          <h2 class="field">District:</h2>
         </label>
         <select name="district" id="district" oninput="this.className = ''">
           <option value="Colombo">Colombo</option>
@@ -354,26 +364,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </label>
         <input placeholder="Name" type="text" id="name" name="name" value="" required />
       </div>
-      <div class="textbox">
-        <label for="Type">
-          <h2 class="field">Vaccination Type</h2>
-        </label>
-        <br />
-        <div id="type">
-          <label for="Pfizer">Pfizer</label>
-          <input type="radio" name="type" id="Pfizer" value="Pfizer" />
-          <br />
-          <label for="Aztraseneca">AstraZeneca</label>
-          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
-          <br />
-          <label for="Sinopharm">Sinopharm</label>
-          <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
-          <br />
-          <label for="Moderna">Moderna</label>
-          <input type="radio" name="type" id="Moderna" value="Moderna" />
-          <br /><br />
-        </div>
-      </div>
       <div id="field">
         <label for="Address">
           <h2 class="field">Resident Address</h2>
@@ -392,6 +382,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h2 class="field">Contact Number</h2>
         </label>
         <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
+      </div>
+      <div class="textbox">
+        <label for="Type">
+          <h2 class="field">Vaccination Type</h2>
+        </label>
+        <br />
+        <div id="type">
+          <label for="Pfizer">Pfizer</label>&nbsp;&nbsp;
+          <input type="radio" name="type" id="Pfizer" value="Pfizer" />
+          <br />
+          <label for="Aztraseneca">AstraZeneca</label>&nbsp;&nbsp;
+          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
+          <br />
+          <label for="Sinopharm">Sinopharm</label>&nbsp;&nbsp;
+          <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
+          <br />
+          <label for="Moderna">Moderna</label>&nbsp;&nbsp;
+          <input type="radio" name="type" id="Moderna" value="Moderna" />
+          <br /><br />
+        </div>
       </div>
       <div id="field">
         <div class="buttons">
@@ -463,6 +473,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     function submit2() {
+      if (!document.querySelector('input[name="type"]:checked')) {
+        alert("You must select the vaccine type");
+        return false;
+      }
       let id = document.getElementById("id2").value;
       let name = document.getElementById("name").value;
       let district = document.getElementById("district").value;

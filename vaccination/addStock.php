@@ -43,7 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     * {
       margin: 0;
       padding: 0;
-      color: red;
+    }
+
+    h1,
+    label {
+      color: white;
     }
 
     body,
@@ -203,9 +207,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       let dose = document.getElementById("dose").value;
       let amount = document.getElementById("amount").value;
       let onlineAmount = document.getElementById("onlineAmount").value;
-      if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <=0 || onlineAmount < 0 || onlineAmount > amount){
+      amount = parseInt(amount);
+      onlineAmount = parseInt(onlineAmount);
+      dose = parseInt(dose);
+      if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
         alert("Entered data is invalid");
-        return false;}
+        return false;
+      }
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
@@ -222,10 +230,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       xhr.send(senddata);
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-          try{
-          let data = JSON.parse(xhr.responseText);
-          alert(data["success"] === true ? "Success" : "Failed!");
-          }catch (error){
+          try {
+            let data = JSON.parse(xhr.responseText);
+            alert(data["success"] === true ? "Success" : "Failed!");
+          } catch (error) {
             alert("Error occured");
           }
         }

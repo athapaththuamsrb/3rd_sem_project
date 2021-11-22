@@ -147,6 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <script type="text/javascript">
     const output = document.getElementById("results");
+
     function submit1() {
       let id = document.getElementById("inputID").value;
 
@@ -166,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               }
               tableContent += "</table>"
               output.innerHTML = tableContent;
-            } else if(data.length == 0){
+            } else if (data.length == 0) {
               output.innerHTML = '<h2>Not vaccinated</h2>';
             } else {
               output.innerHTML = '<h2>Error occured!</h2><p>Couldn\'t load vaccination status.</p>'
