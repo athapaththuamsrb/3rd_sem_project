@@ -3,40 +3,40 @@ require_once '.auth.php';
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user = $_SESSION['user'];
-    if (isset($_POST['id']) && $_POST['id']) {
-        $id = $_POST['id'];
-        require_once '../.utils/dbcon.php';
-        $con = DatabaseConn::get_conn();
-        if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['district']) {
-            $name = $_POST['name'];
-            $type = $_POST['type'];
-            $district = $_POST['district'];
-            $address = '';
-            $contact = '';
-            $email = '';
-            if (isset($_POST['address']) && $_POST['address']) {
-                $address = $_POST['address'];
-            }
-            if (isset($_POST['contact']) && $_POST['contact']) {
-                $address = $_POST['contact'];
-            }
-            if (isset($_POST['email']) && $_POST['email']) {
-                $address = $_POST['email'];
-            }
-            $vac_data = ['id' => $id, 'name' => $name, 'type' => $type, 'centre_district' => $user->getDistrict(), 'place' => $user->getPlace(), 'patient_district' => $district, 'address' => $address, 'contact' => $contact, 'email' => $email];
-            $token = $con->add_vaccine_record($vac_data);
-            echo json_encode(['token' => $token]);
-        } else {
-            $id = $_POST['id'];
-            $data = $con->get_vaccination_records($id, null);
-            if (!$data || !is_array($data)) {
-                $data = ['id' => $id, 'doses' => []];
-            }
-            echo json_encode($data);
-        }
+  $user = $_SESSION['user'];
+  if (isset($_POST['id']) && $_POST['id']) {
+    $id = $_POST['id'];
+    require_once '../.utils/dbcon.php';
+    $con = DatabaseConn::get_conn();
+    if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['district']) {
+      $name = $_POST['name'];
+      $type = $_POST['type'];
+      $district = $_POST['district'];
+      $address = '';
+      $contact = '';
+      $email = '';
+      if (isset($_POST['address']) && $_POST['address']) {
+        $address = $_POST['address'];
+      }
+      if (isset($_POST['contact']) && $_POST['contact']) {
+        $contact = $_POST['contact'];
+      }
+      if (isset($_POST['email']) && $_POST['email']) {
+        $email = $_POST['email'];
+      }
+      $vac_data = ['id' => $id, 'name' => $name, 'type' => $type, 'centre_district' => $user->getDistrict(), 'place' => $user->getPlace(), 'patient_district' => $district, 'address' => $address, 'contact' => $contact, 'email' => $email];
+      $token = $con->add_vaccine_record($vac_data);
+      echo json_encode(['token' => $token]);
+    } else {
+      $id = $_POST['id'];
+      $data = $con->get_vaccination_records($id, null);
+      if (!$data || !is_array($data)) {
+        $data = ['id' => $id, 'doses' => []];
+      }
+      echo json_encode($data);
     }
-    die();
+  }
+  die();
 }
 ?>
 
@@ -202,35 +202,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     #name {
-      left: 220px;
+      left: 29%;
     }
 
     #id {
-      left: 250px;
+      left: 32%;
     }
 
     #id2 {
-      left: 250px;
+      left: 32%;
     }
 
     #district {
-      left: 205px;
+      left: 25%;
+      height: 40%;
     }
 
     #address {
-      left: 120px;
+      left: 15%;
     }
 
     #email {
-      left: 145px;
+      left: 18%;
     }
 
     #ContactNo {
-      left: 130px;
+      left: 16%;
     }
 
     #type {
-      left: 340px;
+      left: 50%;
     }
 
     #invalid {
@@ -313,9 +314,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div id="field">
         <br />
         <label for="district">
-          <h2 class="field">District</h2>
+          <<<<<<< HEAD <h2 class="field">District</h2>
+            =======
+            <h2 class="field">District:</h2>
+            >>>>>>> 4ea4dcb6ed4aafb4194d8a20fa8bd858b578bbbe
         </label>
-        <input placeholder="District" type="text" id="district" name="district" value="" required />
+        <select name="district" id="district" oninput="this.className = ''">
+          <option value="Colombo">Colombo</option>
+          <option value="Gampaha">Gampaha</option>
+          <option value="Kalutara">Kalutara</option>
+          <option value="Galle">Galle</option>
+          <option value="Matara">Matara</option>
+          <option value="Hambantota">Hambantota</option>
+          <option value="Kandy">Kandy</option>
+          <option value="Matale">Matale</option>
+          <option value="Nuwara Eliya">Nuwara Eliya</option>
+          <option value="Anuradhapura">Anuradhapura</option>
+          <option value="Polonnaruwa">Polonnaruwa</option>
+          <option value="Puttalam">Puttalam</option>
+          <option value="Kurunegala">Kurunegala</option>
+          <option value="Kegalle">Kegalle</option>
+          <option value="Ratnapura">Ratnapura</option>
+          <option value="Trincomalee">Trincomalee</option>
+          <option value="Batticaloa">Batticaloa</option>
+          <option value="Ampara">Ampara</option>
+          <option value="Badulla">Badulla</option>
+          <option value="Monaragala">Monaragala</option>
+          <option value="Jaffna">Jaffna</option>
+          <option value="Kilinochchi">Kilinochchi</option>
+          <option value="Mannar">Mannar</option>
+          <option value="Mullaitivu">Mullaitivu</option>
+          <option value="Vavuniya">Vavuniya</option>
+        </select><br />
       </div>
       <div id="field">
         <br />
@@ -333,8 +363,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label for="Pfizer">Pfizer</label>
           <input type="radio" name="type" id="Pfizer" value="Pfizer" />
           <br />
-          <label for="Aztraseneca">Aztraseneca</label>
-          <input type="radio" name="type" id="Aztraseneca" value="Aztraseneca" />
+          <label for="Aztraseneca">AstraZeneca</label>
+          <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
           <br />
           <label for="Sinopharm">Sinopharm</label>
           <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
@@ -344,28 +374,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <br /><br />
         </div>
       </div>
-      <label for="Address">
-        <h2 class="field">Resident Address</h2>
-      </label>
-      <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
-      <br /><br /><br />
-
-      <label for="email">
-        <h2 class="field">Email Address</h2>
-      </label>
-      <input placeholder="Email Address" type="email" id="email" name="email" value="" />
-      <br /><br /><br />
-      <label for="ContactNo">
-        <h2 class="field">Contact Number</h2>
-      </label>
-      <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
-      <br /><br />
-      <div class="buttons">
-        <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submit2()">
-          Submit
-        </button>
+      <div id="field">
+        <label for="Address">
+          <h2 class="field">Resident Address</h2>
+        </label>
+        <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
       </div>
-      <p id="other"><a href="./">Do you need to go back?</a></p>
+      <br /><br />
+      <div id="field">
+        <label for="email">
+          <h2 class="field">Email Address</h2>
+        </label>
+        <input placeholder="Email Address" type="email" id="email" name="email" value="" />
+      </div>
+      <div id="field">
+        <label for="ContactNo">
+          <h2 class="field">Contact Number</h2>
+        </label>
+        <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
+      </div>
+      <div id="field">
+        <div class="buttons">
+          <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submit2()">
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
   </div>
   <script type="text/javascript">
@@ -404,7 +438,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById("district").value = data["district"];
             document
               .getElementById("district")
-              .setAttribute("readonly", true);
+              .setAttribute("disabled", true);
           }
           if (data["name"]) {
             document.getElementById("name").value = data["name"];

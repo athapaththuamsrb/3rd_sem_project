@@ -118,7 +118,7 @@ class DatabaseConn
       $stmt->store_result();
       $arr = array();
       if ($stmt->num_rows() == 0){
-        return $arr;
+        return ['doses' => []];
       }
       $stmt->bind_result($name, $district, $address, $contact, $email);
       $stmt->fetch();
