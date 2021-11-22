@@ -316,6 +316,7 @@ class DatabaseConn
   public function add_appointment($details)
   {
     try {
+      mysqli_report(MYSQLI_REPORT_ALL);
       $id = $details["id"];
       $name = $details["name"];
       $contact = $details["contact"];
