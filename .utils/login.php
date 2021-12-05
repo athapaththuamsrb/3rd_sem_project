@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="stylesheet" type="text/css" href="/styles/all.css" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="/css/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
         <!--link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" /-->
-        <script src="/css/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+        <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
         <style type="text/css">
             #loginButton {
                 width: 250px;
