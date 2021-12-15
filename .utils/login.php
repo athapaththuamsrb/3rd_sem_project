@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ' . $_SERVER['REQUEST_URI']);
         die();
     }
-    $authenticator = new AuthAccount();
+    $authenticator = getAuthenticator();
     $authenticator->authenticate($_POST['username'], $_POST['password']);
 } else if ($_SERVER['REQUEST_METHOD'] !== 'GET') { // unsupported method
     header('HTTP/1.0 403 Forbidden');

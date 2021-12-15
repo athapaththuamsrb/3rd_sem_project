@@ -1,36 +1,7 @@
 <?php
 require_once('dbcon.php');
 
-class User
-{
-    private $type;
-    private $place;
-    private $district;
-
-    public function __construct($type, $place, $district)
-    {
-        $this->type = $type;
-        $this->place = $place;
-        $this->district = $district;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function getPlace()
-    {
-        return $this->place;
-    }
-
-    public function getDistrict()
-    {
-        return $this->district;
-    }
-}
-
-class Authenticator
+abstract class Authenticator
 {
     private $type;
     protected function __construct($type)
@@ -38,6 +9,8 @@ class Authenticator
         $this->type = $type;
     }
 
+    protected abstract function getUser($details);
+    
     public function authenticate($uname, $passwd)
     {
         $dbcon = DatabaseConn::get_conn();
@@ -53,7 +26,7 @@ class Authenticator
             header("Location: /$this->type/login.php");
             die();
         } else {
-            $user = new User($this->type, $arr['place'], $arr['district']);
+            $user = $this->getUser($arr);
             session_start();
             $_SESSION['invalidPass'] = false;
             $_SESSION['user'] = $user;
@@ -83,8 +56,10 @@ class Authenticator
             header('HTTP/1.1 401 UNAUTHORIZED');
             header("Location: /$type/login.php");
             die();
+            return null;
         } else {
             session_write_close();
+            return $_SESSION['user'];
         }
     }
 }

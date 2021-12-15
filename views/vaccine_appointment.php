@@ -270,22 +270,27 @@
         </div>
 
     </div>
+    <script src="/scripts/common.js"></script>
     <script type="text/javascript">
         function submit1() {
-            let district = document.getElementById("districts").value;
-            let date = document.getElementById("date").value;
-            let id = document.getElementById("id").value;
+            // let district = document.getElementById("districts").value;
+            // let date = document.getElementById("date").value;
+            // let id = document.getElementById("id").value;
             let output = document.getElementById("centers");
+            let xhrBuilder = new XHRBuilder();
+            xhrBuilder.addField('district', document.getElementById("districts").value);
+            xhrBuilder.addField('date', document.getElementById("date").value);
+            xhrBuilder.addField('id', document.getElementById("id").value);
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("district=" + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id));
+            //xhr.send("district=" + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id));
+            xhr.send(xhrBuilder.build());
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     let data = JSON.parse(xhr.responseText);
                     var content = "";
                     var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
-                    console.log(data);
                     data.forEach(centre => {
                         content += "<li>" + centre["place"] + "<ol>";
                         for (i = 0; i < possibleVaccines.length; i++) {

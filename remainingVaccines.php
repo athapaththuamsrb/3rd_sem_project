@@ -1,2 +1,2 @@
 <?php
-include_once('.views/remainingVaccines.php');
+include_once('views/remainingVaccines.php');

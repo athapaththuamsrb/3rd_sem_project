@@ -198,7 +198,7 @@
     </div>
   </form>
 
-  <script>
+  <script type="text/javascript">
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
 
@@ -243,7 +243,7 @@
       // Hide the current tab:
       x[currentTab].style.display = "none";
       // Increase or decrease the current tab by 1:
-      console.log(currentTab);
+      //console.log(currentTab);
       if (
         currentTab == 0 &&
         document.getElementById("Administrator").checked
@@ -284,7 +284,7 @@
 
     function validateForm() {
       // This function deals with validation of the form fields
-      console.log(document.getElementById("Vaccination_center").checked);
+      //console.log(document.getElementById("Vaccination_center").checked);
       var x,
         y,
         i,
@@ -294,7 +294,6 @@
       // A loop that checks every input field in the current tab:
       for (i = 0; i < y.length; i++) {
         if (currentTab != 0 && valid == true) {
-          console.log(y[i].value.trim());
           valid = y[i].value.trim() == "" ? false : true;
           if (!valid) return false;
         }

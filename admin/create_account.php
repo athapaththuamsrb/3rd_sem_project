@@ -1,5 +1,5 @@
 <?php
-require_once '.auth.php';
+require_once('.auth.php');
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,4 +34,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   die();
 }
 
-include_once('../.views/admin/create_account.php');
+include_once('../views/admin/create_account.php');
