@@ -119,7 +119,7 @@
   </div>
 
 
-
+  <script src="/scripts/common.js"></script>
   <script type="text/javascript">
     const output = document.getElementById("results");
 
@@ -129,7 +129,9 @@
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("id=" + encodeURIComponent(id));
+      let xhrBuilder = new XHRBuilder();
+      xhrBuilder.addField('id', id);
+      xhr.send(xhrBuilder.build());
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           try {

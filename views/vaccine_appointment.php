@@ -273,14 +273,15 @@
     <script src="/scripts/common.js"></script>
     <script type="text/javascript">
         function submit1() {
-            // let district = document.getElementById("districts").value;
-            // let date = document.getElementById("date").value;
-            // let id = document.getElementById("id").value;
+            let district = document.getElementById("districts").value;
+            let date = document.getElementById("date").value;
+            let id = document.getElementById("id").value;
             let output = document.getElementById("centers");
+
             let xhrBuilder = new XHRBuilder();
-            xhrBuilder.addField('district', document.getElementById("districts").value);
-            xhrBuilder.addField('date', document.getElementById("date").value);
-            xhrBuilder.addField('id', document.getElementById("id").value);
+            xhrBuilder.addField('district', district);
+            xhrBuilder.addField('date', date);
+            xhrBuilder.addField('id', id);
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -324,11 +325,21 @@
             let vaccineCenter = text[0]
             let vaccineType = text[1]
 
+            let xhrBuilder = new XHRBuilder();
+            xhrBuilder.addField('district', district);
+            xhrBuilder.addField('date', date);
+            xhrBuilder.addField('id', id);
+            xhrBuilder.addField('name', name);
+            xhrBuilder.addField('vaccineType', vaccineType);
+            xhrBuilder.addField('vaccineCenter', vaccineCenter);
+            if (email) xhrBuilder.addField('email', email);
+            if (contact) xhrBuilder.addField('contact', contact);
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", document.URL, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            let msg = 'district=' + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&contact=' + encodeURIComponent(contact) + '&vaccineCenter=' + encodeURIComponent(vaccineCenter) + '&vaccineType=' + encodeURIComponent(vaccineType);
-            xhr.send(msg);
+            //let msg = 'district=' + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&contact=' + encodeURIComponent(contact) + '&vaccineCenter=' + encodeURIComponent(vaccineCenter) + '&vaccineType=' + encodeURIComponent(vaccineType);
+            xhr.send(xhrBuilder.build());
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     let data = JSON.parse(xhr.responseText);

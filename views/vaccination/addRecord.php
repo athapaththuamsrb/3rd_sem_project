@@ -371,6 +371,8 @@
       </div>
     </form>
   </div>
+
+  <script src="/scripts/common.js"></script>
   <script type="text/javascript">
     function submit1() {
       let id = document.getElementById("id").value;
@@ -381,7 +383,9 @@
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
-      xhr.send("id=" + encodeURIComponent(id));
+      //xhr.send("id=" + encodeURIComponent(id));
+      xhrBuilder.addField('id', id);
+      xhr.send(xhrBuilder.build());
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
@@ -446,14 +450,23 @@
       let email = document.getElementById("email").value;
       let contact = document.getElementById("ContactNo").value;
 
+      let xhrBuilder = new XHRBuilder();
+      xhrBuilder.addField('id', id);
+      xhrBuilder.addField('name', name);
+      xhrBuilder.addField('district', district);
+      xhrBuilder.addField('type', vaccineType);
+      xhrBuilder.addField('address', address);
+      if (email) xhrBuilder.addField('email', email);
+      if (contact) xhrBuilder.addField('contact', contact);
+
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
       xhr.setRequestHeader(
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
-      xhr.send(
-        "id=" +
+      xhr.send(xhrBuilder.build());
+/*        "id=" +
         encodeURIComponent(id) +
         "&district=" +
         encodeURIComponent(district) +
@@ -467,7 +480,7 @@
         encodeURIComponent(email) +
         "&contact=" +
         encodeURIComponent(contact)
-      );
+      );*/
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
