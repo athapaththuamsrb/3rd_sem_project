@@ -211,6 +211,9 @@
           try {
             let data = JSON.parse(xhr.responseText);
             alert(data["success"] === true ? "Success" : "Failed!");
+            if (data["success"]){
+              //clear form
+            }
           } catch (error) {
             alert("Error occured");
           }

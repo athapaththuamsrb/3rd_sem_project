@@ -278,13 +278,6 @@
     <form id="application" method="post">
       <div id="field">
         <br />
-        <label for="id">
-          <h2 class="field">ID</h2>
-        </label>
-        <input placeholder="ID" type="text" id="id2" name="id" required />
-      </div>
-      <div id="field">
-        <br />
         <label for="district">
           <h2 class="field">District:</h2>
         </label>
@@ -384,6 +377,7 @@
         "application/x-www-form-urlencoded"
       );
       //xhr.send("id=" + encodeURIComponent(id));
+      let xhrBuilder = new XHRBuilder();
       xhrBuilder.addField('id', id);
       xhr.send(xhrBuilder.build());
       xhr.onreadystatechange = function() {
@@ -440,7 +434,7 @@
         alert("You must select the vaccine type");
         return false;
       }
-      let id = document.getElementById("id2").value;
+      let id = document.getElementById("id").value;
       let name = document.getElementById("name").value;
       let district = document.getElementById("district").value;
       let vaccineType = document.querySelector(
@@ -486,6 +480,7 @@
           let data = JSON.parse(xhr.responseText);
           if (data && data["token"]) {
             alert("token is: " + data["token"]);
+            // clear form
           }
         }
       };
