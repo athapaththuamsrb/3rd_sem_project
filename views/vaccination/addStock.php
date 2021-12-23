@@ -137,7 +137,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <label for="dose">Dose:</label>
-          <input type="number" id="dose" name="dose" value="" /><br />
+          <input type="number" id="dose" name="dose" value="" min="1" max="2" /><br />
         </div>
         <div class="col-3"></div>
       </div>
@@ -146,7 +146,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <label for="amount">Amount:</label>
-          <input type="number" id="amount" name="amount" value="" /><br />
+          <input type="number" id="amount" name="amount" value="" min=0 /><br />
         </div>
         <div class="col-3"></div>
       </div>
@@ -211,8 +211,11 @@
           try {
             let data = JSON.parse(xhr.responseText);
             alert(data["success"] === true ? "Success" : "Failed!");
-            if (data["success"]){
-              //clear form
+            if (data["success"]) {
+              list = document.getElementsByTagName("input");
+              for (let index = 0; index < list.length; index++) {
+                list[index].value = "";
+              }
             }
           } catch (error) {
             alert("Error occured");

@@ -22,7 +22,17 @@
 			margin-top: 100px;
 		}
 
+		.btn:hover {
+			-ms-transform: scale(1.2);
+			/* IE 9 */
+			-webkit-transform: scale(1.2);
+			/* Safari 3-8 */
+			transform: scale(1.2);
+			background-color: blue;
+		}
+
 		#vaccine_appointment,
+		#vaccination_certificat,
 		#vaccination_status {
 			padding: 20px 30px;
 			font-size: 25px;
@@ -37,7 +47,53 @@
 		}
 
 		.mask {
-			height: 100vh;
+			height: 120vh;
+		}
+
+		.dropbtn {
+			background-color: #04AA6D;
+			color: white;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+		}
+
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f1f1f1;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			z-index: 1;
+			right: 0;
+		}
+
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #ddd;
+		}
+
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+		.dropdown:hover .dropbtn {
+			background-color: #3e8e41;
+		}
+
+		dropdown-content>a {
+			width: 500%;
 		}
 	</style>
 </head>
@@ -47,10 +103,16 @@
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<div class="container-fluid">
 				<h1 class="navbar-brand">Public</h1>
-				<!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button> -->
-
+				<div class="dropdown">
+					<button class="dropbtn">Login
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+						<a href="/vaccination/login.php">Vaccination&nbsp;center&nbsp;login</a>
+						<a href="/testing/login.php">Testing&nbsp;center&nbsp;login</a>
+						<a href="/admin/login.php">Admin&nbsp;login</a>
+					</div>
+				</div>
 			</div>
 		</nav>
 
@@ -62,6 +124,9 @@
 		</div>
 		<div class="d-flex justify-content-center" id="actions">
 			<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
+		</div>
+		<div class="d-flex justify-content-center" id="actions">
+			<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination certificate</button></a>
 		</div>
 
 

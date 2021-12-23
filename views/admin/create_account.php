@@ -49,6 +49,7 @@
     font-size: 17px;
     font-family: Raleway;
     border: 1px solid #aaaaaa;
+    border: black solid 2px;
   }
 
   /* Mark input boxes that gets an error on validation: */
@@ -59,6 +60,12 @@
   /* Hide all steps by default: */
   .tab {
     display: none;
+  }
+
+  #regForm {
+    border: black solid 3px;
+    border-radius: 10%;
+    background-color: rgba(255, 255, 255, 0.7);
   }
 
   button {
@@ -165,6 +172,14 @@
     </div>
     <div class="tab">
       <div>
+        Email:
+        <p>
+          <input placeholder="Email" type="email" id="email" oninput="this.className = ''" name="email" />
+        </p>
+      </div>
+    </div>
+    <div class="tab">
+      <div>
         User Name:
         <p>
           <input placeholder="User Name" oninput="this.className = ''" name="username" />
@@ -191,6 +206,7 @@
     </div>
     <!-- Circles which indicates the steps of the form: -->
     <div style="text-align: center; margin-top: 40px">
+      <span class="step"></span>
       <span class="step"></span>
       <span class="step"></span>
       <span class="step"></span>
@@ -292,6 +308,12 @@
       x = document.getElementsByClassName("tab");
       y = x[currentTab].getElementsByTagName("input");
       // A loop that checks every input field in the current tab:
+      if (currentTab == 2) {
+        let email = document.getElementById("email").value.trim();
+        if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+          return false;
+        }
+      }
       for (i = 0; i < y.length; i++) {
         if (currentTab != 0 && valid == true) {
           valid = y[i].value.trim() == "" ? false : true;
