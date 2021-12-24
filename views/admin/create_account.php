@@ -65,7 +65,7 @@
   #regForm {
     border: black solid 3px;
     border-radius: 10%;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.9);
   }
 
   button {
@@ -95,7 +95,7 @@
     border: none;
     border-radius: 50%;
     display: inline-block;
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   .step.active {

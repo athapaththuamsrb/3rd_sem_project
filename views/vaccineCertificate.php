@@ -78,10 +78,11 @@
                         });
                         let a = document.createElement("a");
                         a.style = "display: none";
+                        a.target = '_blank';
                         document.body.appendChild(a);
                         let url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = 'certificate.pdf';
+                        a.download = id + '.pdf';
                         a.click();
                         window.URL.revokeObjectURL(url);
                     } else {

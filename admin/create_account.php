@@ -3,7 +3,7 @@ require_once('.auth.php');
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['type']) || !$_POST['username'] || !$_POST['password'] || !$_POST['type']) {
+  if (!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['type']) || !isset($_POST['email']) || !$_POST['username'] || !$_POST['password'] || !$_POST['type'] || !$_POST['email']) {
     header('Location: ' . $_SERVER['REQUEST_URI']);
     die();
   }
@@ -34,4 +34,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   die();
 }
 
-include_once('../views/admin/create_account.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/views/admin/create_account.php');

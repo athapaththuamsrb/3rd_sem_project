@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = ['id' => $id, 'doses' => []];
         }
         if (isset($data['doses']) && $data['doses']) {
-            header('Content-Type: application/pdf');
             require_once('vendor/autoload.php');
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -91,11 +90,15 @@ EOD;*/
             // Print text using writeHTMLCell()
             $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
-            // ---------------------------------------------------------
-
-            // Close and output PDF document
-            // This method has several options, check the source code documentation for more information.
-            $pdf->Output(realpath('certificates') . DIRECTORY_SEPARATOR . "$id.pdf", 'I');
+            $pdfFileName = "vaccine_$id.pdf";
+            $pdfFilePath = $_SERVER['DOCUMENT_ROOT'] . "/certificates/$pdfFileName";
+            $pdf->Output($pdfFilePath, 'F');
+            header('Content-Type: application/pdf');
+            header("Content-Disposition: attachment; filename=$pdfFileName;");
+            header('Content-Length: ' . filesize($pdfFilePath));
+            ob_clean();
+            flush();
+            readfile($pdfFilePath);
         } else {
             header('Content-Type: application/json');
             echo json_encode($data);
@@ -103,4 +106,4 @@ EOD;*/
     }
     die();
 }
-include_once('views/vaccineCertificate.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccineCertificate.php');

@@ -108,9 +108,9 @@
 						<i class="fa fa-caret-down"></i>
 					</button>
 					<div class="dropdown-content">
-						<a href="/vaccination/login.php">Vaccination&nbsp;center&nbsp;login</a>
-						<a href="/testing/login.php">Testing&nbsp;center&nbsp;login</a>
-						<a href="/admin/login.php">Admin&nbsp;login</a>
+						<a href="/vaccination/">Vaccination&nbsp;center&nbsp;</a>
+						<a href="/testing/">Testing&nbsp;center&nbsp;</a>
+						<a href="/admin/">Admin&nbsp;</a>
 					</div>
 				</div>
 			</div>

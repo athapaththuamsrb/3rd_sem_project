@@ -2,4 +2,4 @@
 require_once('.auth.php');
 check_auth();
 
-include_once('../views/admin/index.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/views/admin/index.php');
