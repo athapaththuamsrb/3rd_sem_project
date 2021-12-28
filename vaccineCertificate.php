@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
             // set some language-dependent strings (optional)
-            if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-                require_once(dirname(__FILE__) . '/lang/eng.php');
-                $pdf->setLanguageArray($l);
-            }
+            // if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+            //     require_once(dirname(__FILE__) . '/lang/eng.php');
+            //     $pdf->setLanguageArray($l);
+            // }
 
             // ---------------------------------------------------------
 
@@ -66,11 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdf->SetFont('dejavusans', '', 14, '', true);
 
             // Add a page
-            // This method has several options, check the source code documentation for more information.
             $pdf->AddPage();
-
-            // set text shadow effect
-            //$pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
             // Set some content to print
             $doses = $data['doses'];
@@ -79,14 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $html .= '<tr><td>' . $dose['type'] . '</td><td>' . $dose['date'] . '</td></tr>';
             }
             $html .= '</table>';
-            /*<<<EOD
-<h1>Welcome to <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a>!</h1>
-<i>This is the first example of TCPDF library.</i>
-<p>This text is printed using the <i>writeHTMLCell()</i> method but you can also use: <i>Multicell(), writeHTML(), Write(), Cell() and Text()</i>.</p>
-<p>Please check the source code documentation and other examples for further information.</p>
-<p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
-EOD;*/
-
             // Print text using writeHTMLCell()
             $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
