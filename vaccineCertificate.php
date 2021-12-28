@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // set margins
             $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+            //$pdf->SetMargins(0, 0, 0);
             //$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
             //$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -68,13 +69,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Add a page
             $pdf->AddPage();
 
+            //$pdf->SetFillColor(255, 255, 220);
+            //$pdf->Rect(0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), 'F', "");
+
             // Set some content to print
+            $html = "<style>
+                div{
+                    color: black;
+                    display: table;
+                    font-family: Georgia, serif;
+                    font-size: 24px;
+                    text-align: center;
+                }
+                .container {
+                    border: 20px solid blue;
+                    width: 800px;
+                    height: 563px;
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+                .logo {
+                    color: tan;
+                }
+
+                .marquee {
+                    color: brown;
+                    font-size: 48px;
+                    margin: 20px;
+                }
+                .assignment {
+                    margin: 20px;
+                }
+                .id,.person {
+                    border-bottom: 2px solid black;
+                    font-size: 32px;
+                    font-style: italic;
+                    margin: 20px auto;
+                    width: 400px;
+                }
+                .reason {
+                    margin: 20px;
+                }
+                table, th, td {
+                    border:1px solid black;
+                    margin-right: 5px;
+                }
+                .certificate{
+                    border: 5px solid black;
+                }
+                </style>
+                <div class=\"marquee\">
+                    Certificate of Vaccination
+                </div>
+
+                <div class=\"assignment\">
+                    This certificate is presented to
+                </div>
+                <div class=\"person\">
+                    $data[name]
+                </div>
+                <div class=\"assignment\">
+                  id number
+                </div>
+                <div class=\"id\">
+                    $data[id]
+                </div>
+                <div class=\"reason\">
+                    For showing dose details<br/>
+                </div>
+                <div class=\"table\">
+                    <table style=\"width:100%\">
+                      <tr>
+                        <th>Vaccination type</th>
+                        <th>Date</th>
+                        <th>District</th>
+                        <th>Place</th>
+                      </tr>";
             $doses = $data['doses'];
-            $html = "<style> table {border-collapse: collapse; width: 100%;} td,th {border: 1px solid #dddddd; text-align: left; padding: 8px;}</style><h1>Vaccination Certificate</h1><h2>ID : $data[id]</h2><h3>Name : $data[name]</h3><table><tr><th>Type</th><th>Date</th></tr>";
+            $table = '';
             foreach ($doses as $dose) {
-                $html .= '<tr><td>' . $dose['type'] . '</td><td>' . $dose['date'] . '</td></tr>';
+                $table .= '<tr><td>' . $dose['type'] . '</td><td>' . $dose['date'] . '</td><td>' . $dose['district'] . '</td><td>' . $dose['place'] . '</td></tr>';
             }
-            $html .= '</table>';
+            $html = $html . $table . '</table></div></div>'; //"<style> table {border-collapse: collapse; width: 100%;} td,th {border: 1px solid #dddddd; text-align: left; padding: 8px;}</style><h1>Vaccination Certificate</h1><h2>ID : $data[id]</h2><h3>Name : $data[name]</h3><table><tr><th>Type</th><th>Date</th></tr>";
             // Print text using writeHTMLCell()
             $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 

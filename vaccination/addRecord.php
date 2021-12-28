@@ -31,6 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $data = $con->get_vaccination_records($id, null);
       if (!$data || !is_array($data)) {
         $data = ['id' => $id, 'doses' => []];
+      }else{
+      foreach ($data['doses'] as $key => $dose) {
+        unset($data['doses'][$key]['place']);
+        unset($data['doses'][$key]['district']);
+      }
       }
       echo json_encode($data);
     }
