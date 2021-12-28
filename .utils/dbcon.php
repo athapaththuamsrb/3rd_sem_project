@@ -59,7 +59,7 @@ class DatabaseConn
 
   public function create_user($uname, $pw, $type, $place, $district)
   {
-    if ($type !== 'admin' && !$place) {
+    if ($type !== 'admin' && (!$place || !$district)) {
       return false;
     }
     if ($this->validate($uname, $pw)) {

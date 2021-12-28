@@ -2,6 +2,11 @@ RewriteEngine on
 ErrorDocument 404 /error.php?status=404
 RewriteRule ^\..*$ - [L,R=404]
 RewriteRule ^.*\.html$ - [L,R=404]
+RewriteRule ^db/.*$ - [L,R=404]
+RewriteRule ^controller/.*$ - [L,R=404]
+RewriteRule ^model/.*$ - [L,R=404]
+RewriteRule ^views/.*$ - [L,R=404]
+RewriteRule ^certificates/.*$ - [L,R=404]
 #RewriteRule ^([A-Za-z0-9-]+)/?$ /index.php?test=$1 [NC]
 
 <IfModule mod_headers.c>

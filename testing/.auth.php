@@ -1,15 +1,25 @@
 <?php
 require_once('../.utils/auth.php');
+require_once('../.utils/accounts.php');
 
-class AuthAccount extends Authenticator
+class TestingAuth extends Authenticator
 {
     public function __construct()
     {
         parent::__construct('testing');
     }
+
+    protected function getUser($details)
+    {
+        return new TestingAdmin($details['place'], $details['district']);
+    }
+}
+
+function getAuthenticator(){
+    return new TestingAuth();
 }
 
 function check_auth(){
-	$authenticator = new AuthAccount();
+	$authenticator = getAuthenticator();
 	$authenticator->check_auth();
 }
