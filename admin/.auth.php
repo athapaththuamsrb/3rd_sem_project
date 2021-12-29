@@ -11,7 +11,7 @@ class AdminAuth extends Authenticator
 
     protected function getUser($details)
     {
-        return new Administrator();
+        return new Administrator($details['email']);
     }
 }
 

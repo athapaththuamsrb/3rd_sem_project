@@ -11,7 +11,7 @@ class TestingAuth extends Authenticator
 
     protected function getUser($details)
     {
-        return new TestingAdmin($details['place'], $details['district']);
+        return new TestingAdmin($details['place'], $details['district'], $details['email']);
     }
 }
 

@@ -5,13 +5,15 @@ require_once('accounts.php');
 class Mediator
 {
     private $centreList;
-    public function __construct($district)
+    private $type;
+    public function __construct($district, $type)
     {
         $con = DatabaseConn::get_conn();
-        $this->centreList = $con->getVaccineCentresInDistrict($district);
+        $this->type = $type;
+        $this->centreList = $con->getVaccineCentresInDistrict($district, $type);
     }
 
-    public function sendEmails($user, $type, $dose, $amount)
+    public function sendEmails($user, $dose, $amount)
     {
         $place = $user->getPlace();
         $count  = 0;
@@ -19,7 +21,7 @@ class Mediator
             if ($place == $centre->getPlace()) {
                 continue;
             }
-            if (Mediator::sendEmail($centre->getEmail(), $type, $dose, $amount, $place)){
+            if (Mediator::sendEmail($centre->getEmail(), $this->type, $dose, $amount, $place)){
                 $count++;
             }
         }

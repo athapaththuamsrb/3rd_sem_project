@@ -28,7 +28,7 @@ class DatabaseConn
   {
     if ($this->validate($uname, $pw)) {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $q = 'SELECT password, place, district FROM admins WHERE username=? AND type=?';
+      $q = 'SELECT password, place, district, email FROM admins WHERE username=? AND type=?';
       $arr = array();
       try {
         $stmt = $this->conn->prepare($q);
@@ -37,9 +37,10 @@ class DatabaseConn
         $stmt->store_result();
         $rowcount = $stmt->num_rows;
         if ($rowcount == 1) {
-          $stmt->bind_result($password, $place, $district);
+          $stmt->bind_result($password, $place, $district, $email);
           $stmt->fetch();
           if (password_verify($pw, $password)) {
+            $arr['email'] = $email;
             if ($type !== 'admin') {
               $arr['place'] = $place;
               $arr['district'] = $district;
@@ -57,17 +58,17 @@ class DatabaseConn
     return null;
   }
 
-  public function create_user($uname, $pw, $type, $place, $district)
+  public function create_user($uname, $pw, $type, $place, $district, $email)
   {
     if ($type !== 'admin' && (!$place || !$district)) {
       return false;
     }
     if ($this->validate($uname, $pw)) {
       $hashed = password_hash($pw, PASSWORD_BCRYPT, ['cost' => 12]);
-      $q = 'INSERT INTO admins (username, password, type, place, district) VALUES (?, ?, ?, ?, ?)';
+      $q = 'INSERT INTO admins (username, password, type, place, district, email) VALUES (?, ?, ?, ?, ?, ?)';
       try {
         $stmt = $this->conn->prepare($q);
-        $stmt->bind_param('sssss', $uname, $hashed, $type, $place, $district);
+        $stmt->bind_param('ssssss', $uname, $hashed, $type, $place, $district, $email);
         $stmt->execute();
         return $stmt->close();
       } catch (Exception $e) {
@@ -344,9 +345,10 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineCentresInDistrict($district)
+  public function getVaccineCentresInDistrict($district, $type)
   {
     try {
+      require_once('accounts.php');
       // get vaccine centres in the given district
       // return [] if error
       return [];

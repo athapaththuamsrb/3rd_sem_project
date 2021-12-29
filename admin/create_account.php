@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_POST['username'],
     $_POST['password'],
     $_POST['type'],
+    $_POST['email'],
     $place,
     $district
   )) {
@@ -34,4 +35,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'].'/views/admin/create_account.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/views/admin/create_account.php');

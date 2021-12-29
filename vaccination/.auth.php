@@ -11,7 +11,7 @@ class VaccinationAuth extends Authenticator
 
     protected function getUser($details)
     {
-        return new VaccinationAdmin($details['place'], $details['district']);
+        return new VaccinationAdmin($details['place'], $details['district'], $details['email']);
     }
 }
 

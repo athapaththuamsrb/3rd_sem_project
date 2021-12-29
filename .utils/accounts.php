@@ -4,9 +4,10 @@ abstract class User
     private $type;
     private $email;
 
-    protected function __construct($type)
+    protected function __construct($type, $email)
     {
         $this->type = $type;
+        $this->email = $email;
     }
 
     public function getType()
@@ -25,9 +26,9 @@ abstract class CentreAdmin extends User
     private $place;
     private $district;
 
-    protected function __construct($type, $place, $district)
+    protected function __construct($type, $place, $district, $email)
     {
-        parent::__construct($type);
+        parent::__construct($type, $email);
         $this->place = $place;
         $this->district = $district;
     }
@@ -45,24 +46,24 @@ abstract class CentreAdmin extends User
 
 class Administrator extends User
 {
-    public function __construct()
+    public function __construct($email)
     {
-        parent::__construct('admin');
+        parent::__construct('admin', $email);
     }
 }
 
 class VaccinationAdmin extends CentreAdmin
 {
-    public function __construct($place, $district)
+    public function __construct($place, $district, $email)
     {
-        parent::__construct('vaccination', $place, $district);
+        parent::__construct('vaccination', $place, $district, $email);
     }
 }
 
 class TestingAdmin extends CentreAdmin
 {
-    public function __construct($place, $district)
+    public function __construct($place, $district, $email)
     {
-        parent::__construct('testing', $place, $district);
+        parent::__construct('testing', $place, $district, $email);
     }
 }
