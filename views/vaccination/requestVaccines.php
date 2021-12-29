@@ -116,6 +116,7 @@
 			</div>
 			<br>
 		</div>
+		</div>
 		<button onclick="requestSubmit()">Request</button>
 	</fieldset>
 
@@ -152,7 +153,7 @@
 							for (let index = 0; index < list.length; index++) {
 								list[index].value = "";
 							}
-						}else{
+						} else {
 							alert('No emails were sent');
 						}
 					} catch (error) {
