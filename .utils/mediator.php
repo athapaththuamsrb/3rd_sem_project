@@ -34,7 +34,7 @@ class Mediator
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
         // the message
-        $msg = "<html><body><h3>We need more vaccines at $place </h3><p>type : $type <br>dose : $dose <br>amount : $amount </p><p>click <a href=\"http://$_SERVER[HTTP_HOST]/vaccination/donate.php?place=$place&type=$type\">this link</a> to donate vaccines.</p></body></html>";
-        return mail($email, "Request more vaccines", $msg);
+        $msg = "<html><body><h3>We need more vaccines at $place </h3><p>type : $type <br>dose : $dose <br>amount : $amount </p><p>click <a href=\"http://$_SERVER[HTTP_HOST]/vaccination/donate.php?place=$place&type=$type&amount=$amount\">this link</a> to donate vaccines.</p></body></html>";
+        return mail($email, "Request more vaccines", $msg, $headers);
     }
 }

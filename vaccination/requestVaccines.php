@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $count = 0;
             if ($dose > 0 && $amount > 0) {
                 require_once('../.utils/mediator.php');
-                $mediator = new Mediator($district);
-                $count = $mediator->sendEmails($user, $type, $dose, $amount);
+                $mediator = new Mediator($district, $type);
+                $count = $mediator->sendEmails($user, $dose, $amount);
             }
             echo json_encode(['count' => $count]);
         }
