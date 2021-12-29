@@ -2,6 +2,7 @@
 abstract class User
 {
     private $type;
+    private $email;
 
     protected function __construct($type)
     {
@@ -11,6 +12,11 @@ abstract class User
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
 

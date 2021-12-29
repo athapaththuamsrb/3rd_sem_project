@@ -344,6 +344,17 @@ class DatabaseConn
     }
   }
 
+  public function getVaccineCentresInDistrict($district)
+  {
+    try {
+      // get vaccine centres in the given district
+      // return [] if error
+      return [];
+    } catch (Exception $e) {
+      return [];
+    }
+  }
+
   public function close_conn()
   {
     if (DatabaseConn::$dbconn != null) {

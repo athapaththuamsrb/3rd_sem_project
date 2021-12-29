@@ -151,7 +151,6 @@
 
     #name,
     #id,
-    #id2,
     #district,
     #address,
     #email,
@@ -169,10 +168,6 @@
     }
 
     #id {
-      left: 32%;
-    }
-
-    #id2 {
       left: 32%;
     }
 

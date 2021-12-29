@@ -163,7 +163,7 @@
       <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-          <input type="button" value="Submit" class="btn btn-primary" onclick="submit1()" />
+          <button type="button" value="Submit" class="btn btn-primary" onclick="submit1()">Submit</button>
         </div>
         <div class="col-4"></div>
       </div>
@@ -200,11 +200,6 @@
         "Content-Type",
         "application/x-www-form-urlencoded"
       );
-      /*let senddata = `date=${encodeURIComponent(
-          date
-        )}&type=${encodeURIComponent(
-          type
-        )}&dose=${dose}&amount=${amount}&onlineAmount=${onlineAmount}`;*/
       xhr.send(xhrBuilder.build());
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
