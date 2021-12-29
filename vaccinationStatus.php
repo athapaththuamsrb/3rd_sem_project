@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $data = $data['doses'];
       foreach ($data as $key => $dose) {
         unset($data[$key]['place']);
+        unset($data[$key]['district']);
       }
     } else {
       $data = null;
