@@ -54,10 +54,8 @@
             Admin Dashboard
         </div>
         <div class="d-flex justify-content-center" id="actions">
-            <a href="/admin/create_account.php"><button type="button" class="btn btn-primary" id="createAccountBtn">Create account</button></a>
+            <a href="/admin/createAccount.php"><button type="button" class="btn btn-primary" id="createAccountBtn">Create account</button></a>
         </div>
-
-
     </body>
 </div>
 

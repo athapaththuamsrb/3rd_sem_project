@@ -361,8 +361,7 @@ class DatabaseConn
       $places = array();
       while ($row = $result->fetch_assoc()) {
         $place = $row['place'];
-        if (!isset($places["$place"]))
-        {
+        if (!isset($places["$place"])) {
           $places["$place"] = true;
           $q1 = 'SELECT email FROM admins WHERE district = ? AND place = ?';
           $stmt1 = $this->conn->prepare($q1);
@@ -377,6 +376,17 @@ class DatabaseConn
       return $arr;
     } catch (Exception $e) {
       return $arr;
+    }
+  }
+
+  public function getEmailByPlace($district, $place, $type)
+  {
+    try {
+      // get email of the user with given district, place, and type (type=[vaccination/teting/admin])
+      // if not found or error, return null
+      return null;
+    } catch (Exception $e) {
+      return null;
     }
   }
 

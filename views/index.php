@@ -120,7 +120,7 @@
 			Dashboard
 		</div>
 		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccine_appointment.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Vaccine Appointment</button></a>
+			<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Vaccine Appointment</button></a>
 		</div>
 		<div class="d-flex justify-content-center" id="actions">
 			<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
@@ -128,8 +128,6 @@
 		<div class="d-flex justify-content-center" id="actions">
 			<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination certificate</button></a>
 		</div>
-
-
 	</body>
 </div>
 

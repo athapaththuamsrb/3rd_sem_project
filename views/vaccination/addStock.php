@@ -137,7 +137,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <label for="dose">Dose:</label>
-          <input type="number" id="dose" name="dose" value="" min="1" max="2" /><br />
+          <input type="number" id="dose" name="dose" value="" min="1" /><br />
         </div>
         <div class="col-3"></div>
       </div>
@@ -155,7 +155,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <label for="onlineAmount">Online Booking Amount:</label>
-          <input type="number" id="onlineAmount" name="onlineAmount" value="" />
+          <input type="number" id="onlineAmount" name="onlineAmount" value="" min=0 />
           <div class="col-3"></div>
           <br />
         </div>
@@ -163,62 +163,16 @@
       <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-          <button type="button" value="Submit" class="btn btn-primary" onclick="submit1()">Submit</button>
+          <button type="button" value="Submit" class="btn btn-primary" onclick="submitStock()">Submit</button>
         </div>
         <div class="col-4"></div>
       </div>
       <br /><br />
     </div>
-
   </form>
 
-  <script src="/scripts/common.js"></script>
-  <script type="text/javascript">
-    function submit1() {
-      let date = document.getElementById("date").value;
-      let type = document.getElementById("type").value;
-      let dose = document.getElementById("dose").value;
-      let amount = document.getElementById("amount").value;
-      let onlineAmount = document.getElementById("onlineAmount").value;
-      amount = parseInt(amount);
-      onlineAmount = parseInt(onlineAmount);
-      dose = parseInt(dose);
-      if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
-        alert("Entered data is invalid");
-        return false;
-      }
-
-      let xhrBuilder = new XHRBuilder();
-      xhrBuilder.addField('date', date);
-      xhrBuilder.addField('type', type);
-      xhrBuilder.addField('dose', dose);
-      xhrBuilder.addField('amount', amount);
-      xhrBuilder.addField('onlineAmount', onlineAmount);
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", document.URL, true);
-      xhr.setRequestHeader(
-        "Content-Type",
-        "application/x-www-form-urlencoded"
-      );
-      xhr.send(xhrBuilder.build());
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          try {
-            let data = JSON.parse(xhr.responseText);
-            alert(data["success"] === true ? "Success" : "Failed!");
-            if (data["success"]) {
-              list = document.getElementsByTagName("input");
-              for (let index = 0; index < list.length; index++) {
-                list[index].value = "";
-              }
-            }
-          } catch (error) {
-            alert("Error occured");
-          }
-        }
-      };
-    }
-  </script>
+  <script type="text/javascript" src="/scripts/common.js"></script>
+  <script type="text/javascript" src="/scripts/vaccination/addStock.js"></script>
 </body>
 
 </html>

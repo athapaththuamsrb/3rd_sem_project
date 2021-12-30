@@ -113,7 +113,7 @@
 				<label for="dose">Dose</label>
 			</div>
 			<div class="grid-item">
-				<input type="number" name="dose" id="dose" min=1 max=2>
+				<input type="number" name="dose" id="dose" min=1>
 			</div>
 			<br>
 			<div class="grid-item">
