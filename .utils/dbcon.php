@@ -347,13 +347,36 @@ class DatabaseConn
 
   public function getVaccineCentresInDistrict($district, $type)
   {
+    $arr = array();
     try {
       require_once('accounts.php');
-      // get vaccine centres in the given district
-      // return [] if error
-      return [];
+      $q0 = 'SELECT place FROM stocks WHERE district = ? AND type = ?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ss', $district, $type);
+      $stmt0->execute();
+      $result = $stmt0->get_result();
+      if ($result->num_rows == 0) {
+        return $arr;
+      }
+      $places = array();
+      while ($row = $result->fetch_assoc()) {
+        $place = $row['place'];
+        if (!isset($places["$place"]))
+        {
+          $places["$place"] = true;
+          $q1 = 'SELECT email FROM admins WHERE district = ? AND place = ?';
+          $stmt1 = $this->conn->prepare($q1);
+          $stmt1->bind_param('ss', $district, $place);
+          $stmt1->execute();
+          $stmt1->store_result();
+          $stmt1->bind_result($email);
+          $vadmin = new VaccinationAdmin($place, $district, $email);
+          array_push($arr, $vadmin);
+        }
+      }
+      return $arr;
     } catch (Exception $e) {
-      return [];
+      return $arr;
     }
   }
 
