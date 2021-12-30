@@ -2,158 +2,121 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vaccine Centre Admin Dashboard</title>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/styles/all.css" />
     <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
     <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        h1,
-        label {
-            color: white;
-        }
-
-        body,
-        html {
-            margin-top: 10px;
-            background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            font-family: sans-serif;
-        }
-
-        #date,
-        #type,
-        #dose,
-        #amount,
-        #onlineAmount {
-            position: relative;
-            line-height: 40px;
-            border-radius: 6px;
-            padding: 0 37px;
-            font-size: 16px;
-        }
-
-        #date {
-            left: 220px;
-        }
-
-        #dose {
-            left: 215px;
-        }
-
-        #amount {
-            left: 195px;
-        }
-
-        #onlineAmount {
-            left: 85px;
-        }
-
-        #type {
-            left: 160px;
-        }
-
-        .container {
-            background-color: rgb(0, 0, 0, 0.8);
-            border-radius: 5%;
-        }
-
-        .btn {
-            width: 200px;
-        }
-
-        .item4 {
-            /* height: 300px; */
-            width: 300px;
-            margin: auto;
-            margin-top: 60px;
-        }
-
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td,
-        th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
+    <title>Update Stock</title>
 </head>
+<style>
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .centerBox {
+        text-align: center;
+        position: absolute;
+        top: 30%;
+        left: 25%;
+        width: 50%;
+        background-color: antiquewhite;
+        border: 2px solid black;
+        border-top-left-radius: 10%;
+        border-bottom-right-radius: 10%;
+    }
+
+    .centerBox:hover {
+        border: 4px solid black;
+    }
+
+    input:hover,
+    select:hover {
+        border: 2px solid blue;
+    }
+
+    button {
+        background-color: green;
+        color: white;
+        border: 2px solid black;
+        border-radius: 5%;
+        width: 40%;
+        margin: 10px;
+    }
+
+    button:hover {
+        -ms-transform: scale(1.2);
+        /* IE 9 */
+        -webkit-transform: scale(1.2);
+        /* Safari 3-8 */
+        transform: scale(1.2);
+    }
+
+    nav {
+        background-color: rgb(2, 2, 59);
+        height: 10vh;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    #type {
+        width: 30%;
+        font-size: medium;
+    }
+
+    #type,
+    input {
+        width: 90%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .grid-item {
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+</style>
 
 <body>
-    <form>
-        <div class="container">
-            <br /><br />
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <h1>Update stock</h1>
-                </div>
-                <div class="col-4"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Vaccination Center</a>
+        </div>
+    </nav>
+    <fieldset class="centerBox">
+        <legend>Update the stock</legend>
+        <div class="grid-container">
+            <div class="grid-item">
+                <label for="type">type</label>&nbsp;
             </div>
-            <br /><br />
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
-                    <label for="type">Vaccine Type:</label>
-                    <select name="type" id="type">
-                        <option value="Pfizer">Pfizer</option>
-                        <option value="Sinopharm">Sinopharm</option>
-                        <option value="Aztraseneca">Aztraseneca</option>
-                        <option value="Moderna">Moderna</option>
-                    </select>
-                </div>
-                <div class="col-3"></div>
+            <div class="grid-item">
+                <select name="type" id="type" readonly="readonly">
+                    <option value="Pfizer">Pfizer</option>
+                    <option value="Aztraseneca">Aztraseneca</option>
+                    <option value="Sinopharm">Sinopharm</option>
+                    <option value="Moderna">Moderna</option>
+                </select>
             </div>
-            <br /><br />
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
-                    <label for="dose">Dose:</label>
-                    <input type="number" id="dose" name="dose" value="" min="1" /><br />
-                </div>
-                <div class="col-3"></div>
-            </div>
-            <br /><br />
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
-                    <label for="amount">Amount:</label>
-                    <input type="number" id="amount" name="amount" value="" min=0 /><br />
-                </div>
-                <div class="col-3"></div>
-            </div>
-            <br /><br />
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-primary" onclick="update()">Update</button>
-                </div>
-                <div class="col-4"></div>
-            </div>
-            <br /><br />
+            <br>
+            <div class="grid-item"><label for="amount">Dose</label>&nbsp;</div>
+            <div class="grid-item"><input type="number" id="dose" name="dose" placeholder="Dose" min=1></div>
+            <br>
+            <div class="grid-item"><label for="amount">amount</label>&nbsp;</div>
+            <div class="grid-item"><input type="number" id="amount" name="amount" placeholder="amount" min=0></div>
+            <br>
         </div>
 
-    </form>
+        <button type="button" class="btn btn-primary" onclick="update()">Update</button>
+    </fieldset>
 
     <script src="/scripts/common.js"></script>
     <script type="text/javascript">

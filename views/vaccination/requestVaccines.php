@@ -5,7 +5,10 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="/styles/all.css" />
+	<link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
+	<script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+	<title>Request Vaccination</title>
 </head>
 <style>
 	html,
@@ -22,8 +25,8 @@
 		width: 50%;
 		background-color: antiquewhite;
 		border: 2px solid black;
-		border-top-left-radius: 40%;
-		border-bottom-right-radius: 40%;
+		border-top-left-radius: 10%;
+		border-bottom-right-radius: 10%;
 	}
 
 	.centerBox:hover {
@@ -41,6 +44,7 @@
 		border: 2px solid black;
 		border-radius: 5%;
 		width: 40%;
+		margin: 10px;
 	}
 
 	button:hover {
@@ -83,7 +87,11 @@
 </style>
 
 <body>
-	<nav></nav>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Vaccination Center</a>
+		</div>
+	</nav>
 	<fieldset class="centerBox">
 		<legend>
 			<h2>Requesting Vaccination</h2>
@@ -114,10 +122,10 @@
 			<div class="grid-item">
 				<input type="number" id="amount" name="amount" placeholder="amount" min=0>
 			</div>
-			<br>
 		</div>
 		</div>
 		<button onclick="requestSubmit()">Request</button>
+		<br>
 	</fieldset>
 
 	<script src="/scripts/common.js"></script>
