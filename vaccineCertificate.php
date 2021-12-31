@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = ['id' => $id, 'doses' => []];
         }
         if (isset($data['doses']) && $data['doses']) {
+            error_reporting(0);
             require_once('vendor/autoload.php');
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
