@@ -348,11 +348,12 @@ class DatabaseConn
   public function getVaccineCentresInDistrict($district, $type)
   {
     $arr = array();
+    $date = date('Y-m-d');
     try {
       require_once('accounts.php');
-      $q0 = 'SELECT place FROM stocks WHERE district = ? AND type = ?';
+      $q0 = 'SELECT place FROM stocks WHERE district = ? AND type = ? AND date = ?';
       $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('ss', $district, $type);
+      $stmt0->bind_param('sss', $district, $type, $date);
       $stmt0->execute();
       $result = $stmt0->get_result();
       if ($result->num_rows == 0) {
@@ -362,13 +363,14 @@ class DatabaseConn
       while ($row = $result->fetch_assoc()) {
         $place = $row['place'];
         if (!isset($places["$place"])) {
-          $places["$place"] = true;
+          $places["$place"] = $place;
           $q1 = 'SELECT email FROM admins WHERE district = ? AND place = ?';
           $stmt1 = $this->conn->prepare($q1);
           $stmt1->bind_param('ss', $district, $place);
           $stmt1->execute();
           $stmt1->store_result();
           $stmt1->bind_result($email);
+          $stmt1->fetch();
           $vadmin = new VaccinationAdmin($place, $district, $email);
           array_push($arr, $vadmin);
         }
@@ -382,8 +384,17 @@ class DatabaseConn
   public function getEmailByPlace($district, $place, $type)
   {
     try {
-      // get email of the user with given district, place, and type (type=[vaccination/teting/admin])
-      // if not found or error, return null
+      $q0 = 'SELECT email FROM admins WHERE district = ? AND place = ? AND type = ?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('sss', $district, $place, $type);
+      $stmt0->execute();
+      $stmt0->store_result();
+      $rowcount = $stmt0->num_rows;
+      if ($rowcount == 1) {
+        $stmt0->bind_result($email);
+        $stmt0->fetch();
+        return $email;
+      }
       return null;
     } catch (Exception $e) {
       return null;
