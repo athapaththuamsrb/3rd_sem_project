@@ -260,7 +260,7 @@ class DatabaseConn
   public function update_stocks($district, $place, $date, $type, $field, $amount, $dose)
   {
     try {
-      if ($date instanceof DateTime){
+      if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
       }
       if ($field === 'reserved') {
@@ -313,6 +313,19 @@ class DatabaseConn
         }
       }
       return $arr;
+    } catch (Exception $e) {
+      return [];
+    }
+  }
+
+  public function getAvailability($district, $type, $dose, $date)
+  {
+    try {
+      // filter stocks by given data
+      // return [] if error or not found
+      // UI is implemented. test with http://localhost:8888/vaccineAvailability.php
+      // sample output
+      return [['place' => 'General hosp.', 'booking' => 85, 'not_booking' => 23], ['place' => 'MOH office', 'booking' => 46, 'not_booking' => 41]];
     } catch (Exception $e) {
       return [];
     }

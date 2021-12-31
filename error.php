@@ -1,14 +1,9 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !isset($_GET['status']) || !$_GET['status']) {
-    header('HTTP/1.0 404 Not Found');
-    header('Location: /error.php?status=404');
-    die();
-}
-if ($_GET['status']=='404'){
-    include('error/404.html');
-    die();
-}else{
-    header('HTTP/1.0 404 Not Found');
-    header('Location: /error.php?status=404');
-    die();
+header('HTTP/1.0 404 Not Found');
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['uri'])){
+    $arr = explode('.', $_GET['uri']);
+    $ext = end($arr);
+    if ($ext==='php' || $ext==='html' || $ext==='htm'){
+        include('error/404.html');
+    }
 }
