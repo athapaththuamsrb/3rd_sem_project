@@ -260,6 +260,9 @@ class DatabaseConn
   public function update_stocks($district, $place, $date, $type, $field, $amount, $dose)
   {
     try {
+      if ($date instanceof DateTime){
+        $date = $date->format('Y-m-d');
+      }
       if ($field === 'reserved') {
         $q = "UPDATE stocks SET reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       } else if ($field === 'not_reserved') {

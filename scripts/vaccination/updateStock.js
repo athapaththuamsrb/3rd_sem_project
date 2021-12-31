@@ -1,14 +1,10 @@
 function updateStock() {
-  return; // TODO: remove this after implementing the function
-  let date = document.getElementById("date").value;
   let type = document.getElementById("type").value;
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
-  let onlineAmount = document.getElementById("onlineAmount").value;
   amount = parseInt(amount);
-  onlineAmount = parseInt(onlineAmount);
   dose = parseInt(dose);
-  if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
+  if (!type || !dose || !amount || dose <= 0 || amount <= 0) {
     alert("Entered data is invalid");
     return false;
   }
@@ -17,7 +13,6 @@ function updateStock() {
   xhrBuilder.addField('type', type);
   xhrBuilder.addField('dose', dose);
   xhrBuilder.addField('amount', amount);
-  xhrBuilder.addField('onlineAmount', onlineAmount);
   var xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader(

@@ -14,10 +14,10 @@
         <input placeholder="Place" type="text" id="place" name="place" value="<?php echo $_GET['place']; ?>" required />
         <label for="type">Type</label>
         <select name="type" id="type" required>
-            <option value="Pfizer" <?php if ($_GET['type'] === 'Pfizer') echo 'selected' ?>>Pfizer</option>
-            <option value="Aztraseneca" <?php if ($_GET['type'] === 'Aztraseneca') echo 'selected' ?>>Aztraseneca</option>
-            <option value="Sinopharm" <?php if ($_GET['type'] === 'Sinopharm') echo 'selected' ?>>Sinopharm</option>
-            <option value="Moderna" <?php if ($_GET['type'] === 'Moderna') echo 'selected' ?>>Moderna</option>
+            <option value="Pfizer" <?php if (isset($_GET['type']) && $_GET['type'] === 'Pfizer') echo 'selected' ?>>Pfizer</option>
+            <option value="Aztraseneca" <?php if (isset($_GET['type']) && $_GET['type'] === 'Aztraseneca') echo 'selected' ?>>Aztraseneca</option>
+            <option value="Sinopharm" <?php if (isset($_GET['type']) && $_GET['type'] === 'Sinopharm') echo 'selected' ?>>Sinopharm</option>
+            <option value="Moderna" <?php if (isset($_GET['type']) && $_GET['type'] === 'Moderna') echo 'selected' ?>>Moderna</option>
         </select>
 
         <label for="dose">Dose</label>

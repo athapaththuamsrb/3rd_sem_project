@@ -100,10 +100,10 @@
             </div>
             <div class="grid-item">
                 <select name="type" id="type" readonly="readonly">
-                    <option value="Pfizer">Pfizer</option>
-                    <option value="Aztraseneca">Aztraseneca</option>
-                    <option value="Sinopharm">Sinopharm</option>
-                    <option value="Moderna">Moderna</option>
+                    <option value="Pfizer" <?php if (isset($_GET['type']) && $_GET['type'] === 'Pfizer') echo 'selected' ?>>Pfizer</option>
+                    <option value="Aztraseneca" <?php if (isset($_GET['type']) && $_GET['type'] === 'Aztraseneca') echo 'selected' ?>>Aztraseneca</option>
+                    <option value="Sinopharm" <?php if (isset($_GET['type']) && $_GET['type'] === 'Sinopharm') echo 'selected' ?>>Sinopharm</option>
+                    <option value="Moderna" <?php if (isset($_GET['type']) && $_GET['type'] === 'Moderna') echo 'selected' ?>>Moderna</option>
                 </select>
             </div>
             <br>
@@ -111,7 +111,7 @@
             <div class="grid-item"><input type="number" id="dose" name="dose" placeholder="Dose" min=1></div>
             <br>
             <div class="grid-item"><label for="amount">amount</label>&nbsp;</div>
-            <div class="grid-item"><input type="number" id="amount" name="amount" placeholder="amount" min=0></div>
+            <div class="grid-item"><input type="number" id="amount" name="amount" placeholder="amount" value="<?php if (isset($_GET['amount'])) echo $_GET['amount'] ?>" min=0></div>
             <br>
         </div>
 

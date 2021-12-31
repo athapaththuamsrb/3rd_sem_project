@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success = false;
             $email_sent = false;
             if ($dose > 0 && $amount > 0 && ($con = DatabaseConn::get_conn())) {
-                $success = $con->update_stocks($user->getDistrict(), $user->getPlace(), (new DateTime())->format('Y-m-d'), $type, 'not_reserved', -$amount, $dose);
+                $success = $con->update_stocks($user->getDistrict(), $user->getPlace(), new DateTime(), $type, 'not_reserved', -$amount, $dose);
                 if ($success) {
                     $district = $user->getDistrict();
                     $place = $_POST['place'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($email) {
                         $headers  = 'MIME-Version: 1.0' . "\r\n";
                         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                        $msg = "<html><body><h3>We can donate $amount vaccines from $donor_place to $place </h3><p>type : $type <br>dose : $dose <br>amount : $amount </p><p>You can collect the vaccines from $donor_place</p></body></html>";
+                        $msg = "<html><body><h3>We can donate $amount vaccines from $donor_place to $place </h3><p>type : $type <br>dose : $dose <br>amount : $amount </p><p>You can collect the vaccines from $donor_place</p><p>Once you collect the vaccies, you can update your stock from <a href=\"http://$_SERVER[HTTP_HOST]/vaccination/updateStock.php?type=$type&amount=$amount\">this link</a>.</p></body></html>";
                         $email_sent =  mail($email, "Donate vaccines", $msg, $headers);
                     }
                 }
