@@ -242,7 +242,7 @@
                 </div>
                 <div class="row">
                     <div class="col-3"></div>
-                    <div class="col-6"> <input type="button" class="btn btn-success" value="select" onclick="submitRequest()"></div>
+                    <div class="col-6"> <input type="button" class="btn btn-success" value="Submit" onclick="submitRequest()"></div>
                     <div class="col-3"></div>
                 </div>
             </div>

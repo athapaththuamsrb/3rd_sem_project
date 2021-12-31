@@ -4,6 +4,7 @@ const id_element = document.getElementById("id");
 const name_element = document.getElementById("name");
 const contact_element = document.getElementById("ContactNo");
 const email_element = document.getElementById("email");
+const result_table = document.getElementById("resultTable");
 
 function getDetails() {
   let id = id_element.value;
@@ -23,7 +24,6 @@ function getDetails() {
       document.getElementById("hide").style.display = 'block';
       let data = JSON.parse(xhr.responseText);
       if (!data) return;
-      let output = document.getElementById("resultTable");
       var tableContent = "<tr><th>Type</th><th>Date</th></tr>";
       for (index = 0; index < data["doses"].length; index++) {
         tableContent +=
@@ -34,7 +34,7 @@ function getDetails() {
           data["doses"][index]["date"] +
           "</td></tr>";
       }
-      output.innerHTML = tableContent;
+      result_table.innerHTML = tableContent;
 
       if (data["district"]) {
         district_element.value = data["district"];
@@ -103,8 +103,8 @@ function submitRecord() {
         for (let index = 0; index < list.length; index++) {
           list[index].value = "";
           list[index].removeAttribute("readonly");
-          console.log("set");
         }
+        result_table.innerHTML = "";
         document.getElementById("hide").style.display = 'none';
       }
     }

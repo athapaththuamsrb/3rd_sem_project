@@ -26,12 +26,16 @@ function donate() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        alert(data["success"] === true ? "Success" : "Failed!");
-        if (data["success"]) {
+        let success = data['success'];
+        let email = data['email'];
+        if (success) {
+          alert('Donation completed.\n' + (email ? 'Email is sent' : 'But email is not sent. You have to inform the relevent centre admin'));
           list = document.getElementsByTagName("input");
           for (let index = 0; index < list.length; index++) {
             list[index].value = "";
           }
+        } else {
+          alert('Error : Donation failed');
         }
       } catch (error) {
         alert("Error occured");

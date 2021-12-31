@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else { // GET
     session_start();
+    if (isset($_SESSION['user']) && $_SESSION['user']){ // The user is already logged in. Redirect to the relevent home page
+        session_write_close();
+        $type = $_SESSION['user']->getType();
+        header("Location: /$type/");
+        die();
+    }
 ?>
     <!DOCTYPE html>
     <html>

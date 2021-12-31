@@ -270,7 +270,8 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param('ssssi', $district, $place, $date, $type, $dose);
       $success = $stmt->execute();
-      return $success;
+      if (!$success) return false;
+      return ($stmt->affected_rows > 0);
     } catch (Exception $e) {
       return false;
     }
