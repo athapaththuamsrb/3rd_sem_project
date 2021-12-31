@@ -42,7 +42,7 @@
 
 <body>
     <div class="cover">
-        <h1>Vacination Certifiicate</h1>
+        <h1>Vacination Certificate</h1>
         <div class="feild">
             <label for="inputID" class="form-label txt">Enter ID</label>
             <input type="text" class="form-control" id="inputID">

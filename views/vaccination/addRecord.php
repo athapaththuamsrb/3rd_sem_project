@@ -372,8 +372,15 @@
   </div>
   <script src="/scripts/common.js"></script>
   <script type="text/javascript">
+    const district_element = document.getElementById("district");
+    const address_element = document.getElementById("address");
+    const id_element = document.getElementById("id");
+    const name_element = document.getElementById("name");
+    const contact_element = document.getElementById("ContactNo");
+    const email_element = document.getElementById("email");
+  
     function submit1() {
-      let id = document.getElementById("id").value;
+      let id = id_element.value;
 
       var xhr = new XMLHttpRequest();
       xhr.open("POST", document.URL, true);
@@ -403,33 +410,27 @@
           }
           output.innerHTML = tableContent;
 
-          if (data["id"]) {
-            document.getElementById("id2").value = data["id"];
-            document.getElementById("id2").setAttribute("readonly", true);
-          }
           if (data["district"]) {
-            document.getElementById("district").value = data["district"];
-            document
-              .getElementById("district")
-              .setAttribute("disabled", true);
+            district_element.value = data["district"];
+            district_element.setAttribute("disabled", true);
+          }else{
+
           }
           if (data["name"]) {
-            document.getElementById("name").value = data["name"];
-            document.getElementById("name").setAttribute("readonly", true);
+            name_element.value = data["name"];
+            name_element.setAttribute("readonly", true);
           }
           if (data["address"]) {
-            document.getElementById("address").value = data["address"];
-            document.getElementById("address").setAttribute("readonly", true);
+            address_element.value = data["address"];
+            address_element.setAttribute("readonly", true);
           }
           if (data["contact"]) {
-            document.getElementById("ContactNo").value = data["contact"];
-            document
-              .getElementById("ContactNo")
-              .setAttribute("readonly", true);
+            contact_element.value = data["contact"];
+            contact_element.setAttribute("readonly", true);
           }
           if (data["email"]) {
-            document.getElementById("email").value = data["email"];
-            document.getElementById("email").setAttribute("readonly", true);
+            email_element.value = data["email"];
+            email_element.setAttribute("readonly", true);
           }
         }
       };
@@ -440,15 +441,15 @@
         alert("You must select the vaccine type");
         return false;
       }
-      let id = document.getElementById("id").value;
-      let name = document.getElementById("name").value;
-      let district = document.getElementById("district").value;
+      let id = id_element.value;
+      let name = name_element.value;
+      let district = district_element.value;
       let vaccineType = document.querySelector(
         'input[name="type"]:checked'
       ).value;
-      let address = document.getElementById("address").value;
-      let email = document.getElementById("email").value;
-      let contact = document.getElementById("ContactNo").value;
+      let address = address_element.value;
+      let email = email_element.value;
+      let contact = contact_element.value;
 
       let xhrBuilder = new XHRBuilder();
       xhrBuilder.addField('id', id);
@@ -466,21 +467,6 @@
         "application/x-www-form-urlencoded"
       );
       xhr.send(xhrBuilder.build());
-      /*        "id=" +
-              encodeURIComponent(id) +
-              "&district=" +
-              encodeURIComponent(district) +
-              "&name=" +
-              encodeURIComponent(name) +
-              "&type=" +
-              encodeURIComponent(vaccineType) +
-              "&address=" +
-              encodeURIComponent(address) +
-              "&email=" +
-              encodeURIComponent(email) +
-              "&contact=" +
-              encodeURIComponent(contact)
-            );*/
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           let data = JSON.parse(xhr.responseText);
@@ -490,7 +476,8 @@
             list = document.getElementsByTagName("input");
             for (let index = 0; index < list.length; index++) {
               list[index].value = "";
-              list[index].setAttribute("readonly", false);
+              list[index].removeAttribute("readonly");
+              console.log("set");
             }
             document.getElementById("hide").style.display = 'none';
           }
