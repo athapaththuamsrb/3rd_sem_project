@@ -273,7 +273,6 @@
       <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">
         Submit
       </button>
-      <p id="other"><a href="./">Do you need to go back?</a></p>
     </form>
   </div>
   <div class="item4">

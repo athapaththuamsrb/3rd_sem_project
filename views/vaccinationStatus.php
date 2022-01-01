@@ -13,6 +13,8 @@
   <title>Document</title>
   <style>
     table {
+      background-color: black;
+      color: white;
       font-family: arial, sans-serif;
       border-collapse: collapse;
       width: 100%;
@@ -24,10 +26,10 @@
       text-align: left;
       padding: 8px;
     }
-
+/* 
     tr:nth-child(even) {
       background-color: #dddddd;
-    }
+    } */
 
     body,
     html {
@@ -134,9 +136,9 @@
       <button type="button" class="btn btn-primary" onclick="getStatus()">Submit</button>
     </form>
     <br>
+    <div id="results" class="item4"></div>
   </div>
 
-  <div id="results" class="item4"></div>
 
 
   <script type="text/javascript" src="/scripts/common.js"></script>

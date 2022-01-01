@@ -1,5 +1,16 @@
+function getDateStr() {
+  let d = new Date();
+  let month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
+
+  return [year, month, day].join('-');
+}
 let resultTable = document.getElementById("resultTable");
-document.getElementById('date').valueAsDate = new Date();
+document.getElementById('date').value = getDateStr();
 
 function getAvailability() {
   let district = document.getElementById("district").value;
@@ -9,7 +20,7 @@ function getAvailability() {
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('district', district);
