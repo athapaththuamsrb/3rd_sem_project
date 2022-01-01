@@ -24,7 +24,7 @@
 
         #createAccountBtn {
             padding: 20px 30px;
-            font-size: 25px;
+            font-size: 20pt;
             font-weight: 500;
         }
 
@@ -35,28 +35,30 @@
             color: white;
         }
 
-        .mask {
-            height: 100vh;
+        body {
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Admin</a>
-                <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
-            </div>
-        </nav>
+<body>
 
-        <div class="d-flex justify-content-center" id="title">
-            Admin Dashboard
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin</a>
+            <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
-        <div class="d-flex justify-content-center" id="actions">
-            <a href="/admin/createAccount.php"><button type="button" class="btn btn-primary" id="createAccountBtn">Create account</button></a>
-        </div>
-    </body>
-</div>
+    </nav>
+    <!-- <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);"> -->
+
+    <div class="d-flex justify-content-center" id="title">
+        Admin Dashboard
+    </div>
+    <div class="d-flex justify-content-center" id="actions">
+        <a href="/admin/createAccount.php"><button type="button" class="btn btn-primary" id="createAccountBtn">Create account</button></a>
+    </div>
+    <!-- </div> -->
+</body>
 
 </html>

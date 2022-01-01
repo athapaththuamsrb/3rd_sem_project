@@ -37,7 +37,8 @@
         }
 
         .mask {
-            height: 100vh;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         .btn {
@@ -45,29 +46,30 @@
         }
     </style>
 </head>
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Vaccination Center</a>
-                <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
+<body>
 
-            </div>
-        </nav>
 
-        <div class="d-flex justify-content-center" id="title">
-            Vaccination Center Dashboard
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Vaccination Center</a>
+            <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
+
         </div>
-        <div class="justify-content-center d-grid gap-5 col-6 mx-auto" id="actions">
-            <a href="/vaccination/addRecord.php"><button type="button" class="btn btn-primary">Add Record</button></a>
-            <a href="/vaccination/addStock.php"><button type="button" class="btn btn-primary">Add Stock</button></a>
-            <a href="/vaccination/requestVaccines.php"><button type="button" class="btn btn-primary">Request Vaccines</button></a>
-            <a href="/vaccination/updateStock.php"><button type="button" class="btn btn-primary">Update stock</button></a>
-        </div>
+    </nav>
+
+    <div class="d-flex justify-content-center" id="title">
+        Vaccination Center Dashboard
+    </div>
+    <div class="justify-content-center d-grid gap-5 col-6 mx-auto" id="actions">
+        <a href="/vaccination/addRecord.php"><button type="button" class="btn btn-primary">Add Record</button></a>
+        <a href="/vaccination/addStock.php"><button type="button" class="btn btn-primary">Add Stock</button></a>
+        <a href="/vaccination/requestVaccines.php"><button type="button" class="btn btn-primary">Request Vaccines</button></a>
+        <a href="/vaccination/updateStock.php"><button type="button" class="btn btn-primary">Update stock</button></a>
+    </div>
 
 
-    </body>
-</div>
+</body>
+
 
 </html>

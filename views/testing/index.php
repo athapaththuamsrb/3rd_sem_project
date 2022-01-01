@@ -37,7 +37,7 @@
         }
 
         .mask {
-            height: 100vh;
+            height: auto;
         }
 
         .btn {
