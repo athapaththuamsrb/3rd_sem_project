@@ -27,7 +27,6 @@ function nextPrev(n) {
 
   //location input only for vaccine accounts
   if (n == 1) {
-    // console.log(document.getElementById("Vaccination_center").checked);
     if (document.getElementById("Administrator").checked) {
       document.getElementById("address").classList.add("hide");
     } else {
@@ -42,16 +41,9 @@ function nextPrev(n) {
   // Hide the current tab:
   x[currentTab].style.display = "none";
   // Increase or decrease the current tab by 1:
-  //console.log(currentTab);
-  if (
-    currentTab == 0 &&
-    document.getElementById("Administrator").checked
-  ) {
+  if (currentTab == 0 && document.getElementById("Administrator").checked) {
     currentTab = currentTab + 2 * n;
-  } else if (
-    currentTab == 2 &&
-    document.getElementById("Administrator").checked
-  ) {
+  } else if (currentTab == 2 && document.getElementById("Administrator").checked) {
     if (n == 1) currentTab = currentTab + n;
     else currentTab = currentTab + 2 * n;
   } else {
@@ -61,16 +53,9 @@ function nextPrev(n) {
   if (currentTab >= x.length) {
     // ... the form gets submitted:
     let pass = document.getElementById("password").value;
-    //
-    // console.log("came1");
-    if (
-      /^[\x21-\x7E]{8,15}$/.test(pass) &&
-      pass === document.getElementById("conPassword").value.trim()
-    ) {
-      // console.log("came2");
-      document.getElementById("regForm").submit();
+    if (/^[\x21-\x7E]{8,15}$/.test(pass) && pass === document.getElementById("conPassword").value.trim()) {
+      submitForm(); // TODO : remove this comment document.getElementById("regForm").submit();
     } else {
-      // console.log("came3");
       alert("check your password again");
       currentTab = currentTab - n;
       x[currentTab].style.display = "block";
@@ -83,11 +68,7 @@ function nextPrev(n) {
 
 function validateForm() {
   // This function deals with validation of the form fields
-  //console.log(document.getElementById("Vaccination_center").checked);
-  var x,
-    y,
-    i,
-    valid = true;
+  var x, y, i, valid = true;
   x = document.getElementsByClassName("tab");
   y = x[currentTab].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
@@ -105,19 +86,62 @@ function validateForm() {
   }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
-    document.getElementsByClassName("step")[currentTab].className +=
-      " finish";
+    document.getElementsByClassName("step")[currentTab].className += " finish";
   }
   return valid; // return the valid status
 }
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
-  var i,
-    x = document.getElementsByClassName("step");
+  var i, x = document.getElementsByClassName("step");
   for (i = 0; i < x.length; i++) {
     x[i].className = x[i].className.replace(" active", "");
   }
   //... and adds the "active" class on the current step:
   x[n].className += " active";
+}
+
+function submitForm() {
+  let type = document.querySelector('input[name="type"]:checked').value;
+  let district = document.getElementById("districts").value;
+  let place = document.getElementById("place").value;
+  let email = document.getElementById("email").value;
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  let xhrBuilder = new XHRBuilder();
+  xhrBuilder.addField('type', type);
+  xhrBuilder.addField('district', district);
+  xhrBuilder.addField('place', place);
+  xhrBuilder.addField('email', email);
+  xhrBuilder.addField('username', username);
+  xhrBuilder.addField('password', password);
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", document.URL, true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send(xhrBuilder.build());
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+      try {
+        let data = JSON.parse(xhr.responseText);
+        if (data['success']) {
+          document.getElementById("password").value = '';
+          document.getElementById("conPassword").value = '';
+          alert("Success");
+          window.location.replace('/admin/');
+        } else {
+          alert("Failed!");
+          var i, x = document.getElementsByClassName("step");
+          for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" finish", "").replace(" active", "");
+          }
+          currentTab = 0
+          showTab(currentTab);
+        }
+      } catch (error) {
+        alert("Error occured");
+      }
+    }
+  };
 }

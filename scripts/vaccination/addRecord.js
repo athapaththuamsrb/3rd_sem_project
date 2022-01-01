@@ -10,11 +10,8 @@ function getDetails() {
   let id = id_element.value;
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader(
-    "Content-Type",
-    "application/x-www-form-urlencoded"
-  );
+  xhr.open('POST', document.URL, true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('id', id);
@@ -27,13 +24,7 @@ function getDetails() {
         if (!data) return;
         var tableContent = "<tr><th>Type</th><th>Date</th></tr>";
         for (index = 0; index < data["doses"].length; index++) {
-          tableContent +=
-            "<tr><td>" +
-            data["doses"][index]["type"] +
-            "</td>" +
-            "<td>" +
-            data["doses"][index]["date"] +
-            "</td></tr>";
+          tableContent += '<tr><td>' + data['doses'][index]['type'] + '</td><td>' + data["doses"][index]["date"] + "</td></tr>";
         }
         result_table.innerHTML = tableContent;
 
@@ -74,9 +65,7 @@ function submitRecord() {
   let id = id_element.value;
   let name = name_element.value;
   let district = district_element.value;
-  let vaccineType = document.querySelector(
-    'input[name="type"]:checked'
-  ).value;
+  let vaccineType = document.querySelector('input[name="type"]:checked').value;
   let address = address_element.value;
   let email = email_element.value;
   let contact = contact_element.value;
@@ -92,10 +81,7 @@ function submitRecord() {
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader(
-    "Content-Type",
-    "application/x-www-form-urlencoded"
-  );
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {

@@ -32,7 +32,7 @@
     body {
       /* background-image: url("/image/Corona-Header.jpg"); */
       /* background-color: blue; */
-      height: 60vh;
+      height: 100%;
       padding: 0;
       margin: 0;
 

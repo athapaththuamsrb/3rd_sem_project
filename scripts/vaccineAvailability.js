@@ -9,10 +9,7 @@ function getAvailability() {
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader(
-    "Content-Type",
-    "application/x-www-form-urlencoded"
-  );
+  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('district', district);
@@ -37,32 +34,6 @@ function getAvailability() {
     }
   };
   return;
-  let data = [{
-    place: 'General Hosp. Kalutara',
-    Pfizer: 30,
-    Sinopharm: 40
-  },
-  {
-    place: 'Base Hosp. Horana',
-    Aztraseneca: 70,
-    Sinopharm: 40,
-    Moderna: 50
-  },
-  {
-    place: 'MOHGampaha',
-    Pfizer: 60,
-    Moderna: 100
-  }
-  ]
-
-  let output = document.getElementById("resultTable");
-  var tableContent = "<tr><th>Place</th><th></th></tr>"
-  for (index = 0; index < data.length; index++) {
-    var place = data[index]["place"]
-    tableContent += "<tr><td>" + data[index]["place"] + "</td>" +
-      "<td>" + '<input type="button" value="Show" onclick="submit2()">' + "</td></tr>";
-  }
-  output.innerHTML = tableContent;
 }
 
 function submit2() {

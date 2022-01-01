@@ -165,7 +165,7 @@
         <div>
           Location:
           <p>
-            <input placeholder="location" oninput="this.className = ''" name="place" />
+            <input id="place" placeholder="location" oninput="this.className = ''" name="place" />
           </p>
         </div>
       </div>
@@ -182,7 +182,7 @@
       <div>
         User Name:
         <p>
-          <input placeholder="User Name" oninput="this.className = ''" name="username" />
+          <input id="username" placeholder="User Name" oninput="this.className = ''" name="username" />
         </p>
       </div>
     </div>
@@ -190,7 +190,7 @@
     <div class="tab">
       password:
       <p>
-        <input placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" />
+        <input id="password" placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" />
       </p>
       <p>
         <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" />
@@ -214,6 +214,7 @@
     </div>
   </form>
 
+  <script type="text/javascript" src="/scripts/common.js"></script>
   <script type="text/javascript" src="/scripts/admin/createAccount.js"></script>
 </body>
 

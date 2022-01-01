@@ -14,17 +14,16 @@ function getStatus() {
       try {
         let data = JSON.parse(xhr.responseText);
         if (data != null && Array.isArray(data) && data.length > 0) {
-          var tableContent = "<table><tr><th>Type</th><th>Date</th></tr>"
+          var tableContent = "<table><tr><th>Type</th><th>Date</th></tr>";
           for (index = 0; index < data.length; index++) {
-            tableContent += "<tr><td>" + data[index]["type"] + "</td>" +
-              "<td>" + data[index]["date"] + "</td></tr>";
+            tableContent += "<tr><td>" + data[index]["type"] + "</td><td>" + data[index]["date"] + "</td></tr>";
           }
-          tableContent += "</table>"
+          tableContent += "</table>";
           output.innerHTML = tableContent;
         } else if (data.length == 0) {
           output.innerHTML = '<h2>Not vaccinated</h2>';
         } else {
-          output.innerHTML = '<h2>Error occured!</h2><p>Couldn\'t load vaccination status.</p>'
+          output.innerHTML = '<h2>Error occured!</h2><p>Couldn\'t load vaccination status.</p>';
         }
       } catch (error) {
         alert("Error occured");

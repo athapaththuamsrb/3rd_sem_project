@@ -69,8 +69,9 @@ class DatabaseConn
       try {
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param('ssssss', $uname, $hashed, $type, $place, $district, $email);
-        $stmt->execute();
-        return $stmt->close();
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
       } catch (Exception $e) {
         return false;
       }

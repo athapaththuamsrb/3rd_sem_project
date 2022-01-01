@@ -14,9 +14,7 @@ function getCert() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       let cont_type = xhr.getResponseHeader('Content-Type');
       if (cont_type === 'application/pdf') {
-        var blob = new Blob([this.response], {
-          type: 'application/pdf'
-        });
+        var blob = new Blob([this.response], { type: 'application/pdf' });
         let a = document.createElement("a");
         a.style = "display: none";
         a.target = '_blank';
@@ -28,9 +26,7 @@ function getCert() {
         window.URL.revokeObjectURL(url);
       } else {
         try {
-          var blob = new Blob([this.response], {
-            type: 'application/json'
-          });
+          var blob = new Blob([this.response], { type: 'application/json' });
           const jsonData = await (new Response(blob)).text();
           let data = JSON.parse(jsonData);
           doses = data['doses'];

@@ -11,28 +11,30 @@ function getCentres() {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  //xhr.send("district=" + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id));
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
-      let data = JSON.parse(xhr.responseText);
-      var content = "";
-      var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
-      data.forEach(centre => {
-        content += "<li>" + centre["place"] + "<ol>";
-        for (i = 0; i < possibleVaccines.length; i++) {
-          if (centre[possibleVaccines[i]] != undefined) {
-            let vaccine_name = possibleVaccines[i];
-            let availability = centre[possibleVaccines[i]]['appointments'];
-            var text = centre["place"] + "?" + [vaccine_name];
-            var editText = text.replace(/ /g, "@");
-            content += "<li>" + [vaccine_name] + ":" + availability +
-              '<input type = "radio"  name ="appoinment" value =' + editText + ' /> ' + '</li>';
+      try {
+        let data = JSON.parse(xhr.responseText);
+        var content = "";
+        var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
+        data.forEach(centre => {
+          content += "<li>" + centre["place"] + "<ol>";
+          for (i = 0; i < possibleVaccines.length; i++) {
+            if (centre[possibleVaccines[i]] != undefined) {
+              let vaccine_name = possibleVaccines[i];
+              let availability = centre[possibleVaccines[i]]['appointments'];
+              var text = centre["place"] + "?" + [vaccine_name];
+              var editText = text.replace(/ /g, "@");
+              content += "<li>" + [vaccine_name] + ":" + availability + '<input type = "radio"  name ="appoinment" value =' + editText + ' /> ' + '</li>';
+            }
           }
-        }
-        content += "</ol></li>"
-      });
-      output.innerHTML = content;
+          content += "</ol></li>";
+        });
+        output.innerHTML = content;
+      } catch (error) {
+        alert("Error occured");
+      }
     }
   }
 }
@@ -48,8 +50,8 @@ function submitRequest() {
   let email = document.getElementById("email").value;
   let contact = document.getElementById("contact").value;
 
-  let vaccineCenter = text[0]
-  let vaccineType = text[1]
+  let vaccineCenter = text[0];
+  let vaccineType = text[1];
 
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('district', district);
@@ -64,24 +66,27 @@ function submitRequest() {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  //let msg = 'district=' + encodeURIComponent(district) + '&date=' + encodeURIComponent(date) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&contact=' + encodeURIComponent(contact) + '&vaccineCenter=' + encodeURIComponent(vaccineCenter) + '&vaccineType=' + encodeURIComponent(vaccineType);
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
-      let data = JSON.parse(xhr.responseText);
-      if (data['status']) {
-        document.getElementById("mHeader").style.background = "green";
-        document.getElementById("mFooter").style.background = "green";
-        document.getElementById("mBody").innerHTML = "<p>Appointment Success!</p>";
-        document.getElementById("mFooter").innerHTML = "<h3>Thank you!</h3>";
-        modal.style.display = "block";
-      } else {
-        // alert('appointment failed');
-        document.getElementById("mHeader").style.background = "red";
-        document.getElementById("mFooter").style.background = "red";
-        document.getElementById("mBody").innerHTML = "<p>Appointment Failed.</p>";
-        document.getElementById("mFooter").innerHTML = "<h3>Try Again!</h3>";
-        modal.style.display = "block";
+      try {
+        let data = JSON.parse(xhr.responseText);
+        if (data['status']) {
+          document.getElementById("mHeader").style.background = "green";
+          document.getElementById("mFooter").style.background = "green";
+          document.getElementById("mBody").innerHTML = "<p>Appointment Success!</p>";
+          document.getElementById("mFooter").innerHTML = "<h3>Thank you!</h3>";
+          modal.style.display = "block";
+        } else {
+          // alert('appointment failed');
+          document.getElementById("mHeader").style.background = "red";
+          document.getElementById("mFooter").style.background = "red";
+          document.getElementById("mBody").innerHTML = "<p>Appointment Failed.</p>";
+          document.getElementById("mFooter").innerHTML = "<h3>Try Again!</h3>";
+          modal.style.display = "block";
+        }
+      } catch (error) {
+        alert("Error occured");
       }
     }
   }
