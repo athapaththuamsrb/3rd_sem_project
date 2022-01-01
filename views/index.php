@@ -47,7 +47,7 @@
 		}
 
 		.mask {
-			height: 120vh;
+			height: auto;
 		}
 
 		.dropbtn {

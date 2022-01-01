@@ -92,12 +92,13 @@
 
         body,
         html {
-            margin-top: 10px;
             background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             font-family: sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         html {
@@ -107,7 +108,7 @@
 
         .cover {
             background-color: rgb(0, 0, 0, 0.8);
-            width: 50%;
+            width: 60%;
             margin: auto;
             border-radius: 10%;
             color: white;
@@ -139,114 +140,116 @@
             font-size: large;
         }
 
-        .row {
-            padding: 30px;
-        }
-
         h1 {
             text-align: center;
             padding: 5%;
+        }
+
+        h2 {
+            color: white;
+            padding: 0.5%;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            padding: 10pt;
+        }
+
+        .grid-item {
+            padding: 2%;
+            font-size: 15pt;
+            text-align: center;
+        }
+
+        input,
+        #districts {
+            width: 60%;
+        }
+
+        label {
+            float: left;
+        }
+
+        button {
+            width: 60%;
+            position: relative;
+            left: 20%;
         }
     </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <h2>Public works</h2>
+    </nav>
+    <br>
     <div class="cover">
         <form>
             <h1>Vaccine Appointment</h1>
-            <div class="container">
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><label for="districts">Districts:</label>
-                        <select name="districts" id="districts">
-                            <option value="Colombo">Colombo</option>
-                            <option value="Kalutara">Kalutara</option>
-                            <option value="Gampaha">Gampaha</option>
-                            <option value="Puttalam">Puttalam</option>
-                            <option value="Kurunegala">Kurunegala</option>
-                            <option value="Anuradhapura">Anuradhapura</option>
-                            <option value="Polonnaruwa">Polonnaruwa</option>
-                            <option value="Matale">Matale</option>
-                            <option value="Nuwara Eliya">Nuwara Eliya</option>
-                            <option value="Kegalle">Kegalle</option>
-                            <option value="Ratnapura">Ratnapura</option>
-                            <option value="Trincomalee">Trincomalee</option>
-                            <option value="Batticaloa">Batticaloa</option>
-                            <option value="Ampara">Ampara</option>
-                            <option value="Badulla">Badulla</option>
-                            <option value="Monaragala">Monaragala</option>
-                            <option value="Hambantota">Hambantota</option>
-                            <option value="Matara">Matara</option>
-                            <option value="Galle">Galle</option>
-                            <option value="Jaffna">Jaffna</option>
-                            <option value="Kilinochchi">Kilinochchi</option>
-                            <option value="Mannar">Mannar</option>
-                            <option value="Mullaitivu">Mullaitivu</option>
-                            <option value="Vavuniya">Vavuniya</option>
-                            <option value="Kandy">Kandy</option>
-                        </select><br>
-                    </div>
-                    <div class="col-3"></div>
+            <br>
+            <div class="grid-container">
+                <div class="grid-item"><label for="districts">Districts:</label></div>
+                <div class="grid-item">
+                    <select name="districts" id="districts">
+                        <option value="Colombo">Colombo</option>
+                        <option value="Kalutara">Kalutara</option>
+                        <option value="Gampaha">Gampaha</option>
+                        <option value="Puttalam">Puttalam</option>
+                        <option value="Kurunegala">Kurunegala</option>
+                        <option value="Anuradhapura">Anuradhapura</option>
+                        <option value="Polonnaruwa">Polonnaruwa</option>
+                        <option value="Matale">Matale</option>
+                        <option value="Nuwara Eliya">Nuwara Eliya</option>
+                        <option value="Kegalle">Kegalle</option>
+                        <option value="Ratnapura">Ratnapura</option>
+                        <option value="Trincomalee">Trincomalee</option>
+                        <option value="Batticaloa">Batticaloa</option>
+                        <option value="Ampara">Ampara</option>
+                        <option value="Badulla">Badulla</option>
+                        <option value="Monaragala">Monaragala</option>
+                        <option value="Hambantota">Hambantota</option>
+                        <option value="Matara">Matara</option>
+                        <option value="Galle">Galle</option>
+                        <option value="Jaffna">Jaffna</option>
+                        <option value="Kilinochchi">Kilinochchi</option>
+                        <option value="Mannar">Mannar</option>
+                        <option value="Mullaitivu">Mullaitivu</option>
+                        <option value="Vavuniya">Vavuniya</option>
+                        <option value="Kandy">Kandy</option>
+                    </select>
+                    <br>
+                </div>
+                <div class="grid-item"><label for="date">Date:</label></div>
+                <div class="grid-item"><input type="date" id="date" name="date"></div>
 
-                </div>
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><label for="date">Date:</label>
-                        <input type="date" id="date" name="date">
-                    </div>
-                    <div class="col-3"></div>
-                </div>
 
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-3"><label for="id">ID:</label>
-                        <input type="text" id="id" name="id">
-                    </div>
-                    <div class="col-3"></div>
-                </div>
+                <div class="grid-item"><label for="id">ID:</label></div>
+                <div class="grid-item"><input type="text" id="id" name="id"></div>
 
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><input type="button" class="btn btn-success" value="Submit" onclick="getCentres()">
-                        <br>
-                    </div>
-                    <div class="col-3"></div>
-                </div>
             </div>
-            <ul id="centers">
+            <button class="btn btn-success" value="Submit" onclick="getCentres()">submit</button>
+            <br>
 
-            </ul>
-            <div class="container">
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><label for="name">Name:</label>
-                        <input type="text" id="name" name="name">
-                    </div>
-                    <div class="col-3"></div>
-                </div>
+            <ul id="centers"></ul>
 
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><label for="email">Email:</label>
-                        <input type="text" id="email" name="email">
-                    </div>
-                    <div class="col-3"></div>
-                </div>
+            <div class="grid-container">
 
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"><label for="contact">Contact:</label>
-                        <input type="text" id="contact" name="contact">
-                    </div>
-                    <div class="col-3"></div>
-                </div>
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6"> <input type="button" class="btn btn-success" value="Submit" onclick="submitRequest()"></div>
-                    <div class="col-3"></div>
-                </div>
+                <div class="grid-item"><label for="name">Name:</label></div>
+                <div class="grid-item"><input type="text" id="name" name="name"></div>
+
+                <div class="grid-item"><label for="email">Email:</label></div>
+                <div class="grid-item"><input type="text" id="email" name="email"></div>
+
+
+
+                <div class="grid-item"><label for="contact">Contact:</label></div>
+                <div class="grid-item"><input type="text" id="contact" name="contact"></div>
             </div>
+
+            <button class="btn btn-success" onclick="submitRequest()">Submit</button>
         </form>
+        <br>
     </div>
     <!-- Trigger/Open The Modal -->
     <!-- <button id="myBtn">Open Modal</button> -->

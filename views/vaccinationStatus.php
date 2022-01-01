@@ -29,26 +29,23 @@
       background-color: #dddddd;
     }
 
-    body {
-      /* background-image: url("/image/Corona-Header.jpg"); */
-      /* background-color: blue; */
-      height: 60vh;
-      padding: 0;
-      margin: 0;
-
-      background-position: right;
+    body,
+    html {
+      background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
+      background-position: center;
       background-repeat: no-repeat;
-      background-size: 900px;
-      z-index: -1;
-      overflow: hidden;
+      background-size: cover;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
-    .item2>div {
+    #div1 {
       font-size: 300%;
       font-family: "Oswald", sans-serif;
       color: brown;
       font-weight: bold;
-      position: relative;
+      text-align: center;
     }
 
     .txt {
@@ -64,55 +61,86 @@
     }
 
     .item4 {
-      /* height: 300px; */
       width: 300px;
       margin: auto;
       margin-top: 60px;
 
     }
+
+    .cover {
+      background-color: rgb(0, 0, 0, 0.8);
+      width: 60%;
+      margin: auto;
+      border-radius: 10%;
+      color: white;
+      padding: 2%;
+    }
+
+    h2 {
+      color: white;
+      padding: 0.5%;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 10px;
+    }
+
+    .grid-item {
+      font-size: 15pt;
+      text-align: center;
+    }
+
+    input {
+      width: 60%;
+    }
+
+    label {
+      float: left;
+      padding-left: 2%;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    button {
+      width: 40%;
+      position: relative;
+      left: 30%;
+      padding: 4%;
+    }
   </style>
 </head>
 
 <body>
-  <div class="grid-contener">
-    <div class="item1">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="item2 d-flex justify-content-center">
-      <div id="div1">View Vaccination Status</div>
-    </div>
+  <nav class="navbar navbar-dark bg-dark">
+    <h2>Public works</h2>
+  </nav>
+  <br>
 
-    <div class="item3 d-flex justify-content-center">
-      <form>
-        <div class="row g-3 align-items-center">
-          <div class="col-auto">
-            <label for="inputID" class="form-label txt">Enter ID</label>
-          </div>
-          <div class="col-auto">
-            <input type="text" class="form-control" id="inputID" aria-describedby="emailHelp">
-          </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-primary" onclick="getStatus()">Submit</button>
-          </div>
-        </div>
 
-      </form>
-    </div>
-    <div id="results" class="item4">
-    </div>
+
+  <div class="cover">
+    <h1>View Vaccination Status</h1>
+    <br>
+    <form>
+      <div class="grid-contener">
+        <div class="grid-item"><label for="inputID">Enter ID:</label></div>
+        <div class="grid-item"><input type="text" id="inputID"></div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-primary" onclick="getStatus()">Submit</button>
+    </form>
+    <br>
   </div>
+
+  <div id="results" class="item4"></div>
+
 
   <script type="text/javascript" src="/scripts/common.js"></script>
   <script type="text/javascript" src="/scripts/vaccinationStatus.js"></script>
 </body>
+
 </html>

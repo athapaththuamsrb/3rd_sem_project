@@ -32,12 +32,13 @@
 
     body,
     html {
-      margin-top: 10px;
-      background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
+      margin: 0;
+      padding: 0;
+      /* background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      font-family: sans-serif;
+      font-family: sans-serif; */
     }
 
     html {
@@ -51,6 +52,18 @@
       margin: auto;
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
+    }
+
+    .cover:hover {
+      border: 4px solid black;
+    }
+
+    button:hover {
+      -ms-transform: scale(1.2);
+      /* IE 9 */
+      -webkit-transform: scale(1.2);
+      /* Safari 3-8 */
+      transform: scale(1.2);
     }
 
     #other {
@@ -119,7 +132,7 @@
 
     .topic {
       width: 800px;
-      background-color: rgb(0, 0, 0, 0.8);
+      /* background-color: rgb(0, 0, 0, 0.8); */
       margin: auto;
       color: white;
       padding: 10px 0px 10px 0px;
@@ -149,48 +162,6 @@
       border: 2px solid black;
     }
 
-    #name,
-    #id,
-    #district,
-    #address,
-    #email,
-    #ContactNo,
-    #type {
-      position: relative;
-      line-height: 40px;
-      border-radius: 6px;
-      padding: 0 37px;
-      font-size: 16px;
-    }
-
-    #name {
-      left: 29%;
-    }
-
-    #id {
-      left: 32%;
-    }
-
-    #district {
-      left: 25%;
-      height: 40%;
-    }
-
-    #address {
-      left: 15%;
-    }
-
-    #email {
-      left: 18%;
-    }
-
-    #ContactNo {
-      left: 16%;
-    }
-
-    #type {
-      left: 50%;
-    }
 
     #invalid {
       width: 72%;
@@ -241,28 +212,67 @@
     #hide {
       display: none;
     }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 10%;
+    }
+
+    .grid-item {
+      font-size: 15pt;
+      text-align: center;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 60%;
+    }
+
+    label {
+      float: left;
+      padding-left: 1%;
+      width: 40%;
+      text-align: left;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    button {
+      width: 40%;
+      position: relative;
+      left: 30%;
+      padding: 4%;
+    }
   </style>
 </head>
 
 <body>
-  <br /><br /><br />
-  <div class="topic">
-    <h1>Add data for Vaccination</h1>
-  </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Vaccination Center</a>
+    </div>
+  </nav>
+  <br><br>
   <div class="cover">
+    <div class="topic">
+      <h1>Add data for Vaccination</h1>
+    </div>
+
     <form id="application" method="post">
-      <div id="field">
-        <br />
-        <label for="id">
-          <h2 class="field">ID</h2>
-        </label>
-        <input placeholder="ID" type="text" id="id" name="id" required />
+      <div class="grid-contener">
+        <div class="grid-item"><label for="id">
+            <h2 class="field">ID:</h2>
+          </label></div>
+        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" required /></div>
       </div>
-      <div class="buttons">
-        <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">
-          Submit
-        </button>
-      </div>
+      <br>
+      <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">
+        Submit
+      </button>
       <p id="other"><a href="./">Do you need to go back?</a></p>
     </form>
   </div>
@@ -270,98 +280,115 @@
     <table id="resultTable"></table>
   </div>
   <!-- second form -->
-  <div id="hide">
-    <div class="topic">
-      <h1>Add vaccine record</h1>
-    </div>
-    <div class="cover">
+  <div class="cover">
+    <div id="hide">
+      <div class="topic">
+        <h1>Add vaccine record</h1>
+      </div>
+
       <form id="application" method="post">
-        <div id="field">
-          <br />
-          <label for="district">
-            <h2 class="field">District:</h2>
-          </label>
-          <select name="district" id="district" oninput="this.className = ''">
-            <option value="Colombo">Colombo</option>
-            <option value="Gampaha">Gampaha</option>
-            <option value="Kalutara">Kalutara</option>
-            <option value="Galle">Galle</option>
-            <option value="Matara">Matara</option>
-            <option value="Hambantota">Hambantota</option>
-            <option value="Kandy">Kandy</option>
-            <option value="Matale">Matale</option>
-            <option value="Nuwara Eliya">Nuwara Eliya</option>
-            <option value="Anuradhapura">Anuradhapura</option>
-            <option value="Polonnaruwa">Polonnaruwa</option>
-            <option value="Puttalam">Puttalam</option>
-            <option value="Kurunegala">Kurunegala</option>
-            <option value="Kegalle">Kegalle</option>
-            <option value="Ratnapura">Ratnapura</option>
-            <option value="Trincomalee">Trincomalee</option>
-            <option value="Batticaloa">Batticaloa</option>
-            <option value="Ampara">Ampara</option>
-            <option value="Badulla">Badulla</option>
-            <option value="Monaragala">Monaragala</option>
-            <option value="Jaffna">Jaffna</option>
-            <option value="Kilinochchi">Kilinochchi</option>
-            <option value="Mannar">Mannar</option>
-            <option value="Mullaitivu">Mullaitivu</option>
-            <option value="Vavuniya">Vavuniya</option>
-          </select><br />
-        </div>
-        <div id="field">
-          <br />
-          <label for="name">
-            <h2 class="field">Name</h2>
-          </label>
-          <input placeholder="Name" type="text" id="name" name="name" value="" required />
-        </div>
-        <div id="field">
-          <label for="Address">
-            <h2 class="field">Resident Address</h2>
-          </label>
-          <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
-        </div>
-        <br /><br />
-        <div id="field">
-          <label for="email">
-            <h2 class="field">Email Address</h2>
-          </label>
-          <input placeholder="Email Address" type="email" id="email" name="email" value="" />
-        </div>
-        <div id="field">
-          <label for="ContactNo">
-            <h2 class="field">Contact Number</h2>
-          </label>
-          <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
-        </div>
-        <div class="textbox">
-          <label for="Type">
-            <h2 class="field">Vaccination Type</h2>
-          </label>
-          <br />
-          <div id="type">
-            <label for="Pfizer">Pfizer</label>&nbsp;&nbsp;
-            <input type="radio" name="type" id="Pfizer" value="Pfizer" />
-            <br />
-            <label for="Aztraseneca">AstraZeneca</label>&nbsp;&nbsp;
-            <input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" />
-            <br />
-            <label for="Sinopharm">Sinopharm</label>&nbsp;&nbsp;
-            <input type="radio" name="type" id="Sinopharm" value="Sinopharm" />
-            <br />
-            <label for="Moderna">Moderna</label>&nbsp;&nbsp;
-            <input type="radio" name="type" id="Moderna" value="Moderna" />
-            <br /><br />
+        <div class="grid-contener">
+          <div class="grid-item">
+            <label for="district">
+              <h2 class="field">District:</h2>
+            </label>
+          </div>
+          <div class="grid-item">
+            <select name="district" id="district" oninput="this.className = ''">
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kalutara">Kalutara</option>
+              <option value="Galle">Galle</option>
+              <option value="Matara">Matara</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Matale">Matale</option>
+              <option value="Nuwara Eliya">Nuwara Eliya</option>
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Polonnaruwa">Polonnaruwa</option>
+              <option value="Puttalam">Puttalam</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Kegalle">Kegalle</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+              <option value="Batticaloa">Batticaloa</option>
+              <option value="Ampara">Ampara</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Monaragala">Monaragala</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kilinochchi">Kilinochchi</option>
+              <option value="Mannar">Mannar</option>
+              <option value="Mullaitivu">Mullaitivu</option>
+              <option value="Vavuniya">Vavuniya</option>
+            </select>
+          </div>
+          <br>
+          <div class="grid-item">
+            <label for="name">
+              <h2 class="field">Name:</h2>
+            </label>
+          </div>
+          <div class="grid-item">
+            <input placeholder="Name" type="text" id="name" name="name" value="" required />
+          </div>
+          <br>
+          <div class="grid-item">
+            <label for="Address">
+              <h2 class="field">Resident Address:</h2>
+            </label>
+          </div>
+          <div class="grid-item">
+            <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
+          </div>
+          <br>
+          <div class="grid-item">
+            <label for="email">
+              <h2 class="field">Email Address:</h2>
+            </label>
+          </div>
+          <div class="grid-item">
+            <input placeholder="Email Address" type="email" id="email" name="email" value="" />
+          </div>
+          <br>
+          <div class="grid-item">
+            <label for="ContactNo">
+              <h2 class="field">Contact Number:</h2>
+            </label>
+          </div>
+          <div class="grid-item">
+            <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
+          </div>
+          <br>
+          <div class="grid-item">
+            <label for="Type">
+              <h2 class="field">Vaccination Type:</h2>
+            </label>
+          </div>
+          <div class="grid-item"></div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <div class="vac_type">
+            <div class="grid-item"><label for="Pfizer">Pfizer</label></div>
+            <div class="grid-item"><input type="radio" name="type" id="Pfizer" value="Pfizer" /></div>
+            <br>
+            <div class="grid-item"><label for="Aztraseneca">AstraZeneca</label></div>
+            <div class="grid-item"><input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" /></div>
+            <br>
+            <div class="grid-item"><label for="Sinopharm">Sinopharm</label></div>
+            <div class="grid-item"><input type="radio" name="type" id="Sinopharm" value="Sinopharm" /></div>
+            <br>
+            <div class="grid-item"><label for="Moderna">Moderna</label></div>
+            <div class="grid-item"><input type="radio" name="type" id="Moderna" value="Moderna" /></div>
           </div>
         </div>
-        <div id="field">
-          <div class="buttons">
-            <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">
-              Submit
-            </button>
-          </div>
-        </div>
+
+        <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">
+          Submit
+        </button>
+
       </form>
     </div>
   </div>

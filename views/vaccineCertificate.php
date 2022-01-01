@@ -13,12 +13,13 @@
 <style>
     body,
     html {
-        margin-top: 10px;
         background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         font-family: sans-serif;
+        padding: 0;
+        margin: 0;
     }
 
     .cover {
@@ -27,33 +28,65 @@
         margin: auto;
         border-radius: 10%;
         color: white;
-    }
-
-    .feild,
-    button {
         padding: 2%;
-        margin: 2%;
     }
 
     h1 {
         text-align: center;
     }
+
+    h2 {
+        color: white;
+        padding: 0.5%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding: 1%;
+    }
+
+    .grid-item {
+        font-size: 15pt;
+        text-align: center;
+        padding: 1%;
+    }
+
+    input {
+        width: 60%;
+    }
+
+    label {
+        float: left;
+        padding-left: 2%;
+    }
+
+    button {
+        width: 40%;
+        position: relative;
+        left: 30%;
+        padding: 5%;
+    }
 </style>
 
 <body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <h2>Public works</h2>
+    </nav>
+    <br>
     <div class="cover">
         <h1>Vacination Certificate</h1>
-        <div class="feild">
-            <label for="inputID" class="form-label txt">Enter ID</label>
-            <input type="text" class="form-control" id="inputID">
+        <div class="grid-container">
+            <div class="grid-item"><label for="inputID" class="form-label txt">Enter ID:</label></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputID"></div>
+
+            <div class="grid-item"><label for="inputToken" class="form-label txt">Enter Token:</label></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputToken"></div>
+            <br>
         </div>
+        <button type="button" class="btn btn-primary" onclick="getCert()">Download</button>
         <br>
-        <div class="feild">
-            <label for="inputToken" class="form-label txt">Enter Token</label>
-            <input type="text" class="form-control" id="inputToken">
-        </div>
-        <br>
-        <center><button type="button" class="btn btn-primary" onclick="getCert()">Download</button></center>
     </div>
     <script type="text/javascript" src="/scripts/common.js"></script>
     <script type="text/javascript" src="/scripts/vaccinationCertificate.js"></script>

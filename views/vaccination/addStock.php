@@ -24,53 +24,38 @@
 
     body,
     html {
-      margin-top: 10px;
-      background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
+      margin: 0;
+      padding: 0;
+      /* background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      font-family: sans-serif;
-    }
-
-    #date,
-    #type,
-    #dose,
-    #amount,
-    #onlineAmount {
-      position: relative;
-      line-height: 40px;
-      border-radius: 6px;
-      padding: 0 37px;
-      font-size: 16px;
-    }
-
-    #date {
-      left: 220px;
-    }
-
-    #dose {
-      left: 215px;
-    }
-
-    #amount {
-      left: 195px;
-    }
-
-    #onlineAmount {
-      left: 85px;
-    }
-
-    #type {
-      left: 160px;
+      font-family: sans-serif; */
     }
 
     .container {
       background-color: rgb(0, 0, 0, 0.8);
-      border-radius: 5%;
+      border-top-left-radius: 10%;
+      border-bottom-right-radius: 10%;
+      width: 60%;
+      padding: 2%;
     }
 
-    .btn {
-      width: 200px;
+    .container:hover {
+      border: 4px solid black;
+    }
+
+    input:hover,
+    select:hover {
+      border: 2px solid blue;
+    }
+
+    button:hover {
+      -ms-transform: scale(1.2);
+      /* IE 9 */
+      -webkit-transform: scale(1.2);
+      /* Safari 3-8 */
+      transform: scale(1.2);
     }
 
     .item4 {
@@ -96,13 +81,51 @@
     tr:nth-child(even) {
       background-color: #dddddd;
     }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 10px;
+    }
+
+    .grid-item {
+      font-size: 15pt;
+      text-align: center;
+      padding: 1%;
+    }
+
+    input,
+    select {
+      width: 60%;
+    }
+
+    label {
+      float: left;
+      padding-left: 2%;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    button {
+      width: 40%;
+      position: relative;
+      left: 30%;
+      padding: 5%;
+    }
   </style>
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Vaccination Center</a>
+    </div>
+  </nav>
+  <br><br>
   <form>
     <div class="container">
-      <br /><br />
       <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
@@ -110,19 +133,13 @@
         </div>
         <div class="col-4"></div>
       </div>
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <label for="date">Date:</label>
-          <input type="date" id="date" name="date" value="" /><br />
-        </div>
-        <div class="col-3"></div>
-      </div>
-      <br /><br />
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <label for="type">Vaccine Type:</label>
+      <div class="grid-container">
+
+        <div class="grid-item"><label for="date">Date:</label></div>
+        <div class="grid-item"> <input type="date" id="date" name="date" value="" /></div>
+
+        <div class="grid-item"><label for="type">Vaccine Type:</label></div>
+        <div class="grid-item">
           <select name="type" id="type">
             <option value="Pfizer">Pfizer</option>
             <option value="Sinopharm">Sinopharm</option>
@@ -130,44 +147,18 @@
             <option value="Moderna">Moderna</option>
           </select>
         </div>
-        <div class="col-3"></div>
+
+        <div class="grid-item"><label for="dose">Dose:</label></div>
+        <div class="grid-item"><input type="number" id="dose" name="dose" value="" min="1" /></div>
+
+        <div class="grid-item"><label for="amount">Amount:</label></div>
+        <div class="grid-item"><input type="number" id="amount" name="amount" value="" min=0 /></div>
+
+        <div class="grid-item"><label for="onlineAmount">Online Booking Amount:</label></div>
+        <div class="grid-item"><input type="number" id="onlineAmount" name="onlineAmount" value="" min=0 /></div>
       </div>
-      <br /><br />
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <label for="dose">Dose:</label>
-          <input type="number" id="dose" name="dose" value="" min="1" /><br />
-        </div>
-        <div class="col-3"></div>
-      </div>
-      <br /><br />
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <label for="amount">Amount:</label>
-          <input type="number" id="amount" name="amount" value="" min=0 /><br />
-        </div>
-        <div class="col-3"></div>
-      </div>
-      <br /><br />
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <label for="onlineAmount">Online Booking Amount:</label>
-          <input type="number" id="onlineAmount" name="onlineAmount" value="" min=0 />
-          <div class="col-3"></div>
-          <br />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-          <button type="button" value="Submit" class="btn btn-primary" onclick="submitStock()">Submit</button>
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <br /><br />
+      <button type="button" value="Submit" class="btn btn-primary" onclick="submitStock()">Submit</button>
+      <br>
     </div>
   </form>
 
