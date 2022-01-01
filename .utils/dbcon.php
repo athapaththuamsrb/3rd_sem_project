@@ -321,11 +321,23 @@ class DatabaseConn
   public function getAvailability($district, $type, $dose, $date)
   {
     try {
+      $date = $date->format('Y-m-d');
+      $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ssis', $district, $type, $dose, $date);
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      $arr = array();
+      while ($row = $result0->fetch_assoc()) {
+        $place = $row['place']; $reserved = $row['reserved']; $not_reserved = $row['not_reserved'];
+        array_push($arr, array('place'=>$place, 'booking'=>$reserved, 'not_booking'=>$not_reserved));
+      }
       // filter stocks by given data
       // return [] if error or not found
       // UI is implemented. test with http://localhost:8888/vaccineAvailability.php
       // sample output
-      return [['place' => 'General hosp.', 'booking' => 85, 'not_booking' => 23], ['place' => 'MOH office', 'booking' => 46, 'not_booking' => 41]];
+      //return [['place' => 'General hosp.', 'booking' => 85, 'not_booking' => 23], ['place' => 'MOH office', 'booking' => 46, 'not_booking' => 41]];
+      return $arr;
     } catch (Exception $e) {
       return [];
     }
