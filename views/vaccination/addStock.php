@@ -37,7 +37,7 @@
       background-color: rgb(0, 0, 0, 0.8);
       border-top-left-radius: 10%;
       border-bottom-right-radius: 10%;
-      width: 60%;
+      width: 55%;
       padding: 2%;
     }
 
@@ -101,7 +101,7 @@
 
     label {
       float: left;
-      padding-left: 2%;
+      padding-left: 15%;
     }
 
     h1 {
@@ -157,7 +157,7 @@
         <div class="grid-item"><label for="onlineAmount">Online Booking Amount:</label></div>
         <div class="grid-item"><input type="number" id="onlineAmount" name="onlineAmount" value="" min=0 /></div>
       </div>
-      <button type="button" value="Submit" class="btn btn-primary" onclick="submitStock()">Submit</button>
+      <button type="button" value="Submit" class="btn btn-success" onclick="submitStock()">Submit</button>
       <br>
     </div>
   </form>

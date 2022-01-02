@@ -15,7 +15,6 @@
       padding: 0;
     }
 
-    h2,
     h1,
     label {
       color: white;
@@ -64,27 +63,6 @@
       -webkit-transform: scale(1.2);
       /* Safari 3-8 */
       transform: scale(1.2);
-    }
-
-    #other {
-      text-align: left;
-      padding: 20px;
-    }
-
-    #field {
-      width: 100%;
-      height: 100px;
-    }
-
-    .field {
-      margin-left: 100px;
-      width: 200 px;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    #intro {
-      text-align: center;
     }
 
     .buttons {
@@ -221,20 +199,26 @@
 
     .grid-item {
       font-size: 15pt;
-      text-align: center;
+      text-align: left;
     }
 
     input,
     select,
     textarea {
-      width: 60%;
+      width: 50%;
+    }
+
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border: 2px solid blue;
     }
 
     label {
       float: left;
-      padding-left: 1%;
       width: 40%;
       text-align: left;
+      padding-left: 10%;
     }
 
     h1 {
@@ -265,7 +249,7 @@
     <form id="application" method="post">
       <div class="grid-contener">
         <div class="grid-item"><label for="id">
-            <h2 class="field">ID:</h2>
+            <lable class="field">ID:</lable>
           </label></div>
         <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" required /></div>
       </div>
@@ -289,7 +273,7 @@
         <div class="grid-contener">
           <div class="grid-item">
             <label for="district">
-              <h2 class="field">District:</h2>
+              <lable class="field">District:</lable>
             </label>
           </div>
           <div class="grid-item">
@@ -324,7 +308,7 @@
           <br>
           <div class="grid-item">
             <label for="name">
-              <h2 class="field">Name:</h2>
+              <lable class="field">Name:</lable>
             </label>
           </div>
           <div class="grid-item">
@@ -333,7 +317,7 @@
           <br>
           <div class="grid-item">
             <label for="Address">
-              <h2 class="field">Resident Address:</h2>
+              <lable class="field">Resident Address:</lable>
             </label>
           </div>
           <div class="grid-item">
@@ -342,7 +326,7 @@
           <br>
           <div class="grid-item">
             <label for="email">
-              <h2 class="field">Email Address:</h2>
+              <lable class="field">Email Address:</lable>
             </label>
           </div>
           <div class="grid-item">
@@ -351,7 +335,7 @@
           <br>
           <div class="grid-item">
             <label for="ContactNo">
-              <h2 class="field">Contact Number:</h2>
+              <lable class="field">Contact Number:</lable>
             </label>
           </div>
           <div class="grid-item">
@@ -360,7 +344,7 @@
           <br>
           <div class="grid-item">
             <label for="Type">
-              <h2 class="field">Vaccination Type:</h2>
+              <lable class="field">Vaccination Type:</lable>
             </label>
           </div>
           <div class="grid-item"></div>

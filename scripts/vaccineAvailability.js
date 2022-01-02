@@ -46,7 +46,3 @@ function getAvailability() {
   };
   return;
 }
-
-function submit2() {
-  console.log("hi")
-}

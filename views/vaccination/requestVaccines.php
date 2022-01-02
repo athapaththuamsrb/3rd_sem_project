@@ -69,8 +69,10 @@
 	}
 
 	#type,
-	input {
+	input,
+	select {
 		width: 90%;
+		font-size: 13pt;
 	}
 
 	.grid-container {
@@ -80,9 +82,14 @@
 	}
 
 	.grid-item {
-		padding: 20px;
-		font-size: 30px;
-		text-align: center;
+		padding-left: 50%;
+		padding-bottom: 5%;
+		font-size: 15pt;
+	}
+
+	label {
+		text-align: left;
+		float: left;
 	}
 </style>
 
@@ -98,7 +105,7 @@
 		</legend>
 		<div class="grid-container">
 			<div class="grid-item">
-				<label for="type">Type</label>&nbsp;
+				<label for="type">Type:</label>&nbsp;
 			</div>
 			<div class="grid-item">
 				<select name="type" id="type" readonly="readonly">
@@ -110,21 +117,21 @@
 			</div>
 			<br>
 			<div class="grid-item">
-				<label for="dose">Dose</label>
+				<label for="dose">Dose:</label>
 			</div>
 			<div class="grid-item">
 				<input type="number" name="dose" id="dose" min=1>
 			</div>
 			<br>
 			<div class="grid-item">
-				<label for="amount">Amount</label>&nbsp;
+				<label for="amount">Amount:</label>&nbsp;
 			</div>
 			<div class="grid-item">
 				<input type="number" id="amount" name="amount" placeholder="amount" min=0>
 			</div>
 		</div>
 		</div>
-		<button onclick="requestSubmit()">Request</button>
+		<button onclick="requestSubmit()" class="btn btn-success">Request</button>
 		<br>
 	</fieldset>
 

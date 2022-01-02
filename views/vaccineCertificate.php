@@ -24,7 +24,7 @@
 
     .cover {
         background-color: rgb(0, 0, 0, 0.8);
-        width: 50%;
+        width: 45%;
         margin: auto;
         border-radius: 10%;
         color: white;
@@ -37,7 +37,7 @@
 
     h2 {
         color: white;
-        padding: 0.5%;
+        padding-left: 0.5%;
     }
 
     .grid-container {
@@ -49,7 +49,8 @@
     .grid-item {
         font-size: 15pt;
         text-align: center;
-        padding: 1%;
+        padding-right: 5%;
+        padding-bottom: 5%;
     }
 
     input {
@@ -58,7 +59,7 @@
 
     label {
         float: left;
-        padding-left: 2%;
+        padding-left: 5%;
     }
 
     button {
@@ -85,7 +86,7 @@
             <div class="grid-item"><input type="text" class="form-control" id="inputToken"></div>
             <br>
         </div>
-        <button type="button" class="btn btn-primary" onclick="getCert()">Download</button>
+        <button class="btn btn-success" onclick="getCert()">Download</button>
         <br>
     </div>
     <script type="text/javascript" src="/scripts/common.js"></script>

@@ -147,13 +147,13 @@
 
         h2 {
             color: white;
-            padding: 0.5%;
+            padding-left: 0.5%;
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: auto auto;
-            padding: 10pt;
+            padding: 10%;
         }
 
         .grid-item {
@@ -169,6 +169,7 @@
 
         label {
             float: left;
+            padding-left: 30%;
         }
 
         button {
@@ -228,11 +229,11 @@
                 <div class="grid-item"><input type="text" id="id" name="id"></div>
 
             </div>
-            <button class="btn btn-success" value="Submit" onclick="getCentres()">submit</button>
+            <button type="button" class="btn btn-success" value="Submit" onclick="getCentres()">submit</button>
             <br>
-
+            <br>
             <ul id="centers"></ul>
-
+            <br>
             <div class="grid-container">
 
                 <div class="grid-item"><label for="name">Name:</label></div>
@@ -247,7 +248,7 @@
                 <div class="grid-item"><input type="text" id="contact" name="contact"></div>
             </div>
 
-            <button class="btn btn-success" onclick="submitRequest()">Submit</button>
+            <button type="button" class="btn btn-success" onclick="submitRequest()">Submit</button>
         </form>
         <br>
     </div>

@@ -126,7 +126,10 @@
 			<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
 		</div>
 		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination certificate</button></a>
+			<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination Certificate</button></a>
+		</div>
+		<div class="d-flex justify-content-center" id="actions">
+			<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccine Availability</button></a>
 		</div>
 	</body>
 </div>

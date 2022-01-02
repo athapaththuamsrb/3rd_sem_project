@@ -26,7 +26,8 @@
       text-align: left;
       padding: 8px;
     }
-/* 
+
+    /* 
     tr:nth-child(even) {
       background-color: #dddddd;
     } */
@@ -80,16 +81,17 @@
 
     h2 {
       color: white;
-      padding: 0.5%;
+      padding-left: 0.5%;
     }
 
     .grid-container {
       display: grid;
       grid-template-columns: auto auto;
-      padding: 10px;
+      padding: 10%;
     }
 
     .grid-item {
+      padding-left: 2%;
       font-size: 15pt;
       text-align: center;
     }
@@ -100,7 +102,7 @@
 
     label {
       float: left;
-      padding-left: 2%;
+      padding-left: 8%;
     }
 
     h1 {
@@ -133,7 +135,7 @@
         <div class="grid-item"><input type="text" id="inputID"></div>
       </div>
       <br>
-      <button type="button" class="btn btn-primary" onclick="getStatus()">Submit</button>
+      <button type="button" class="btn btn-success" onclick="getStatus()">Submit</button>
     </form>
     <br>
     <div id="results" class="item4"></div>

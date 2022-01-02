@@ -29,7 +29,7 @@ function getCentres() {
               content += "<li>" + [vaccine_name] + ":" + availability + '<input type = "radio"  name ="appoinment" value =' + editText + ' /> ' + '</li>';
             }
           }
-          content += "</ol></li>";
+          content += "</ol></li><br><br>";
         });
         output.innerHTML = content;
       } catch (error) {
