@@ -68,8 +68,6 @@
         <a href="/vaccination/updateStock.php"><button type="button" class="btn btn-primary">Update stock</button></a>
     </div>
 
-
 </body>
-
 
 </html>

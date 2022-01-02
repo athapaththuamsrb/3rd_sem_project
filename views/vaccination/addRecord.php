@@ -376,8 +376,8 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/scripts/common.js"></script>
-  <script type="text/javascript" src="/scripts/vaccination/addRecord.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/vaccination/addRecord.js"></script>
 </body>
 
 </html>

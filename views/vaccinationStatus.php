@@ -143,8 +143,8 @@
 
 
 
-  <script type="text/javascript" src="/scripts/common.js"></script>
-  <script type="text/javascript" src="/scripts/vaccinationStatus.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/vaccinationStatus.js"></script>
 </body>
 
 </html>

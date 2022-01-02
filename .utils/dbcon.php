@@ -431,6 +431,15 @@ class DatabaseConn
     }
   }
 
+  public function getAppointmentsByDate($date){
+    try{
+      // smaple
+      return [['email'=>'abcd@gmail.com', 'id' => '987654321V', 'name' => 'A. B. Perera', 'type' => 'Pfizer', 'place' => 'General hosp.', 'district' => 'Colombo'], ['email'=>'xyz@gmail.com', 'id' => '999999999V', 'name' => '', 'type' => 'Pfizer', 'place' => 'qwerty', 'district' => 'Gampaha']];
+    }catch (Exception $e) {
+      return [];
+    }
+  }
+
   public function close_conn()
   {
     if (DatabaseConn::$dbconn != null) {

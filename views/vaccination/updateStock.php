@@ -125,8 +125,8 @@
         <button type="button" class="btn btn-success" onclick="updateStock()">Update</button>
     </fieldset>
 
-    <script type="text/javascript" src="/scripts/common.js"></script>
-    <script type="text/javascript" src="/scripts/vaccination/updateStock.js"></script>
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/vaccination/updateStock.js"></script>
 </body>
 
 </html>

@@ -2,4 +2,3 @@ RewriteEngine on
 ErrorDocument 404 /error.php?uri=%{REQUEST_URI}
 RewriteRule ^\..*$ - [L,R=404]
 RewriteRule ^.*\.html$ - [L,R=404]
-#RewriteRule ^([A-Za-z0-9-]+)/?$ /index.php?test=$1 [NC]

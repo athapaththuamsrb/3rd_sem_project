@@ -214,8 +214,8 @@
     </div>
   </form>
 
-  <script type="text/javascript" src="/scripts/common.js"></script>
-  <script type="text/javascript" src="/scripts/admin/createAccount.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/admin/createAccount.js"></script>
 </body>
 
 </html>

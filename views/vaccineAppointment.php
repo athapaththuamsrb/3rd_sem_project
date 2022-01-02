@@ -271,8 +271,8 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/scripts/common.js"></script>
-    <script type="text/javascript" src="/scripts/vaccineAppointment.js"></script>
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/vaccineAppointment.js"></script>
 </body>
 
 </html>

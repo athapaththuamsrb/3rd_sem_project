@@ -89,8 +89,8 @@
         <button class="btn btn-success" onclick="getCert()">Download</button>
         <br>
     </div>
-    <script type="text/javascript" src="/scripts/common.js"></script>
-    <script type="text/javascript" src="/scripts/vaccinationCertificate.js"></script>
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/vaccinationCertificate.js"></script>
 </body>
 
 </html>

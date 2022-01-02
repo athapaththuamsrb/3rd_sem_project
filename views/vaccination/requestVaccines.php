@@ -135,8 +135,8 @@
 		<br>
 	</fieldset>
 
-	<script src="/scripts/common.js" type="text/javascript"></script>
-	<script src="/scripts/vaccination/requestVaccines.js" type="text/javascript"></script>
+	<script src="/scripts/common.js"></script>
+	<script src="/scripts/vaccination/requestVaccines.js"></script>
 </body>
 
 </html>

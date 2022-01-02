@@ -166,8 +166,8 @@
         </div>
     </form>
 
-    <script type="text/javascript" src="/scripts/common.js"></script>
-    <script type="text/javascript" src="/scripts/vaccineAvailability.js"></script>
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/vaccineAvailability.js"></script>
 </body>
 
 </html>

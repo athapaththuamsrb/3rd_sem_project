@@ -29,8 +29,8 @@
         <button type="button" onclick="donate()">Donate</button>
     </form>
 
-    <script type="text/javascript" src="/scripts/common.js"></script>
-    <script type="text/javascript" src="/scripts/vaccination/donateVaccines.js"></script>
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/vaccination/donateVaccines.js"></script>
 </body>
 
 </html>
