@@ -1,11 +1,12 @@
 <?php
+
 /**
  * This file should NOT be served on web to any user.
  * This file should be run daily at a specified time.
  * Use a taks scheduler to run the following command at the scheduled time
  *      php -f system/sendVaccineReminders.php
  */
-
+chdir(__DIR__);
 require_once('../.utils/dbcon.php');
 $con = DatabaseConn::get_conn();
 if ($con) {
@@ -27,7 +28,7 @@ if ($con) {
 
       // the message
       $msg = "<html><body><h2>Vaccination Reminder</h2><p>You";
-      if ($name){
+      if ($name) {
         $msg .= " ($name)";
       }
       $msg .= ", having ID number $id can get your $type vaccine on tomorrow at $place ($district)</p></body></html>";

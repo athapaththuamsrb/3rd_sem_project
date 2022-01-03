@@ -54,7 +54,7 @@ function nextPrev(n) {
     // ... the form gets submitted:
     let pass = document.getElementById("password").value;
     if (/^[\x21-\x7E]{8,15}$/.test(pass) && pass === document.getElementById("conPassword").value.trim()) {
-      submitForm(); // TODO : remove this comment document.getElementById("regForm").submit();
+      submitForm();
     } else {
       alert("check your password again");
       currentTab = currentTab - n;

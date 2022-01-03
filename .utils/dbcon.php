@@ -330,8 +330,10 @@ class DatabaseConn
       $result0 = $stmt0->get_result();
       $arr = array();
       while ($row = $result0->fetch_assoc()) {
-        $place = $row['place']; $reserved = $row['reserved']; $not_reserved = $row['not_reserved'];
-        array_push($arr, array('place'=>$place, 'booking'=>$reserved, 'not_booking'=>$not_reserved));
+        $place = $row['place'];
+        $reserved = $row['reserved'];
+        $not_reserved = $row['not_reserved'];
+        array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
       // filter stocks by given data
       // return [] if error or not found
@@ -431,10 +433,13 @@ class DatabaseConn
     }
   }
 
-  public function getAppointmentsByDate($date){
-    try{
+  public function getAppointmentsByDate($date)
+  {
+    try {
       $arr = array();
-      $date = $date->format('Y-m-d');
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
       $q = 'SELECT * FROM appointments WHERE date = ?';
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $stmt = $this->conn->prepare($q);
@@ -446,8 +451,38 @@ class DatabaseConn
         array_push($arr, $details);
       }
       return $arr;
-    }catch (Exception $e) {
+    } catch (Exception $e) {
       return [];
+    }
+  }
+
+  public function removeAppointments($type, $date)
+  {
+    try {
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
+      switch ($type) {
+        case 'vaccination':
+          $q = 'update stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; // TODO : rename table to vaccine_stocks
+          break;
+
+        case 'testing':
+          $q = 'update testing_stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; // TODO : create table
+          break;
+
+        default:
+          return false;
+          break;
+      }
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('s', $date); // TODO : create table
+      $success = $stmt->execute();
+      $stmt->close();
+      return $success;
+    } catch (Exception $e) {
+      return false;
     }
   }
 
