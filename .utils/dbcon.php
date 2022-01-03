@@ -433,8 +433,19 @@ class DatabaseConn
 
   public function getAppointmentsByDate($date){
     try{
-      // smaple
-      return [['email'=>'abcd@gmail.com', 'id' => '987654321V', 'name' => 'A. B. Perera', 'type' => 'Pfizer', 'place' => 'General hosp.', 'district' => 'Colombo'], ['email'=>'xyz@gmail.com', 'id' => '999999999V', 'name' => '', 'type' => 'Pfizer', 'place' => 'qwerty', 'district' => 'Gampaha']];
+      $arr = array();
+      $date = $date->format('Y-m-d');
+      $q = 'SELECT * FROM appointments WHERE date = ?';
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('s', $date);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      while ($row = $result->fetch_assoc()) {
+        $details = array('email' => $row['email'], 'id' => $row['id'], 'name' => $row['name'], 'type' => $row['type'], 'place' => $row['place'], 'district' => $row['district']);
+        array_push($arr, $details);
+      }
+      return $arr;
     }catch (Exception $e) {
       return [];
     }
