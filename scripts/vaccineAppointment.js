@@ -1,3 +1,17 @@
+const mFooter = document.getElementById('mFooter');
+const mBody = document.getElementById('mBody');
+const modal = document.getElementById("myModal");
+const span = document.getElementsByClassName("close")[0];
+
+span.onclick = function () {
+  modal.style.display = "none";
+}
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 function getCentres() {
   let district = document.getElementById("districts").value;
   let date = document.getElementById("date").value;
@@ -8,30 +22,47 @@ function getCentres() {
   xhrBuilder.addField('district', district);
   xhrBuilder.addField('date', date);
   xhrBuilder.addField('id', id);
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
+        while (output.firstChild){
+          output.removeChild(output.lastChild);
+        }
         let data = JSON.parse(xhr.responseText);
-        var content = "";
-        var possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
+        let content = "";
+        let possibleVaccines = ["Pfizer", "Sinopharm", "Aztraseneca", "Moderna"];
         data.forEach(centre => {
-          content += "<li>" + centre["place"] + "<ol>";
+          let li = document.createElement('li');
+          let span = document.createElement('span');
+          span.innerText = centre['place'];
+          li.appendChild(span);
+          let ol = document.createElement('ol');
           for (i = 0; i < possibleVaccines.length; i++) {
             if (centre[possibleVaccines[i]] != undefined) {
               let vaccine_name = possibleVaccines[i];
               let availability = centre[possibleVaccines[i]]['appointments'];
-              var text = centre["place"] + "?" + [vaccine_name];
-              var editText = text.replace(/ /g, "@");
-              content += "<li>" + [vaccine_name] + ":" + availability + '<input type = "radio"  name ="appoinment" value =' + editText + ' /> ' + '</li>';
+              let text = centre["place"] + "?" + vaccine_name;
+              let li2 = document.createElement('li');
+              let span2 = document.createElement('span');
+              span2.innerText = vaccine_name + " : " + availability;
+              li2.appendChild(span2);
+              let inp = document.createElement('input');
+              inp.setAttribute('type', 'radio');
+              inp.setAttribute('name', 'appointment');
+              inp.setAttribute('value', text);
+              li2.appendChild(inp);
+              ol.appendChild(li2);
             }
           }
-          content += "</ol></li><br><br>";
+          li.appendChild(ol);
+          output.appendChild(li);
+          output.appendChild(document.createElement('br'));
+          output.appendChild(document.createElement('br'));
         });
-        output.innerHTML = content;
       } catch (error) {
         alert("Error occured");
       }
@@ -40,9 +71,9 @@ function getCentres() {
 }
 
 function submitRequest() {
-  let elem = document.querySelector('input[name="appoinment"]:checked');
+  let elem = document.querySelector('input[name="appointment"]:checked');
   if (!elem) return;
-  var text = elem.value.replace(/@/g, " ").split("?");
+  let text = elem.value.split("?");
   let district = document.getElementById("districts").value;
   let date = document.getElementById("date").value;
   let id = document.getElementById("id").value;
@@ -63,7 +94,7 @@ function submitRequest() {
   if (email) xhrBuilder.addField('email', email);
   if (contact) xhrBuilder.addField('contact', contact);
 
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
@@ -71,36 +102,32 @@ function submitRequest() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
+        while (mBody.firstChild){
+          mBody.removeChild(mBody.lastChild);
+        }
+        while (mFooter.firstChild){
+          mFooter.removeChild(mFooter.lastChild);
+        }
+        let p = document.createElement('p');
+        let h3 = document.createElement('h3');
         if (data['status']) {
           document.getElementById("mHeader").style.background = "green";
-          document.getElementById("mFooter").style.background = "green";
-          document.getElementById("mBody").innerHTML = "<p>Appointment Success!</p>";
-          document.getElementById("mFooter").innerHTML = "<h3>Thank you!</h3>";
-          modal.style.display = "block";
+          mFooter.style.background = "green";
+          p.innerText = 'Appointment Success!';
+          h3.innerText = 'Thank you!';
         } else {
-          // alert('appointment failed');
           document.getElementById("mHeader").style.background = "red";
-          document.getElementById("mFooter").style.background = "red";
-          document.getElementById("mBody").innerHTML = "<p>Appointment Failed.</p>";
-          document.getElementById("mFooter").innerHTML = "<h3>Try Again!</h3>";
-          modal.style.display = "block";
+          mFooter.style.background = "red";
+          p.innerText = 'Appointment Failed.';
+          h3.innerText = 'Try Again!';
         }
+        mBody.appendChild(p);
+        mFooter.appendChild(h3);
+        modal.style.display = "block";
       } catch (error) {
         alert("Error occured");
       }
     }
   }
 
-}
-
-// Get the modal
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-span.onclick = function () {
-  modal.style.display = "none";
-}
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
 }

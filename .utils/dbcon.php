@@ -60,9 +60,6 @@ class DatabaseConn
 
   public function create_user($uname, $pw, $type, $place, $district, $email)
   {
-    if ($type !== 'admin' && (!$place || !$district)) {
-      return false;
-    }
     if ($this->validate($uname, $pw)) {
       $hashed = password_hash($pw, PASSWORD_BCRYPT, ['cost' => 12]);
       $q = 'INSERT INTO admins (username, password, type, place, district, email) VALUES (?, ?, ?, ?, ?, ?)';
@@ -335,11 +332,6 @@ class DatabaseConn
         $not_reserved = $row['not_reserved'];
         array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
-      // filter stocks by given data
-      // return [] if error or not found
-      // UI is implemented. test with http://localhost:8888/vaccineAvailability.php
-      // sample output
-      //return [['place' => 'General hosp.', 'booking' => 85, 'not_booking' => 23], ['place' => 'MOH office', 'booking' => 46, 'not_booking' => 41]];
       return $arr;
     } catch (Exception $e) {
       return [];
@@ -477,7 +469,7 @@ class DatabaseConn
       }
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param('s', $date); // TODO : create table
+      $stmt->bind_param('s', $date);
       $success = $stmt->execute();
       $stmt->close();
       return $success;

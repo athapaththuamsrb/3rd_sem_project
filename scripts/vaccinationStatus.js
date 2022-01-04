@@ -3,7 +3,7 @@ const output = document.getElementById("results");
 function getStatus() {
   let id = document.getElementById("inputID").value;
 
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   let xhrBuilder = new XHRBuilder();
@@ -14,16 +14,33 @@ function getStatus() {
       try {
         let data = JSON.parse(xhr.responseText);
         if (data != null && Array.isArray(data) && data.length > 0) {
-          var tableContent = "<table><tr><th>Type</th><th>Date</th></tr>";
+          let tableBuilder = new TableBuilder();
+          tableBuilder.addHeadingRow('Type', 'Date');
           for (index = 0; index < data.length; index++) {
-            tableContent += "<tr><td>" + data[index]["type"] + "</td><td>" + data[index]["date"] + "</td></tr>";
+            tableBuilder.addRow(data[index]['type'], data[index]['date']);
           }
-          tableContent += "</table>";
-          output.innerHTML = tableContent;
+          while (output.firstChild){
+            output.removeChild(output.lastChild);
+          }
+          let table = tableBuilder.build();
+          output.appendChild(table);
         } else if (data.length == 0) {
-          output.innerHTML = '<h2>Not vaccinated</h2>';
+          while (output.firstChild){
+            output.removeChild(output.lastChild);
+          }
+          let h2 = document.createElement('h2');
+          h2.innerText = 'Not vaccinated';
+          output.appendChild(h2);
         } else {
-          output.innerHTML = '<h2>Error occured!</h2><p>Couldn\'t load vaccination status.</p>';
+          while (output.firstChild){
+            output.removeChild(output.lastChild);
+          }
+          let h2 = document.createElement('h2');
+          h2.innerText = 'Error occured!';
+          let p = document.createElement('p');
+          p.innerText = 'Couldn\'t load vaccination status.';
+          output.appendChild(h2);
+          output.appendChild(p);
         }
       } catch (error) {
         alert("Error occured");

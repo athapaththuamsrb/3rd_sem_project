@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $data = [];
             }
-            //$data = [['place' => 'General Hosp. Kalutara', 'Pfizer' => 50, 'Sinopharm' => 20], ['place' => 'Base Hosp. Horana', 'Aztraseneca' => 40, 'Sinopharm' => 100, 'Moderna' => 30], ['place' => 'MOH Gampaha', 'Pfizer' => 50, 'Moderna' => 50]];
         }
         echo json_encode($data);
     }

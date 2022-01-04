@@ -9,7 +9,7 @@ function getDateStr() {
 
   return [year, month, day].join('-');
 }
-let resultTable = document.getElementById("resultTable");
+const resultDiv = document.getElementById("resultDiv");
 document.getElementById('date').value = getDateStr();
 
 function getAvailability() {
@@ -31,16 +31,28 @@ function getAvailability() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
+        while (resultDiv.firstChild) {
+          resultDiv.removeChild(resultDiv.lastChild);
+        }
         let data = JSON.parse(xhr.responseText);
-        if (data) {
-          let content = '<tr><th>Place</th><th>Online booking</th><th>Without Booking</th></tr>'; // TODO : use suitable heading
+        if (data && Array.isArray(data) && data.length > 0) {
+          let tableBuilder = new TableBuilder();
+          tableBuilder.addHeadingRow('Place', 'Online booking', 'Without Booking'); // TODO : use suitable heading
           data.forEach(elem => {
-            content += '<tr><td>' + elem['place'] + '</td><td>' + elem['booking'] + '</td><td>' + elem['not_booking'] + "</td></tr>";
+            tableBuilder.addRow(elem['place'], elem['booking'], elem['not_booking']);
           });
-          resultTable.innerHTML = content;
+          let table = tableBuilder.build();
+          resultDiv.appendChild(table);
+        }else{
+          let p = document.createElement('p');
+          p.innerText = 'Not Available'
+          resultDiv.appendChild(p);
         }
       } catch (error) {
         alert("Error occured");
+        while (resultDiv.firstChild) {
+          resultDiv.removeChild(resultDiv.lastChild);
+        }
       }
     }
   };

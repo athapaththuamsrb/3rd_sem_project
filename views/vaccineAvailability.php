@@ -158,10 +158,7 @@
 
             </div>
             <button type="button" class="btn btn-success" onclick="getAvailability()">submit</button>
-            <div class="item4">
-                <table id="resultTable">
-                </table>
-            </div>
+            <div id="resultDiv" class="item4"></div>
 
         </div>
     </form>

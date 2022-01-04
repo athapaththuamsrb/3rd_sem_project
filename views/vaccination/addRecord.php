@@ -259,9 +259,7 @@
       </button>
     </form>
   </div>
-  <div class="item4">
-    <table id="resultTable"></table>
-  </div>
+  <div id="resultDiv" class="item4"></div>
   <!-- second form -->
   <div class="cover">
     <div id="hide">

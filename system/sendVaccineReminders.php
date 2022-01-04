@@ -8,6 +8,8 @@
  */
 chdir(__DIR__);
 require_once('../.utils/dbcon.php');
+define('LOG_FILE', 'sys.log');
+
 $con = DatabaseConn::get_conn();
 if ($con) {
   $appointments = $con->getAppointmentsByDate(new DateTime('tomorrow'));
@@ -32,9 +34,27 @@ if ($con) {
         $msg .= " ($name)";
       }
       $msg .= ", having ID number $id can get your $type vaccine on tomorrow at $place ($district)</p></body></html>";
-      mail($email, "Vaccination on tomorrow", $msg, $headers);
-      // TODO : use a log to store status of sent mails and failed mails
+      $status = mail($email, "Vaccination on tomorrow", $msg, $headers);
+      $fp = fopen(LOG_FILE, 'a');
+      fwrite($fp, "Send Vaccine Reminders:\t");
+      fwrite($fp, '[' . (new DateTime('now'))->format('Y-m-d H:i:s') . "]\t");
+      if ($status) {
+        fwrite($fp, "Success\t");
+      } else {
+        fwrite($fp, "Failed\t");
+      }
+      fwrite($fp, "TO:$email\n");
+      fclose($fp);
     } catch (Exception $e) {
+      $msg = $e->getMessage();
+      $msg = str_replace(["\n", "\r"], ' ', $msg);
+      $fp = fopen(LOG_FILE, 'a');
+      fwrite($fp, "Send Vaccine Reminders:\t");
+      fwrite($fp, '[' . (new DateTime('now'))->format('Y-m-d H:i:s') . "]\t");
+      fwrite($fp, "Error\t");
+      fwrite($fp, "TO:$email\t");
+      fwrite($fp, "($msg)\n");
+      fclose($fp);
     }
   }
 }

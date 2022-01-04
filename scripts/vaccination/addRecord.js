@@ -4,12 +4,28 @@ const id_element = document.getElementById("id");
 const name_element = document.getElementById("name");
 const contact_element = document.getElementById("ContactNo");
 const email_element = document.getElementById("email");
-const result_table = document.getElementById("resultTable");
+const result = document.getElementById("resultDiv");
+
+function reset() {
+  while (result.firstChild) {
+    result.removeChild(result.lastChild);
+  }
+  district_element.value = 'Colombo';
+  district_element.removeAttribute("disabled");
+  name_element.value = '';
+  name_element.removeAttribute("readonly");
+  address_element.value = '';
+  address_element.removeAttribute("readonly");
+  contact_element.value = '';
+  contact_element.removeAttribute("readonly");
+  email_element.value = '';
+  email_element.removeAttribute("readonly");
+}
 
 function getDetails() {
   let id = id_element.value;
 
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open('POST', document.URL, true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -19,39 +35,42 @@ function getDetails() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
+        reset();
         document.getElementById("hide").style.display = 'block';
         let data = JSON.parse(xhr.responseText);
-        if (!data) return;
-        var tableContent = "<tr><th>Type</th><th>Date</th></tr>";
-        for (index = 0; index < data["doses"].length; index++) {
-          tableContent += '<tr><td>' + data['doses'][index]['type'] + '</td><td>' + data["doses"][index]["date"] + "</td></tr>";
-        }
-        result_table.innerHTML = tableContent;
-
+        if (!data || data["doses"] == undefined || !Array.isArray(data["doses"]) || data["doses"].length <= 0) {
+          return;
+        };
+        let tableBuilder = new TableBuilder();
+        tableBuilder.addHeadingRow('Type', 'Date');
+        data['doses'].forEach(dose => {
+          tableBuilder.addRow(dose['type'], dose['date']);
+        });
+        let table = tableBuilder.build();
+        result.appendChild(table);
         if (data["district"]) {
           district_element.value = data["district"];
-          district_element.setAttribute("disabled", true);
-        } else {
-
         }
+        district_element.setAttribute("disabled", true);
         if (data["name"]) {
           name_element.value = data["name"];
-          name_element.setAttribute("readonly", true);
         }
+        name_element.setAttribute("readonly", true);
         if (data["address"]) {
           address_element.value = data["address"];
-          address_element.setAttribute("readonly", true);
         }
+        address_element.setAttribute("readonly", true);
         if (data["contact"]) {
           contact_element.value = data["contact"];
-          contact_element.setAttribute("readonly", true);
         }
+        contact_element.setAttribute("readonly", true);
         if (data["email"]) {
           email_element.value = data["email"];
-          email_element.setAttribute("readonly", true);
         }
+        email_element.setAttribute("readonly", true);
       } catch (error) {
         alert("Error occured");
+        reset();
       }
     }
   };
@@ -79,7 +98,7 @@ function submitRecord() {
   if (email) xhrBuilder.addField('email', email);
   if (contact) xhrBuilder.addField('contact', contact);
 
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
@@ -89,13 +108,17 @@ function submitRecord() {
         let data = JSON.parse(xhr.responseText);
         if (data && data["token"]) {
           alert("token is: " + data["token"]);
+          reset();
+          id_element.value = "";
           // clear form
-          list = document.getElementsByTagName("input");
-          for (let index = 0; index < list.length; index++) {
-            list[index].value = "";
-            list[index].removeAttribute("readonly");
-          }
-          result_table.innerHTML = "";
+          // list = document.getElementsByTagName("input");
+          // for (let index = 0; index < list.length; index++) {
+          //   list[index].value = "";
+          //   list[index].removeAttribute("readonly");
+          // }
+          // while (result.firstChild) {
+          //   result.removeChild(result.lastChild);
+          // }
           document.getElementById("hide").style.display = 'none';
         }
       } catch (error) {

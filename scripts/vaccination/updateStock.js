@@ -13,7 +13,7 @@ function updateStock() {
   xhrBuilder.addField('type', type);
   xhrBuilder.addField('dose', dose);
   xhrBuilder.addField('amount', amount);
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
