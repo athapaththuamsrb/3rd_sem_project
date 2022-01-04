@@ -223,13 +223,13 @@ class DatabaseConn
       }
       $new_dose = $last_dose + 1;
       if ($reserved) {
-        $num = $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
-        if ($num == 0){
+        $res = $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
+        if (!$res){
           return false;
         }
       } else {
-        $num = $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
-        if ($num == 0){
+        $res = $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
+        if (!$res){
           return false;
         }
       }
