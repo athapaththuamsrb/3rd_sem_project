@@ -33,6 +33,7 @@ class DatabaseConn
   {
     if ($this->validate($uname, $pw)) {
       $arr = array();
+      ($this->conn)->begin_transaction();
       try {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $q = 'SELECT password, place, district, email FROM admins WHERE username=? AND type=?';
@@ -56,8 +57,10 @@ class DatabaseConn
           }
         }
         $stmt->close();
+        ($this->conn)->commit();
         return $arr;
       } catch (Exception $e) {
+        ($this->conn)->rollback();
         return $arr;
       }
     }
@@ -66,7 +69,6 @@ class DatabaseConn
 
   public function create_user($uname, $pw, $type, $place, $district, $email)
   {
-    /*
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS admins (
         username varchar(20) not null,
         password varchar(100) not null,
@@ -76,20 +78,22 @@ class DatabaseConn
         email varchar(50) not null,
         primary key (username)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-    */
     if ($type !== 'admin' && (!$place || !$district)) {
       return false;
     }
     if ($this->validate($uname, $pw)) {
       $hashed = password_hash($pw, PASSWORD_BCRYPT, ['cost' => 12]);
       $q = 'INSERT INTO admins (username, password, type, place, district, email) VALUES (?, ?, ?, ?, ?, ?)';
+      ($this->conn)->begin_transaction();
       try {
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param('ssssss', $uname, $hashed, $type, $place, $district, $email);
         $success = $stmt->execute();
         $stmt->close();
+        ($this->conn)->commit();
         return $success;
       } catch (Exception $e) {
+        ($this->conn)->rollback();
         return false;
       }
     }
@@ -98,6 +102,7 @@ class DatabaseConn
 
   private function get_last_dose($id)
   {
+    ($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT last_dose FROM persons WHERE id=?';
       $stmt = $this->conn->prepare($q0);
@@ -111,14 +116,17 @@ class DatabaseConn
         $stmt->fetch();
       }
       $stmt->close();
+      ($this->conn)->commit();
       return intval($dose);
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return -1; // was 0 before
     }
   }
 
   public function get_vaccination_records($id, $token)
   {
+    ($this->conn)->begin_transaction();
     try {
       if ($token == null) {
         $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id =?';
@@ -155,15 +163,16 @@ class DatabaseConn
         array_push($arr['doses'], $details);
       }
       $stmt->close();
+      ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return null;
     }
   }
 
   public function add_vaccine_record($details)
   {
-    /*
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
         id varchar(20) not null, 
         name varchar(100) not null, 
@@ -175,19 +184,18 @@ class DatabaseConn
         last_dose int not null, 
         primary key (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-    ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
-      id varchar(20) not null, 
-      name varchar(100) not null, 
-      district varchar(20) not null, 
-      address varchar(100),
-      contact varchar(15),
-      email varchar(50),
-      token varchar(50) not null, 
-      last_dose int not null, 
-      primary key (id)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS vaccines (
+        vaccine_id int NOT NULL AUTO_INCREMENT,
+        type varchar(20) NOT NULL,
+        dose int not null,
+        date varchar(15) not null,
+        district varchar(25) not null,
+        place varchar(50) not null,
+        id varchar(20) not null,
+        PRIMARY KEY (vaccine_id),
+        foreign key (id) references persons (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     ($this->conn)->begin_transaction();
-    */
     try {
       $reserved = true;
       $id = $details['id'];
@@ -260,16 +268,17 @@ class DatabaseConn
       $stmt2->bind_param('sissss', $type, $new_dose, $date, $centre_district, $place, $id);
       $stmt2->execute();
       $stmt2->close();
-      //($this->conn)->commit();
+      ($this->conn)->commit();
       return $token;
     } catch (Exception $e) {
-      //($this->conn)->rollback();
+      ($this->conn)->rollback();
       return false;
     }
   }
 
   public function add_test_record($details)
   {
+    ($this->conn)->begin_transaction();
     try {
       $name = $details['name'];
       $id = $details['id'];
@@ -302,16 +311,31 @@ class DatabaseConn
         $success = $stmt2->execute();
         $stmt2->close();
         if ($success) {
+          ($this->conn)->commit();
           return $token;
         }
       }
+      ($this->conn)->commit();
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return false;
     }
   }
 
   public function add_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
   {
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS stocks (
+        district varchar(20) not null,
+        place varchar(50) not null,
+        date varchar(15) not null,
+        type varchar(20) not null,
+        dose int not null,
+        reserved int not null,
+        not_reserved int not null,
+        appointments int not null,
+        primary key (district, place, date, type, dose)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
       $q = 'INSERT INTO stocks (district, place, date, type, dose, not_reserved, reserved, appointments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
@@ -319,14 +343,17 @@ class DatabaseConn
       $stmt->bind_param('ssssiiii', $district, $place, $datestr, $type, $dose, $not_reserved, $reserved, $reserved);
       $success = $stmt->execute();
       $stmt->close();
+      ($this->conn)->commit();
       return $success;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return false;
     }
   }
 
   public function update_stocks($district, $place, $date, $type, $field, $amount, $dose)
   {
+    ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
@@ -343,15 +370,18 @@ class DatabaseConn
       $success = $stmt->execute();
       $num = $stmt->affected_rows;
       $stmt->close();
+      ($this->conn)->commit();
       if (!$success) return false;
       return ( $num > 0);
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return false;
     }
   }
 
   public function filter_vaccine_centers($district, $date, $id)
   {
+    ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $date = $date->format('Y-m-d');
@@ -384,14 +414,17 @@ class DatabaseConn
         $stmt1->close();
       }
       $stmt0->close();
+      ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return [];
     }
   }
 
   public function getAvailability($district, $type, $dose, $date)
   {
+    ($this->conn)->begin_transaction();
     try {
       $date = $date->format('Y-m-d');
       $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
@@ -407,14 +440,28 @@ class DatabaseConn
         array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
       $stmt0->close();
+      ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return [];
     }
   }
 
   public function add_appointment($details)
   {
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTSappointments (
+      id varchar(20) not null,
+      name varchar(100) not null,
+      contact varchar(15),
+      email varchar(50),
+      district varchar(20) not null,
+      place varchar(50) not null,
+      date varchar(15) not null,
+      type varchar(20) not null,
+      primary key (id, date)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ALL);
       $id = $details['id'];
@@ -440,8 +487,10 @@ class DatabaseConn
       $stmt->bind_param('ssssssss', $id, $name, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
       $stmt->close();
+      ($this->conn)->commit();
       return $this->update_stocks($district, $place, $date, $type, 'appointment', -1, $dose);
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return false;
     }
   }
@@ -450,6 +499,7 @@ class DatabaseConn
   {
     $arr = array();
     $date = date('Y-m-d');
+    ($this->conn)->begin_transaction();
     try {
       require_once('accounts.php');
       $q0 = 'SELECT place FROM stocks WHERE district = ? AND type = ? AND date = ?';
@@ -478,16 +528,17 @@ class DatabaseConn
           $stmt1->close();
         }
       }
+      ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
-      echo "fail";
+      ($this->conn)->rollback();
       return $arr;
     }
   }
 
   public function getEmailByPlace($district, $place, $type)
   {
-    //($this->conn)->begin_transaction();
+    ($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT email FROM admins WHERE district = ? AND place = ? AND type = ?';
       $stmt0 = $this->conn->prepare($q0);
@@ -502,16 +553,17 @@ class DatabaseConn
         return $email;
       }
       $stmt0->close();
-      //($this->conn)->commit();
+      ($this->conn)->commit();
       return null;
     } catch (Exception $e) {
-      //($this->conn)->rollback();
+      ($this->conn)->rollback();
       return null;
     }
   }
 
   public function getAppointmentsByDate($date)
   {
+    ($this->conn)->begin_transaction();
     try {
       $arr = array();
       if ($date instanceof DateTime) {
@@ -528,14 +580,17 @@ class DatabaseConn
         array_push($arr, $details);
       }
       $stmt->close();
+      ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return [];
     }
   }
 
   public function removeAppointments($type, $date)
   {
+    ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
@@ -558,8 +613,10 @@ class DatabaseConn
       $stmt->bind_param('s', $date); // TODO : create table
       $success = $stmt->execute();
       $stmt->close();
+      ($this->conn)->commit();
       return $success;
     } catch (Exception $e) {
+      ($this->conn)->rollback();
       return false;
     }
   }
