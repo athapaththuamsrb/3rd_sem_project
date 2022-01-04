@@ -13,24 +13,29 @@ class DatabaseConn
 
   public static function get_conn()
   {
-    if (DatabaseConn::$dbconn == null) {
-      $dbconfig = parse_ini_file('.env');
-      $servername = $dbconfig['DB_HOST'];
-      $username = $dbconfig['DB_USERNAME'];
-      $password = $dbconfig['DB_PASSWORD'];
-      $database = $dbconfig['DB_DATABASE'];
-      DatabaseConn::$dbconn = new DatabaseConn($servername, $username, $password, $database);
+    try
+    {
+      if (DatabaseConn::$dbconn == null) {
+        $dbconfig = parse_ini_file('.env');
+        $servername = $dbconfig['DB_HOST'];
+        $username = $dbconfig['DB_USERNAME'];
+        $password = $dbconfig['DB_PASSWORD'];
+        $database = $dbconfig['DB_DATABASE'];
+        DatabaseConn::$dbconn = new DatabaseConn($servername, $username, $password, $database);
+      }
+      return DatabaseConn::$dbconn;
+    } catch (Exception $e) {
+      return null;
     }
-    return DatabaseConn::$dbconn;
   }
 
   public function auth($uname, $pw, $type)
   {
     if ($this->validate($uname, $pw)) {
-      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $q = 'SELECT password, place, district, email FROM admins WHERE username=? AND type=?';
       $arr = array();
       try {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        $q = 'SELECT password, place, district, email FROM admins WHERE username=? AND type=?';
         $stmt = $this->conn->prepare($q);
         $stmt->bind_param('ss', $uname, $type);
         $stmt->execute();
@@ -48,9 +53,10 @@ class DatabaseConn
               $arr['place'] = '';
               $arr['district'] = '';
             }
-            return $arr;
           }
         }
+        $stmt->close();
+        return $arr;
       } catch (Exception $e) {
         return $arr;
       }
@@ -60,6 +66,17 @@ class DatabaseConn
 
   public function create_user($uname, $pw, $type, $place, $district, $email)
   {
+    /*
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS admins (
+        username varchar(20) not null,
+        password varchar(100) not null,
+        type varchar(20) not null,
+        place varchar(50),
+        district varchar(20),
+        email varchar(50) not null,
+        primary key (username)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    */
     if ($type !== 'admin' && (!$place || !$district)) {
       return false;
     }
@@ -93,9 +110,10 @@ class DatabaseConn
         $stmt->bind_result($dose);
         $stmt->fetch();
       }
+      $stmt->close();
       return intval($dose);
     } catch (Exception $e) {
-      return 0;
+      return -1; // was 0 before
     }
   }
 
@@ -103,11 +121,11 @@ class DatabaseConn
   {
     try {
       if ($token == null) {
-        $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id=?';
+        $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id =?';
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param('s', $id);
       } else {
-        $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id=? and token=?';
+        $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id =? and token=?';
         $stmt = $this->conn->prepare($q0);
         $stmt->bind_param('ss', $id, $token);
       }
@@ -126,6 +144,7 @@ class DatabaseConn
       $arr['contact'] = $contact;
       $arr['email'] = $email;
       $arr['doses'] = array();
+      $stmt->close();
       $q = 'SELECT * FROM vaccines WHERE id=? ORDER BY dose';
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param('s', $id);
@@ -135,6 +154,7 @@ class DatabaseConn
         $details = array('type' => $row['type'], 'date' => $row['date'], 'place' => $row['place'], 'district' => $row['district']);
         array_push($arr['doses'], $details);
       }
+      $stmt->close();
       return $arr;
     } catch (Exception $e) {
       return null;
@@ -143,6 +163,31 @@ class DatabaseConn
 
   public function add_vaccine_record($details)
   {
+    /*
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
+        id varchar(20) not null, 
+        name varchar(100) not null, 
+        district varchar(20) not null, 
+        address varchar(100),
+        contact varchar(15),
+        email varchar(50),
+        token varchar(50) not null, 
+        last_dose int not null, 
+        primary key (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
+      id varchar(20) not null, 
+      name varchar(100) not null, 
+      district varchar(20) not null, 
+      address varchar(100),
+      contact varchar(15),
+      email varchar(50),
+      token varchar(50) not null, 
+      last_dose int not null, 
+      primary key (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
+    */
     try {
       $reserved = true;
       $id = $details['id'];
@@ -164,6 +209,23 @@ class DatabaseConn
       if ($Result->num_rows == 0) {
         $reserved = false;
       }
+      $last_dose = $this->get_last_dose($id);
+      if ($last_dose < 0){
+        return false;
+      }
+      $new_dose = $last_dose + 1;
+      if ($reserved) {
+        $num = $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
+        if ($num == 0){
+          return false;
+        }
+      } else {
+        $num = $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
+        if ($num == 0){
+          return false;
+        }
+      }
+      $Stmt->close(); 
       $q0 = 'SELECT token, last_dose FROM persons WHERE id=?';
       $stmt = $this->conn->prepare($q0);
       $stmt->bind_param('s', $id);
@@ -173,10 +235,11 @@ class DatabaseConn
         for ($i = 0; $i < 5; $i++) {
           $token = base_convert(rand(1, (int)pow(2, 30) - 1), 10, 32);
           $q = 'INSERT INTO persons (id, name, district, address, contact, email, token, last_dose) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-          $stmt = $this->conn->prepare($q);
+          $stmt1 = $this->conn->prepare($q);
           $new_dose = 1;
-          $stmt->bind_param('sssssssi', $id, $name, $patient_district, $address, $contact, $email, $token, $new_dose);
-          $success = $stmt->execute();
+          $stmt1->bind_param('sssssssi', $id, $name, $patient_district, $address, $contact, $email, $token, $new_dose);
+          $success = $stmt1->execute();
+          $stmt1->close();
           if ($success) {
             break;
           }
@@ -189,18 +252,18 @@ class DatabaseConn
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param('is', $new_dose, $id);
         $stmt1->execute();
+        $stmt1->close();
       }
-      if ($reserved) {
-        $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
-      } else {
-        $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
-      }
+      $stmt->close();
       $q2 = 'INSERT INTO vaccines (type, dose, date, district, place, id) VALUES (?, ?, ?, ?, ?, ?)';
       $stmt2 = $this->conn->prepare($q2);
       $stmt2->bind_param('sissss', $type, $new_dose, $date, $centre_district, $place, $id);
       $stmt2->execute();
+      $stmt2->close();
+      //($this->conn)->commit();
       return $token;
     } catch (Exception $e) {
+      //($this->conn)->rollback();
       return false;
     }
   }
@@ -228,6 +291,8 @@ class DatabaseConn
         $stmt1->bind_param('ssssss', $id, $name, $district, $address, $contact, $email);
         $stmt1->execute();
       }
+      $stmt0->close();
+      $stmt1->close();
       for ($i = 0; $i < 5; $i++) {
         $token = rand(1, (int)pow(2, 64) - 1);
         $token = base_convert($token, 10, 32);
@@ -235,6 +300,7 @@ class DatabaseConn
         $stmt2 = $this->conn->prepare($q2);
         $stmt2->bind_param('ssssss', $id, $token, $test, $result, $place, $date);
         $success = $stmt2->execute();
+        $stmt2->close();
         if ($success) {
           return $token;
         }
@@ -252,6 +318,7 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param('ssssiiii', $district, $place, $datestr, $type, $dose, $not_reserved, $reserved, $reserved);
       $success = $stmt->execute();
+      $stmt->close();
       return $success;
     } catch (Exception $e) {
       return false;
@@ -274,8 +341,10 @@ class DatabaseConn
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param('ssssi', $district, $place, $date, $type, $dose);
       $success = $stmt->execute();
+      $num = $stmt->affected_rows;
+      $stmt->close();
       if (!$success) return false;
-      return ($stmt->affected_rows > 0);
+      return ( $num > 0);
     } catch (Exception $e) {
       return false;
     }
@@ -312,7 +381,9 @@ class DatabaseConn
         if (count($record) > 1) {
           array_push($arr, $record);
         }
+        $stmt1->close();
       }
+      $stmt0->close();
       return $arr;
     } catch (Exception $e) {
       return [];
@@ -335,11 +406,7 @@ class DatabaseConn
         $not_reserved = $row['not_reserved'];
         array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
-      // filter stocks by given data
-      // return [] if error or not found
-      // UI is implemented. test with http://localhost:8888/vaccineAvailability.php
-      // sample output
-      //return [['place' => 'General hosp.', 'booking' => 85, 'not_booking' => 23], ['place' => 'MOH office', 'booking' => 46, 'not_booking' => 41]];
+      $stmt0->close();
       return $arr;
     } catch (Exception $e) {
       return [];
@@ -367,10 +434,12 @@ class DatabaseConn
       if ($result->num_rows == 0) {
         return false;
       }
+      $stmt0->close();
       $q = 'INSERT INTO appointments (id, name, contact, email, district, place, date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
       $stmt = $this->conn->prepare($q);
       $stmt->bind_param('ssssssss', $id, $name, $contact, $email, $district, $place, $date, $type);
       $stmt->execute();
+      $stmt->close();
       return $this->update_stocks($district, $place, $date, $type, 'appointment', -1, $dose);
     } catch (Exception $e) {
       return false;
@@ -391,6 +460,7 @@ class DatabaseConn
       if ($result->num_rows == 0) {
         return $arr;
       }
+      $stmt0->close();
       $places = array();
       while ($row = $result->fetch_assoc()) {
         $place = $row['place'];
@@ -405,16 +475,19 @@ class DatabaseConn
           $stmt1->fetch();
           $vadmin = new VaccinationAdmin($place, $district, $email);
           array_push($arr, $vadmin);
+          $stmt1->close();
         }
       }
       return $arr;
     } catch (Exception $e) {
+      echo "fail";
       return $arr;
     }
   }
 
   public function getEmailByPlace($district, $place, $type)
   {
+    //($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT email FROM admins WHERE district = ? AND place = ? AND type = ?';
       $stmt0 = $this->conn->prepare($q0);
@@ -425,10 +498,14 @@ class DatabaseConn
       if ($rowcount == 1) {
         $stmt0->bind_result($email);
         $stmt0->fetch();
+        $stmt0->close();
         return $email;
       }
+      $stmt0->close();
+      //($this->conn)->commit();
       return null;
     } catch (Exception $e) {
+      //($this->conn)->rollback();
       return null;
     }
   }
@@ -450,6 +527,7 @@ class DatabaseConn
         $details = array('email' => $row['email'], 'id' => $row['id'], 'name' => $row['name'], 'type' => $row['type'], 'place' => $row['place'], 'district' => $row['district']);
         array_push($arr, $details);
       }
+      $stmt->close();
       return $arr;
     } catch (Exception $e) {
       return [];
