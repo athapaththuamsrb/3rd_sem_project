@@ -92,6 +92,7 @@
       font-size: 15pt;
       text-align: center;
       padding: 1%;
+      padding-bottom: 4%;
     }
 
     input,

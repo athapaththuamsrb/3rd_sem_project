@@ -49,6 +49,15 @@
       background-color: rgb(0, 0, 0, 0.8);
       width: 800px;
       margin: auto;
+      margin-bottom: 2%;
+    }
+
+    .cover-up {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .cover-down {
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
     }
@@ -206,6 +215,12 @@
     select,
     textarea {
       width: 50%;
+      padding-left: 1%;
+      padding-right: 1%;
+    }
+
+    .vac_type {
+      width: 5%;
     }
 
     input:hover,
@@ -241,7 +256,7 @@
     </div>
   </nav>
   <br><br>
-  <div class="cover">
+  <div class="cover-up cover">
     <div class="topic">
       <h1>Add data for Vaccination</h1>
     </div>
@@ -263,7 +278,7 @@
     <table id="resultTable"></table>
   </div>
   <!-- second form -->
-  <div class="cover">
+  <div class="cover-down cover">
     <div id="hide">
       <div class="topic">
         <h1>Add vaccine record</h1>
@@ -350,24 +365,16 @@
           <div class="grid-item"></div>
           <br>
           <br>
-          <br>
-          <br>
-          <br>
-          <div class="vac_type">
-            <div class="grid-item"><label for="Pfizer">Pfizer</label></div>
-            <div class="grid-item"><input type="radio" name="type" id="Pfizer" value="Pfizer" /></div>
-            <br>
-            <div class="grid-item"><label for="Aztraseneca">AstraZeneca</label></div>
-            <div class="grid-item"><input type="radio" name="type" id="AstraZeneca" value="Aztraseneca" /></div>
-            <br>
-            <div class="grid-item"><label for="Sinopharm">Sinopharm</label></div>
-            <div class="grid-item"><input type="radio" name="type" id="Sinopharm" value="Sinopharm" /></div>
-            <br>
-            <div class="grid-item"><label for="Moderna">Moderna</label></div>
-            <div class="grid-item"><input type="radio" name="type" id="Moderna" value="Moderna" /></div>
-          </div>
+          <div class="grid-item"><label for="Pfizer">Pfizer</label></div>
+          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Pfizer" value="Pfizer" /></div>
+          <div class="grid-item"><label for="Aztraseneca">AstraZeneca</label></div>
+          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="AstraZeneca" value="Aztraseneca" /></div>
+          <div class="grid-item"><label for="Sinopharm">Sinopharm</label></div>
+          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Sinopharm" value="Sinopharm" /></div>
+          <div class="grid-item"><label for="Moderna">Moderna</label></div>
+          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Moderna" value="Moderna" /></div>
         </div>
-
+        <br>
         <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">
           Submit
         </button>
