@@ -266,7 +266,7 @@
         <div class="grid-item"><label for="id">
             <lable class="field">ID:</lable>
           </label></div>
-        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" onkeypress="keypress(event);" required /></div>
+        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" onkeypress="keypress(event, 0);" required /></div>
       </div>
       <br>
       <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">
@@ -325,7 +325,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <input placeholder="Name" type="text" id="name" name="name" value="" required />
+            <input placeholder="Name" type="text" id="name" name="name" value="" onkeypress="keypress(event, 'address');" required />
           </div>
           <br>
           <div class="grid-item">
@@ -334,7 +334,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" required /></textarea>
+            <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" onkeypress="keypress(event, 'email');" required /></textarea>
           </div>
           <br>
           <div class="grid-item">
@@ -343,7 +343,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <input placeholder="Email Address" type="email" id="email" name="email" value="" />
+            <input placeholder="Email Address" type="email" id="email" name="email" value="" onkeypress="keypress(event, 'ContactNo');" />
           </div>
           <br>
           <div class="grid-item">

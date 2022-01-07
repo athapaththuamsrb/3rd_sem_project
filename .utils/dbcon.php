@@ -13,8 +13,7 @@ class DatabaseConn
 
   public static function get_conn()
   {
-    try
-    {
+    try {
       if (DatabaseConn::$dbconn == null) {
         $dbconfig = parse_ini_file('.env');
         $servername = $dbconfig['DB_HOST'];
@@ -218,22 +217,22 @@ class DatabaseConn
         $reserved = false;
       }
       $last_dose = $this->get_last_dose($id);
-      if ($last_dose < 0){
+      if ($last_dose < 0) {
         return false;
       }
       $new_dose = $last_dose + 1;
       if ($reserved) {
         $res = $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
-        if (!$res){
+        if (!$res) {
           return false;
         }
       } else {
         $res = $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
-        if (!$res){
+        if (!$res) {
           return false;
         }
       }
-      $Stmt->close(); 
+      $Stmt->close();
       $q0 = 'SELECT token, last_dose FROM persons WHERE id=?';
       $stmt = $this->conn->prepare($q0);
       $stmt->bind_param('s', $id);
@@ -241,7 +240,8 @@ class DatabaseConn
       $stmt->store_result();
       if ($stmt->num_rows() == 0) {
         for ($i = 0; $i < 5; $i++) {
-          $token = base_convert(rand(1, (int)pow(2, 30) - 1), 10, 32);
+          $token = base_convert(rand(1, 0x7fffffff), 10, 36);
+          $token = str_pad($token, 6, '0', STR_PAD_LEFT);
           $q = 'INSERT INTO persons (id, name, district, address, contact, email, token, last_dose) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
           $stmt1 = $this->conn->prepare($q);
           $new_dose = 1;
@@ -372,7 +372,7 @@ class DatabaseConn
       $stmt->close();
       ($this->conn)->commit();
       if (!$success) return false;
-      return ( $num > 0);
+      return ($num > 0);
     } catch (Exception $e) {
       ($this->conn)->rollback();
       return false;

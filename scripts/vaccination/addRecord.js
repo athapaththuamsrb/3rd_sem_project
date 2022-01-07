@@ -128,9 +128,16 @@ function submitRecord() {
   };
 }
 
-function keypress(e){
-  if (e.keyCode === 13){
+function keypress(e, n) {
+  if (e.keyCode === 13) {
     e.preventDefault();
-    document.getElementById('submitButton1').click();
+    if (n === 0) {
+      document.getElementById('submitButton1').click();
+    }else{
+      let elem = document.getElementById(n);
+      if (elem){
+        elem.focus();
+      }
+    }
   }
 }

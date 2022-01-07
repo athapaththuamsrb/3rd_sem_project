@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($con = DatabaseConn::get_conn()) {
             $data = $con->get_vaccination_records($id, $token);
         }
-        if (!is_array($data)){
+        if (!is_array($data)) {
             echo json_encode(['success' => false]);
             die();
         }
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false]);
         }
-    }else{
+    } else {
         echo json_encode(['success' => false, 'reason' => 'insufficent data']);
     }
     die();
