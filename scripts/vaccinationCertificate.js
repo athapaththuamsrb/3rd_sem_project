@@ -30,7 +30,7 @@ function getCert() {
           const jsonData = await (new Response(blob)).text();
           let data = JSON.parse(jsonData);
           doses = data['doses'];
-          if (doses != null && Array.isArray(doses) && doses.length == 0) {
+          if (doses != undefined && doses != null && Array.isArray(doses) && doses.length == 0) {
             alert('Are you sure you are vaccinated?\nthen enter the correct id and token');
           } else {
             alert('Error occured!');

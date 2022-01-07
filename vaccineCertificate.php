@@ -8,10 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($con = DatabaseConn::get_conn()) {
             $data = $con->get_vaccination_records($id, $token);
         }
-        if (!$data || !is_array($data)) {
-            $data = ['id' => $id, 'doses' => []];
+        if (!is_array($data)){
+            echo json_encode(['success' => false]);
+            die();
         }
-        if (isset($data['doses']) && $data['doses']) {
+        if (!$data || !isset($data['doses'])) {
+            $data = ['doses' => []];
+        }
+        if (isset($data['doses']) && $data['doses'] && isset($data['name']) && $data['name'] && isset($data['id']) && $data['id']) {
             error_reporting(0);
             require_once('vendor/autoload.php');
             $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -114,6 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 table, th, td {
                     border:1px solid black;
                     margin-right: 5px;
+                    padding: 15px 7px;
+                    text-align: center;
                 }
                 .certificate{
                     border: 5px solid black;
@@ -151,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($doses as $dose) {
                 $table .= '<tr><td>' . $dose['type'] . '</td><td>' . $dose['date'] . '</td><td>' . $dose['district'] . '</td><td>' . $dose['place'] . '</td></tr>';
             }
-            $html = $html . $table . '</table></div></div>'; //"<style> table {border-collapse: collapse; width: 100%;} td,th {border: 1px solid #dddddd; text-align: left; padding: 8px;}</style><h1>Vaccination Certificate</h1><h2>ID : $data[id]</h2><h3>Name : $data[name]</h3><table><tr><th>Type</th><th>Date</th></tr>";
+            $html = $html . $table . '</table></div></div>';
             // Print text using writeHTMLCell()
             $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
@@ -166,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             readfile($pdfFilePath);
         } else {
             header('Content-Type: application/json');
-            echo json_encode($data);
+            echo json_encode(['success' => false]);
         }
     }
     die();
