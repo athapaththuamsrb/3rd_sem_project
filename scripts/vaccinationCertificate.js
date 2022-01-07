@@ -42,3 +42,14 @@ function getCert() {
     }
   };
 }
+
+function keypress(e, n) {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    if (n === 0) {
+      document.getElementById('inputToken').focus();
+    } else if (n === 1) {
+      document.getElementById('submitBtn').click();
+    }
+  }
+}

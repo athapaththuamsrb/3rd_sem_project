@@ -145,3 +145,23 @@ function submitForm() {
     }
   };
 }
+
+function keypress(e, n) {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    if (n === 0) {
+      document.getElementById('nextBtn').click();
+      document.getElementById('email').focus();
+    } else if (n === 1) {
+      document.getElementById('nextBtn').click();
+      document.getElementById('username').focus();
+    } else if (n === 2) {
+      document.getElementById('nextBtn').click();
+      document.getElementById('password').focus();
+    } else if (n === 3) {
+      document.getElementById('conPassword').focus();
+    } else if (n === 4) {
+      document.getElementById('nextBtn').click();
+    }
+  }
+}

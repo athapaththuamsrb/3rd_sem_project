@@ -174,6 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false]);
         }
+    }else{
+        echo json_encode(['success' => false, 'reason' => 'insufficent data']);
     }
     die();
 }

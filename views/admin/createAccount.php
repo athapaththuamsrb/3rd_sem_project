@@ -165,7 +165,7 @@
         <div>
           Location:
           <p>
-            <input id="place" placeholder="location" oninput="this.className = ''" name="place" />
+            <input id="place" placeholder="location" oninput="this.className = ''" name="place" onkeypress="keypress(event, 0);" />
           </p>
         </div>
       </div>
@@ -174,7 +174,7 @@
       <div>
         Email:
         <p>
-          <input placeholder="Email" type="email" id="email" oninput="this.className = ''" name="email" />
+          <input placeholder="Email" type="email" id="email" oninput="this.className = ''" name="email" onkeypress="keypress(event, 1);" />
         </p>
       </div>
     </div>
@@ -182,7 +182,7 @@
       <div>
         User Name:
         <p>
-          <input id="username" placeholder="User Name" oninput="this.className = ''" name="username" />
+          <input id="username" placeholder="User Name" oninput="this.className = ''" name="username" onkeypress="keypress(event, 2);" />
         </p>
       </div>
     </div>
@@ -190,10 +190,10 @@
     <div class="tab">
       password:
       <p>
-        <input id="password" placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" />
+        <input id="password" placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" onkeypress="keypress(event, 3);" />
       </p>
       <p>
-        <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" />
+        <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" onkeypress="keypress(event, 4);" />
       </p>
     </div>
     <div style="overflow: auto">

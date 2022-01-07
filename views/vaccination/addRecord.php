@@ -266,7 +266,7 @@
         <div class="grid-item"><label for="id">
             <lable class="field">ID:</lable>
           </label></div>
-        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" required /></div>
+        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" onkeypress="keypress(event);" required /></div>
       </div>
       <br>
       <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">

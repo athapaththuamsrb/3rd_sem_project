@@ -132,10 +132,10 @@
     <form>
       <div class="grid-contener">
         <div class="grid-item"><label for="inputID">Enter ID:</label></div>
-        <div class="grid-item"><input type="text" id="inputID"></div>
+        <div class="grid-item"><input type="text" id="inputID" onkeypress="keypress(event);"></div>
       </div>
       <br>
-      <button type="button" class="btn btn-success" onclick="getStatus()">Submit</button>
+      <button id="submitBtn" type="button" class="btn btn-success" onclick="getStatus()">Submit</button>
     </form>
     <br>
     <div id="results" class="item4"></div>

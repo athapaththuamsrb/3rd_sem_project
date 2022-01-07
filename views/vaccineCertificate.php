@@ -80,13 +80,13 @@
         <h1>Vacination Certificate</h1>
         <div class="grid-container">
             <div class="grid-item"><label for="inputID" class="form-label txt">Enter ID:</label></div>
-            <div class="grid-item"><input type="text" class="form-control" id="inputID"></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputID" onkeypress="keypress(event, 0);"></div>
 
             <div class="grid-item"><label for="inputToken" class="form-label txt">Enter Token:</label></div>
-            <div class="grid-item"><input type="text" class="form-control" id="inputToken"></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputToken" onkeypress="keypress(event, 1);"></div>
             <br>
         </div>
-        <button class="btn btn-success" onclick="getCert()">Download</button>
+        <button id="submitBtn" class="btn btn-success" onclick="getCert()">Download</button>
         <br>
     </div>
     <script src="/scripts/common.js"></script>
