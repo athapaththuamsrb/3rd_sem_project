@@ -41,8 +41,9 @@
             background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .btn {
-            width: 200px;
+        .btn-shape {
+            width: 250px;
+            font-size: 150%;
         }
     </style>
 </head>
@@ -61,12 +62,27 @@
     <div class="d-flex justify-content-center" id="title">
         Vaccination Center Dashboard
     </div>
-    <div class="justify-content-center d-grid gap-5 col-6 mx-auto" id="actions">
-        <a href="/vaccination/addRecord.php"><button type="button" class="btn btn-primary">Add Record</button></a>
-        <a href="/vaccination/addStock.php"><button type="button" class="btn btn-primary">Add Stock</button></a>
-        <a href="/vaccination/requestVaccines.php"><button type="button" class="btn btn-primary">Request Vaccines</button></a>
-        <a href="/vaccination/updateStock.php"><button type="button" class="btn btn-primary">Update stock</button></a>
-    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5" id="actions">
+                <a href="/vaccination/addRecord.php"><button type="button" class="btn btn-primary btn-shape">Add Record</button></a>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5" id="actions">
+                <a href="/vaccination/addStock.php"><button type="button" class="btn btn-primary btn-shape">Add Stock</button></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5" id="actions">
+                <a href="/vaccination/requestVaccines.php"><button type="button" class="btn btn-primary btn-shape">Request Vaccines</button></a>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5" id="actions">
+                <a href="/vaccination/updateStock.php"><button type="button" class="btn btn-primary btn-shape">Update stock</button></a>
+            </div>
+        </div>
 
 </body>
 

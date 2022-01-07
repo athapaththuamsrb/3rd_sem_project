@@ -110,6 +110,14 @@
   .hide {
     display: none;
   }
+
+  .radio_bt {
+    width: 10%;
+  }
+
+  label {
+    width: 30%;
+  }
 </style>
 
 <body>
@@ -120,17 +128,20 @@
       <h3>Admin type:</h3>
       <br />
       <div>
-        Testing center:
-        <input type="radio" name="type" id="Testing_center" value="testing" oninput="this.className = ''" />
+        <label for="Testing_center">Testing center:</label>
+        <input type="radio" class="radio_bt" name="type" id="Testing_center" value="testing" oninput="this.className = ''" />
       </div>
+      <br>
       <div>
-        Vaccination center
-        <input type="radio" name="type" id="Vaccination_center" value="vaccination" oninput="this.className = ''" />
+        <label for="Vaccination_center">Vaccination center</label>
+        <input type="radio" class="radio_bt" name="type" id="Vaccination_center" value="vaccination" oninput="this.className = ''" />
       </div>
+      <br>
       <div>
-        Administrator
-        <input type="radio" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
+        <label for="Administrator">Administrator</label>
+        <input type="radio" class="radio_bt" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
       </div>
+      <br>
     </div>
     <div class="tab">
       <div id="address">

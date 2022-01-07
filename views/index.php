@@ -97,7 +97,7 @@
 		}
 	</style>
 </head>
-<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+<div class="mask">
 
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -119,17 +119,27 @@
 		<div class="d-flex justify-content-center" id="title">
 			Dashboard
 		</div>
-		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Vaccine Appointment</button></a>
-		</div>
-		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
-		</div>
-		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination Certificate</button></a>
-		</div>
-		<div class="d-flex justify-content-center" id="actions">
-			<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccine Availability</button></a>
+		<div class="container">
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Vaccine Appointment</button></a>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination Certificate</button></a>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccine Availability</button></a>
+				</div>
+			</div>
 		</div>
 	</body>
 </div>
