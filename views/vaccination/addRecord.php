@@ -63,7 +63,7 @@
     }
 
     .cover:hover {
-      border: 4px solid black;
+      background-color: black;
     }
 
     button:hover {

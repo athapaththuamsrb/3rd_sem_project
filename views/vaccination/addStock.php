@@ -42,7 +42,7 @@
     }
 
     .container:hover {
-      border: 4px solid black;
+      background-color: black;
     }
 
     input:hover,
