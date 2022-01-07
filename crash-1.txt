@@ -1,0 +1,72 @@
+date/time         : 2022-01-03, 17:00:06, 941ms
+computer name     : DESKTOP-TVIE42B
+user name         : Lenovo
+registered owner  : Lenovo
+operating system  : Windows NT New x64 build 9200
+system language   : English
+system up time    : 1 hour 20 minutes
+program up time   : 79 milliseconds
+processors        : 4x Intel(R) Core(TM) i3-6100U CPU @ 2.30GHz
+physical memory   : 2714/8052 MB (free/total)
+free disk space   : (C:) 55.49 GB
+display mode      : 1366x768, 32 bit
+process id        : $123c
+allocated memory  : 16.80 MB
+executable        : sendmail.exe
+exec. date/time   : 2011-06-18 01:10
+compiled with     : Delphi 2006/07
+madExcept version : 3.0l
+callstack crc     : $e1790c4a, $af3ee640, $af3ee640
+exception number  : 1
+exception class   : Exception
+exception message : Message is missing sender's address.
+
+main thread ($6cc):
+004b59c5 +b11 sendmail.exe sendmail 686 +204 initialization
+7689fa27 +017 KERNEL32.DLL                   BaseThreadInitThunk
+
+thread $a24:
+7689fa27 +17 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $69c:
+7689fa27 +17 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $1858:
+7689fa27 +17 KERNEL32.DLL  BaseThreadInitThunk
+
+stack dump:
+0019fdb4  ca 59 4b 00 de fa ed 0e - 01 00 00 00 07 00 00 00  .YK.............
+0019fdc4  c8 fd 19 00 ca 59 4b 00 - 40 50 c0 00 bc c2 41 00  .....YK.@P....A.
+0019fdd4  b4 4e 4b 00 b4 4e 4b 00 - 70 ff 19 00 e4 fd 19 00  .NK..NK.p.......
+0019fde4  f0 fd 19 00 c8 4b 40 00 - 70 ff 19 00 fc fd 19 00  .....K@.p.......
+0019fdf4  5f 4d 40 00 70 ff 19 00 - 64 ff 19 00 c8 4b 40 00  _M@.p...d....K@.
+0019fe04  70 ff 19 00 b4 4e 4b 00 - b4 4e 4b 00 00 00 20 00  p....NK..NK.....
+0019fe14  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe24  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe34  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe44  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe54  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe64  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe74  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe84  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fe94  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fea4  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019feb4  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fec4  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fed4  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019fee4  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+
+disassembling:
+[...]
+004b59b2       jnz     loc_4b59ca
+004b59b4 686   mov     ecx, $4b6bc8           ; 'Message is missing sender's address'
+004b59b9       mov     dl, 1
+004b59bb       mov     eax, [$4085b0]
+004b59c0       call    -$a8031 ($40d994)      ; SysUtils.Exception.Create
+004b59c5     > call    -$b0cde ($404cec)      ; System.@RaiseExcept
+004b59ca 687   cmp     dword ptr [$4c3f48], 0
+004b59d1       jnz     loc_4b5a1f
+004b59d3       mov     eax, [$4c3f78]
+004b59d8       mov     eax, [eax+$98]
+004b59de       call    -$a007f ($415964)      ; Classes.TCollection.GetCount
+[...]
