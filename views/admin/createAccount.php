@@ -111,12 +111,25 @@
     display: none;
   }
 
-  .radio_bt {
-    width: 10%;
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .grid-item {
+    font-size: 15pt;
+    text-align: center;
+    width: 40%;
+  }
+
+  input {
+    width: 100%;
+    padding-right: 30%;
   }
 
   label {
-    width: 30%;
+    float: left;
+    padding-left: 8%;
   }
 </style>
 
@@ -127,21 +140,26 @@
     <div class="tab">
       <h3>Admin type:</h3>
       <br />
-      <div>
-        <label for="Testing_center">Testing center:</label>
-        <input type="radio" class="radio_bt" name="type" id="Testing_center" value="testing" oninput="this.className = ''" />
+      <div class="grid-container">
+        <div class="grid-item">
+          <label for="Testing_center">Testing center:</label>
+        </div>
+        <div class="grid-item">
+          <input type="radio" class="radio_bt" name="type" id="Testing_center" value="testing" oninput="this.className = ''" />
+        </div>
+        <div class="grid-item">
+          <label for="Vaccination_center">Vaccination center</label>
+        </div>
+        <div class="grid-item">
+          <input type="radio" class="radio_bt" name="type" id="Vaccination_center" value="vaccination" oninput="this.className = ''" />
+        </div>
+        <div class="grid-item">
+          <label for="Administrator">Administrator</label>
+        </div>
+        <div class="grid-item">
+          <input type="radio" class="radio_bt" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
+        </div>
       </div>
-      <br>
-      <div>
-        <label for="Vaccination_center">Vaccination center</label>
-        <input type="radio" class="radio_bt" name="type" id="Vaccination_center" value="vaccination" oninput="this.className = ''" />
-      </div>
-      <br>
-      <div>
-        <label for="Administrator">Administrator</label>
-        <input type="radio" class="radio_bt" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
-      </div>
-      <br>
     </div>
     <div class="tab">
       <div id="address">
