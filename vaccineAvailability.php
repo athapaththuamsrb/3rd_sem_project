@@ -4,24 +4,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [];
     $district = $_POST['district'];
     $type = $_POST['type'];
-    if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca"){
+    if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
       echo json_encode($data);
       die();
     }
     $dose = intval($_POST['dose']);
-    if ($dose <= 0){
+    if ($dose <= 0) {
       echo json_encode($data);
       die();
     }
-    try{
+    try {
       $date = new DateTime($_POST['date']);
       $now = new DateTime("now");
-      if ($date < $now){
+      if ($date < $now) {
         echo json_encode($data);
         die();
       }
-    }
-    catch (Exception $e){
+    } catch (Exception $e) {
       echo json_encode($data);
       die();
     }

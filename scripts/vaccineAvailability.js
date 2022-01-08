@@ -10,16 +10,16 @@ function getDateStr() {
   return [year, month, day].join('-');
 }
 const resultDiv = document.getElementById("resultDiv");
-document.getElementById("date").setAttribute("min",getDateStr());
+document.getElementById("date").setAttribute("min", getDateStr());
 document.getElementById('date').value = getDateStr();
 
 function getAvailability() {
   let district = document.getElementById("district").value;
   let type = document.getElementById("type").value;
-  let dose = parseInt(document.getElementById("dose").value,10);
+  let dose = parseInt(document.getElementById("dose").value, 10);
   let date = document.getElementById("date").value;
 
-  if (dose<1) {
+  if (dose < 1) {
     alert("Invalid Dose!");
     return false;
   }
@@ -49,7 +49,7 @@ function getAvailability() {
           });
           let table = tableBuilder.build();
           resultDiv.appendChild(table);
-        }else{
+        } else {
           let p = document.createElement('p');
           p.innerText = 'Not Available'
           resultDiv.appendChild(p);

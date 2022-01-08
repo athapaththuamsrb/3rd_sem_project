@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die();
   }
   $id = $_POST['id'];
-  if (strlen($id) < 4 || strlen($id) > 12){
+  if (strlen($id) < 4 || strlen($id) > 12) {
     echo json_encode($data);
     die();
   }
@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($data[$key]['place']);
         unset($data[$key]['district']);
       }
-    } 
+    }
   }
   echo json_encode($data);
   die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'].'/views/vaccinationStatus.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccinationStatus.php');

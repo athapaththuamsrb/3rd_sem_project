@@ -48,3 +48,7 @@ class TableBuilder {
         return this.table;
     }
 }
+
+const email_pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+const contact_pattern = /^(\+[0-9]{1,3})|(0)[0-9]{9}$/;
+const name_pattern = /^[a-zA-Z.\s]{3,100}$/;

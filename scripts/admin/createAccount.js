@@ -53,7 +53,7 @@ function nextPrev(n) {
   if (currentTab >= x.length) {
     // ... the form gets submitted:
     let pass = document.getElementById("password").value;
-    if (/^[\x21-\x7E]{8,15}$/.test(pass) && pass === document.getElementById("conPassword").value.trim()) {
+    if (/^[\x21-\x7E]{8,15}$/.test(pass) && pass === document.getElementById("conPassword").value) {
       submitForm();
     } else {
       alert("check your password again");
@@ -73,14 +73,14 @@ function validateForm() {
   y = x[currentTab].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
   if (currentTab == 2) {
-    let email = document.getElementById("email").value.trim();
-    if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+    let email = document.getElementById("email").value;
+    if (!email_pattern.test(email)) {
       return false;
     }
   }
   for (i = 0; i < y.length; i++) {
     if (currentTab != 0 && valid == true) {
-      valid = y[i].value.trim() == "" ? false : true;
+      valid = y[i].value == "" ? false : true;
       if (!valid) return false;
     }
   }

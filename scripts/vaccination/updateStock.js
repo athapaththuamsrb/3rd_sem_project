@@ -2,7 +2,7 @@ function updateStock() {
   let type = document.getElementById("type").value;
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
-  if(!/^[1-3]$/.test(dose)||!/^[0-9]+$/.test(amount)){
+  if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount)) {
     alert("Entered data is invalid");
     return false;
   }
@@ -19,14 +19,14 @@ function updateStock() {
   xhrBuilder.addField('amount', amount);
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        let msg=data["success"] === true ? "Success" : "Failed!";
-        setModal(data["success"],msg);
+        let msg = data["success"] === true ? "Success" : "Failed!";
+        setModal(data["success"], msg);
         if (data["success"]) {
           list = document.getElementsByTagName("input");
           for (let index = 0; index < list.length; index++) {

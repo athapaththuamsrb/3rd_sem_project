@@ -2,8 +2,9 @@
 require_once('.auth.php');
 check_auth();
 
-function sendSuccess($success){
-  echo json_encode(['success'=>$success]);
+function sendSuccess($success)
+{
+  echo json_encode(['success' => $success]);
   die();
 }
 
@@ -20,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $uname_pattern = '/^[a-zA-Z0-9_]{5,20}$/';
   $pw_pattern = '/^\S{8,15}$/';
   $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
-  if (!preg_match($uname_pattern, $uname) || !preg_match($pw_pattern, $pw) || !preg_match($email_pattern, $email)){
+  if (!preg_match($uname_pattern, $uname) || !preg_match($pw_pattern, $pw) || !preg_match($email_pattern, $email)) {
     sendSuccess(false);
   }
-  if ($type != "admin" && $type != "vaccination" && $type != "testing"){
+  if ($type != "admin" && $type != "vaccination" && $type != "testing") {
     sendSuccess(false);
   }
   require_once '../.utils/factory.php';

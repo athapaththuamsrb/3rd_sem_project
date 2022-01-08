@@ -24,7 +24,7 @@ function reset() {
 
 function getDetails() {
   let id = id_element.value;
-  if(id.length<4 || id.length>12){
+  if (id.length < 4 || id.length > 12) {
     alert("Invalid ID!");
     return;
   }
@@ -92,15 +92,19 @@ function submitRecord() {
   let email = email_element.value;
   let contact = contact_element.value;
 
-  if(id.length<4 || id.length>12){//check id
+  if (id.length < 4 || id.length > 12) {//check id
     alert("Invalid ID!");
     return false;
   }
-  if(email && !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)){
+  if (!name_pattern.test(name)) {
+    alert("Invalid Name!");
+    return false;
+  }
+  if (email && !email_pattern.test(email)) {
     alert("Invalid email");
     return false;
   }
-  if (contact && !/^(\+[0-9]{1,3})|(0)[0-9]{9}$/.test(contact)) {
+  if (contact && !contact_pattern.test(contact)) {
     alert("Invalid contact number");
     return false;
   }
@@ -122,7 +126,7 @@ function submitRecord() {
       try {
         let data = JSON.parse(xhr.responseText);
         if (data && data["token"]) {
-          setModal(true,"token is: " + data["token"]);
+          setModal(true, "token is: " + data["token"]);
           reset();
           id_element.value = "";
           // clear form
@@ -136,11 +140,11 @@ function submitRecord() {
           // }
           document.getElementById("hide").style.display = 'none';
         }
-        else{
-          setModal(false,"Error occured!");
+        else {
+          setModal(false, "Error occured!");
         }
       } catch (error) {
-        setModal(false,"Error occured!");
+        setModal(false, "Error occured!");
       }
     }
   };
@@ -151,9 +155,9 @@ function keypress(e, n) {
     e.preventDefault();
     if (n === 0) {
       document.getElementById('submitButton1').click();
-    }else{
+    } else {
       let elem = document.getElementById(n);
-      if (elem){
+      if (elem) {
         elem.focus();
       }
     }

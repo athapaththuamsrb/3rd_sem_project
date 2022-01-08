@@ -2,20 +2,19 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [];
     if (isset($_POST['district']) && isset($_POST['date']) && isset($_POST['id']) && $_POST['district'] && $_POST['date'] && $_POST['id']) {
-        try{
+        try {
             $date = new DateTime($_POST['date']);
             $now = new DateTime("now");
-            if ($date < $now){
+            if ($date < $now) {
                 echo json_encode($data);
                 die();
             }
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             echo json_encode($data);
             die();
         }
         $id = $_POST['id'];
-        if (strlen($id) < 4 || strlen($id) > 12){
+        if (strlen($id) < 4 || strlen($id) > 12) {
             echo json_encode($data);
             die();
         }
@@ -25,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($con = DatabaseConn::get_conn()) {
                 $place = $_POST['vaccineCenter'];
                 $type = $_POST['vaccineType'];
-                if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca"){
+                if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
                     echo json_encode($data);
                     die();
                 }
@@ -33,11 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $name_pattern = '/^[a-zA-Z. ]+$/';
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
                 $email_pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/";
-              
+
                 $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
                 $contact_pattern = '/^[0-9]{10}+$/';
-            
-                if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))){
+
+                if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))) {
                     echo "aa";
                     echo json_encode($data);
                     die();

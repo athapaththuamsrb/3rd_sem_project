@@ -10,13 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $district = $user->getDistrict();
             $place = $user->getPlace();
             $type = $_POST['type'];
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca"){
+            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
                 echo json_encode($data);
                 die();
             }
             $dose = intval($_POST['dose']);
             $amount = intval($_POST['amount']);
-            if ($dose <=0 || $amount <= 0){
+            if ($dose <= 0 || $amount <= 0) {
                 echo json_encode($data);
                 die();
             }

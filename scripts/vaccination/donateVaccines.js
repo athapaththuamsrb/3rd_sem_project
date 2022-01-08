@@ -17,7 +17,7 @@ function donate() {
   xhrBuilder.addField('amount', amount);
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
-  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(xhrBuilder.build());
   xhr.onreadystatechange = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {

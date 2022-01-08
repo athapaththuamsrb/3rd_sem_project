@@ -11,11 +11,11 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 }
-function setModal(status,msg){
-  while (mBody.firstChild){
+function setModal(status, msg) {
+  while (mBody.firstChild) {
     mBody.removeChild(mBody.lastChild);
   }
-  while (mFooter.firstChild){
+  while (mFooter.firstChild) {
     mFooter.removeChild(mFooter.lastChild);
   }
   let p = document.createElement('p');
@@ -25,9 +25,9 @@ function setModal(status,msg){
     mFooter.style.background = "green";
     h3.innerText = 'Thank you!';
   } else {
-      document.getElementById("mHeader").style.background = "red";
-      mFooter.style.background = "red";
-      h3.innerText = 'Try Again!';
+    document.getElementById("mHeader").style.background = "red";
+    mFooter.style.background = "red";
+    h3.innerText = 'Try Again!';
   }
   p.innerText = msg;
   mBody.appendChild(p);

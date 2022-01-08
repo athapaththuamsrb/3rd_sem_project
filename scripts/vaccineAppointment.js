@@ -104,17 +104,17 @@ function submitRequest() {
     return false;
   }
 
-  if (!/^[a-zA-Z.\s]{3,100}$/.test(name)) {
+  if (!name_pattern.test(name)) {
     alert("Invalid Name!");
     return false;
   }
 
-  if (contact && !/^(\+[0-9]{1,3})|(0)[0-9]{9}$/.test(contact)) {
+  if (contact && !contact_pattern.test(contact)) {
     alert("Invalid contact number");
     return false;
   }
 
-  if (email && !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)) {
+  if (email && !email_pattern.test(email)) {
     alert("Invalid email");
     return false;
   }
@@ -137,10 +137,7 @@ function submitRequest() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        let msg =
-          data["status"] === true
-            ? "Appointment Success!"
-            : "Appointment Failed!";
+        let msg = data["status"] === true ? "Appointment Success!" : "Appointment Failed!";
         setModal(data["status"], msg);
       } catch (error) {
         alert("Error occured");

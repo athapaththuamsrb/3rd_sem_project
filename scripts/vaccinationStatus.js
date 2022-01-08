@@ -25,20 +25,20 @@ function getStatus() {
           for (index = 0; index < data.length; index++) {
             tableBuilder.addRow(data[index]['type'], data[index]['date']);
           }
-          while (output.firstChild){
+          while (output.firstChild) {
             output.removeChild(output.lastChild);
           }
           let table = tableBuilder.build();
           output.appendChild(table);
         } else if (data.length == 0) {
-          while (output.firstChild){
+          while (output.firstChild) {
             output.removeChild(output.lastChild);
           }
           let h2 = document.createElement('h2');
           h2.innerText = 'Not vaccinated';
           output.appendChild(h2);
         } else {
-          while (output.firstChild){
+          while (output.firstChild) {
             output.removeChild(output.lastChild);
           }
           let h2 = document.createElement('h2');
@@ -55,8 +55,8 @@ function getStatus() {
   };
 }
 
-function keypress(e){
-  if (e.keyCode === 13){
+function keypress(e) {
+  if (e.keyCode === 13) {
     e.preventDefault();
     document.getElementById('submitBtn').click();
   }

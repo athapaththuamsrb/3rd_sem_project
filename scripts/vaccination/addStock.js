@@ -1,6 +1,6 @@
 function getDateStr() {
   let d = new Date();
-  d.setDate(d.getDate()+1);
+  d.setDate(d.getDate() + 1);
   let month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
     year = d.getFullYear();
@@ -20,28 +20,14 @@ function submitStock() {
   let amount = document.getElementById("amount").value;
   let onlineAmount = document.getElementById("onlineAmount").value;
 
-  if (
-    !/^[1-3]$/.test(dose) ||
-    !/^[0-9]+$/.test(amount) ||
-    !/^[0-9]+$/.test(onlineAmount)
-    ) {
+  if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount) || !/^[0-9]+$/.test(onlineAmount)) {
     alert("Entered data is invalid");
     return false;
   }
   amount = parseInt(amount);
   onlineAmount = parseInt(onlineAmount);
   dose = parseInt(dose);
-  if (
-    !date ||
-    !type ||
-    !dose ||
-    !amount ||
-    !onlineAmount ||
-    dose <= 0 ||
-    amount <= 0 ||
-    onlineAmount < 0 ||
-    onlineAmount > amount
-  ) {
+  if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
     alert("Entered data is invalid");
     return false;
   }

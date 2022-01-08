@@ -3,12 +3,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && isset($_POST['token']) && $_POST['id'] && $_POST['token']) {
         $data = null;
         $id = $_POST['id'];
-        if (strlen($id) < 4 || strlen($id) > 12){
+        if (strlen($id) < 4 || strlen($id) > 12) {
             echo json_encode($data);
             die();
         }
         $token = $_POST['token'];
-        if (strlen($token) != 6){
+        if (strlen($token) != 6) {
             echo json_encode($data);
             die();
         }
@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             readfile($pdfFilePath);
         } else {
             header('Content-Type: application/json');
-            echo json_encode(['success' => false,'doses'=>[]]);
+            echo json_encode(['success' => false, 'doses' => []]);
         }
     } else {
         echo json_encode(['success' => false, 'reason' => 'insufficent data']);
