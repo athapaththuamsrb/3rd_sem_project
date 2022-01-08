@@ -1,23 +1,10 @@
-const mFooter = document.getElementById('mFooter');
-const mBody = document.getElementById('mBody');
-const modal = document.getElementById("myModal");
-const span = document.getElementsByClassName("close")[0];
-
-span.onclick = function () {
-  modal.style.display = "none";
-}
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
 function getCentres() {
   let district = document.getElementById("districts").value;
   let date = document.getElementById("date").value;
   let id = document.getElementById("id").value;
   let output = document.getElementById("centers");
-
+  output.style.backgroundColor="";
+  document.getElementById("hide").style.display="none";
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('district', district);
   xhrBuilder.addField('date', date);
@@ -60,8 +47,8 @@ function getCentres() {
           }
           li.appendChild(ol);
           output.appendChild(li);
-          output.appendChild(document.createElement('br'));
-          output.appendChild(document.createElement('br'));
+          output.style.backgroundColor="black";
+          document.getElementById("hide").style.display="block";
         });
       } catch (error) {
         alert("Error occured");
@@ -102,32 +89,11 @@ function submitRequest() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        while (mBody.firstChild){
-          mBody.removeChild(mBody.lastChild);
-        }
-        while (mFooter.firstChild){
-          mFooter.removeChild(mFooter.lastChild);
-        }
-        let p = document.createElement('p');
-        let h3 = document.createElement('h3');
-        if (data['status']) {
-          document.getElementById("mHeader").style.background = "green";
-          mFooter.style.background = "green";
-          p.innerText = 'Appointment Success!';
-          h3.innerText = 'Thank you!';
-        } else {
-          document.getElementById("mHeader").style.background = "red";
-          mFooter.style.background = "red";
-          p.innerText = 'Appointment Failed.';
-          h3.innerText = 'Try Again!';
-        }
-        mBody.appendChild(p);
-        mFooter.appendChild(h3);
-        modal.style.display = "block";
+        let msg=data["status"] === true ? "Appointment Success!" : "Appointment Failed!"
+        setModal(data['status'],msg);
       } catch (error) {
         alert("Error occured");
       }
     }
   }
-
 }

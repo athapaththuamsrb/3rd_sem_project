@@ -55,6 +55,7 @@
 
     input {
         width: 60%;
+        padding-left: 5%;
     }
 
     label {
@@ -80,10 +81,10 @@
         <h1>Vacination Certificate</h1>
         <div class="grid-container">
             <div class="grid-item"><label for="inputID" class="form-label txt">Enter ID:</label></div>
-            <div class="grid-item"><input type="text" class="form-control" id="inputID" onkeypress="keypress(event, 0);"></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputID" onkeypress="keypress(event, 0);" size="12"></div>
 
             <div class="grid-item"><label for="inputToken" class="form-label txt">Enter Token:</label></div>
-            <div class="grid-item"><input type="text" class="form-control" id="inputToken" onkeypress="keypress(event, 1);"></div>
+            <div class="grid-item"><input type="text" class="form-control" id="inputToken" onkeypress="keypress(event, 1);" size="6"></div>
             <br>
         </div>
         <button id="submitBtn" class="btn btn-success" onclick="getCert()">Download</button>
