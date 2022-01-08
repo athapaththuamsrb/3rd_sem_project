@@ -96,11 +96,7 @@ function submitRecord() {
     alert("Invalid ID!");
     return false;
   }
-<<<<<<< HEAD
-  if(!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
-=======
   if(email && !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)){
->>>>>>> a46b7ab7f7dd7275027ca705690eea73289a2cb7
     alert("Invalid email");
     return false;
   }
