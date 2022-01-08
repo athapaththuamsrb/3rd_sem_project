@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
                 $contact_pattern = '/^[0-9]{10}+$/';
                 $contact = $_POST['contact'];
-                if (!preg_match($name_pattern, $name) || !preg_match($email_pattern, $email) || !preg_match($contact_pattern, $contact)){
+                if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))){
                     echo json_encode($data);
                     die();
                 }
