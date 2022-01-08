@@ -69,6 +69,7 @@
         input,
         select {
             width: 60%;
+            padding-left: 5%;
         }
 
         label {

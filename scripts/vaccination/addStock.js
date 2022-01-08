@@ -4,6 +4,10 @@ function submitStock() {
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
   let onlineAmount = document.getElementById("onlineAmount").value;
+  if(!/^[1-3]$/.test(dose)||!/^[0-9]+$/.test(amount)||!/^[0-9]+$/.test(onlineAmount)){
+    alert("Entered data is invalid");
+    return false;
+  }
   amount = parseInt(amount);
   onlineAmount = parseInt(onlineAmount);
   dose = parseInt(dose);
@@ -26,7 +30,8 @@ function submitStock() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        alert(data["success"] === true ? "Success" : "Failed!");
+        let msg=data["success"] === true ? "Success!" : "Failed!";
+        setModal(data["success"],msg);
         if (data["success"]) {
           list = document.getElementsByTagName("input");
           for (let index = 0; index < list.length; index++) {

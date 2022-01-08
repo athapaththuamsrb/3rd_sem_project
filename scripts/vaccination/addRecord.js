@@ -24,7 +24,10 @@ function reset() {
 
 function getDetails() {
   let id = id_element.value;
-
+  if(id.length<4 || id.length>12){
+    alert("Invalid ID!");
+    return;
+  }
   let xhr = new XMLHttpRequest();
   xhr.open('POST', document.URL, true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -89,6 +92,18 @@ function submitRecord() {
   let email = email_element.value;
   let contact = contact_element.value;
 
+  if(id.length<4 || id.length>12){//check id
+    alert("Invalid ID!");
+    return false;
+  }
+  if(!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)){
+    alert("Invalid email");
+    return false;
+  }
+  if(!/^(\+[0-9]{1,3})|(0)[0-9]{9}$/.test(contact)){
+    alert("Invalid contact number");
+    return false;
+}
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('id', id);
   xhrBuilder.addField('name', name);
@@ -107,7 +122,7 @@ function submitRecord() {
       try {
         let data = JSON.parse(xhr.responseText);
         if (data && data["token"]) {
-          alert("token is: " + data["token"]);
+          setModal(true,"token is: " + data["token"]);
           reset();
           id_element.value = "";
           // clear form
@@ -121,8 +136,11 @@ function submitRecord() {
           // }
           document.getElementById("hide").style.display = 'none';
         }
+        else{
+          setModal(false,"Error occured!");
+        }
       } catch (error) {
-        alert("Error occured");
+        setModal(false,"Error occured!");
       }
     }
   };

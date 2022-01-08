@@ -7,37 +7,13 @@
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" type="text/css" href="/styles/all.css" />
+  <link rel="stylesheet" type="text/css" href="/styles/modal.css" />
   <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
   <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
   <style type="text/css">
     * {
       margin: 0;
       padding: 0;
-    }
-
-    h1,
-    label {
-      color: white;
-    }
-
-    #application {
-      padding: 10px;
-    }
-
-    #loginButton {
-      width: 250px;
-      background-color: blue;
-    }
-
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      /* background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      font-family: sans-serif; */
     }
 
     html {
@@ -49,7 +25,6 @@
       background-color: rgb(0, 0, 0, 0.8);
       width: 800px;
       margin: auto;
-      margin-bottom: 2%;
     }
 
     .cover-up {
@@ -76,6 +51,7 @@
 
     .buttons {
       text-align: center;
+      margin: 2%;
     }
 
     #submitButton {
@@ -231,6 +207,7 @@
 
     label {
       float: left;
+      color: white;
       width: 40%;
       text-align: left;
       padding-left: 10%;
@@ -266,12 +243,13 @@
         <div class="grid-item"><label for="id">
             <lable class="field">ID:</lable>
           </label></div>
-        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" onkeypress="keypress(event, 0);" required /></div>
+        <div class="grid-item"><input placeholder="ID" type="text" id="id" name="id" onkeypress="keypress(event, 0);" size="12" required /></div>
       </div>
       <br>
       <button id="submitButton1" type="button" name="submit" class="btn btn-success" onclick="getDetails()">
         Submit
       </button>
+      <br><br>
     </form>
   </div>
   <div id="resultDiv" class="item4"></div>
@@ -325,7 +303,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <input placeholder="Name" type="text" id="name" name="name" value="" onkeypress="keypress(event, 'address');" required />
+            <input placeholder="Name" type="text" id="name" name="name" onkeypress="keypress(event, 'address');" required />
           </div>
           <br>
           <div class="grid-item">
@@ -334,7 +312,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <textarea placeholder="Resident Address" type="text" id="address" name="address" value="" onkeypress="keypress(event, 'email');" required /></textarea>
+            <textarea placeholder="Resident Address" type="text" id="address" name="address" onkeypress="keypress(event, 'email');" required /></textarea>
           </div>
           <br>
           <div class="grid-item">
@@ -343,7 +321,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <input placeholder="Email Address" type="email" id="email" name="email" value="" onkeypress="keypress(event, 'ContactNo');" />
+            <input placeholder="Email Address" type="email" id="email" name="email" onkeypress="keypress(event, 'ContactNo');" />
           </div>
           <br>
           <div class="grid-item">
@@ -352,7 +330,7 @@
             </label>
           </div>
           <div class="grid-item">
-            <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" name="contact" value="" />
+            <input placeholder="0123456789" type="tel" id="ContactNo" pattern="[0-9]{10}" size="12" name="contact" value="" />
           </div>
           <br>
           <div class="grid-item">
@@ -376,12 +354,31 @@
         <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">
           Submit
         </button>
-
+        <br><br>
       </form>
     </div>
   </div>
 
+  <!-- Trigger/Open The Modal -->
+  <!-- <button id="myBtn">Open Modal</button> -->
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header" id="mHeader">
+        <span class="close" id="close-span">&times;</span>
+        <h2>Add Stock</h2>
+      </div>
+      <div class="modal-body" id="mBody">
+        <p>Success!</p>
+      </div>
+      <div class="modal-footer" id="mFooter">
+        <h3>Thank you!</h3>
+      </div>
+    </div>
+  </div>
   <script src="/scripts/common.js"></script>
+  <script src="/scripts/modal.js"></script>
   <script src="/scripts/vaccination/addRecord.js"></script>
 </body>
 

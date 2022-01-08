@@ -98,6 +98,7 @@
 
     input {
       width: 60%;
+      padding-left: 4%;
     }
 
     label {
