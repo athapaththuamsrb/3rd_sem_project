@@ -32,12 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $name = isset($_POST['name']) ? $_POST['name'] : '';
                 $name_pattern = '/^[a-zA-Z. ]+$/';
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
-                $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
-                $email = $_POST['email'];
+                $email_pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/";
+              
                 $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
                 $contact_pattern = '/^[0-9]{10}+$/';
-                $contact = $_POST['contact'];
+            
                 if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))){
+                    echo "aa";
                     echo json_encode($data);
                     die();
                 }
