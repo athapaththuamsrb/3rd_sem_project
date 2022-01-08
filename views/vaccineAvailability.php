@@ -155,7 +155,7 @@
                 <div class="grid-item"><input type="number" id="dose" name="dose" value="1" min="1" /></div>
 
                 <div class="grid-item"><label for="date">Date:</label></div>
-                <div class="grid-item"><input type="date" id="date" name="date" value="" /></div>
+                <div class="grid-item"><input type="date" id="date" name="date" value="" min="@DateTime.Now.ToString('yyyy-MM-ddThh:mm')" /></div>
 
             </div>
             <button type="button" class="btn btn-success" onclick="getAvailability()">submit</button>

@@ -276,52 +276,6 @@ class DatabaseConn
     }
   }
 
-  public function add_test_record($details)
-  {
-    ($this->conn)->begin_transaction();
-    try {
-      $name = $details['name'];
-      $id = $details['id'];
-      $address = $details['address'];
-      $contact = $details['contact'];
-      $email = $details['email'];
-      $test = $details['test'];
-      $result = $details['result'];
-      $place = $details['place'];
-      $date = $details['date'];
-      $q0 = 'SELECT id FROM persons WHERE id=?';
-      $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('s', $id);
-      $stmt0->execute();
-      $stmt0->store_result();
-      if ($stmt0->num_rows() == 0) {
-        $q1 = 'INSERT INTO persons (id, name, district, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)';
-        $stmt1 = $this->conn->prepare($q1);
-        $stmt1->bind_param('ssssss', $id, $name, $district, $address, $contact, $email);
-        $stmt1->execute();
-      }
-      $stmt0->close();
-      $stmt1->close();
-      for ($i = 0; $i < 5; $i++) {
-        $token = rand(1, (int)pow(2, 64) - 1);
-        $token = base_convert($token, 10, 32);
-        $q2 = 'INSERT INTO testing (id, token, test, result, place, date) VALUES (?, ?, ?, ?, ?, ?)';
-        $stmt2 = $this->conn->prepare($q2);
-        $stmt2->bind_param('ssssss', $id, $token, $test, $result, $place, $date);
-        $success = $stmt2->execute();
-        $stmt2->close();
-        if ($success) {
-          ($this->conn)->commit();
-          return $token;
-        }
-      }
-      ($this->conn)->commit();
-    } catch (Exception $e) {
-      ($this->conn)->rollback();
-      return false;
-    }
-  }
-
   public function add_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
   {
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS stocks (
@@ -450,7 +404,7 @@ class DatabaseConn
 
   public function add_appointment($details)
   {
-    ($this->conn)->query("CREATE TABLE IF NOT EXISTSappointments (
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS appointments (
       id varchar(20) not null,
       name varchar(100) not null,
       contact varchar(15),
@@ -621,6 +575,173 @@ class DatabaseConn
     }
   }
 
+  public function add_test_record($details)
+  {
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
+      id varchar(20) not null, 
+      name varchar(100) not null, 
+      district varchar(20) not null, 
+      address varchar(100),
+      contact varchar(15),
+      email varchar(50),
+      token varchar(50) not null, 
+      last_dose int not null, 
+      primary key (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS tests (
+      test_id int NOT NULL AUTO_INCREMENT,
+      type varchar(20) NOT NULL,
+      date varchar(15) not null,
+      district varchar(25) not null,
+      place varchar(50) not null,
+      id varchar(20) not null,
+      PRIMARY KEY (test_id),
+      foreign key (id) references persons (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
+    try {
+      $name = $details['name'];
+      $id = $details['id'];
+      $address = $details['address'];
+      $contact = $details['contact'];
+      $email = $details['email'];
+      $type = $details['test'];
+      $result = $details['result'];
+      $place = $details['place'];
+      $date = date('Y-m-d');
+      $q0 = 'SELECT id FROM persons WHERE id=?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('s', $id);
+      $stmt0->execute();
+      $stmt0->store_result();
+      if ($stmt0->num_rows() == 0) {
+        $q1 = 'INSERT INTO persons (id, name, district, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)';
+        $stmt1 = $this->conn->prepare($q1);
+        $stmt1->bind_param('ssssss', $id, $name, $district, $address, $contact, $email);
+        $stmt1->execute();
+        $stmt1->close();
+      }
+      $stmt0->close();
+      for ($i = 0; $i < 5; $i++) {
+        $token = rand(1, (int)pow(2, 64) - 1);
+        $token = base_convert($token, 10, 32);
+        $q2 = 'INSERT INTO tests (id, token, type, result, place, date) VALUES (?, ?, ?, ?, ?, ?)';
+        $stmt2 = $this->conn->prepare($q2);
+        $stmt2->bind_param('ssssss', $id, $token, $type, $result, $place, $date);
+        $success = $stmt2->execute();
+        $stmt2->close();
+        if ($success) {
+          ($this->conn)->commit();
+          return $token;
+        }
+      }
+      ($this->conn)->commit();
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return false;
+    }
+  }
+
+  public function add_testing_appointment($details)
+  {
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS testing_appointments (
+      id varchar(20) not null,
+      name varchar(100) not null,
+      contact varchar(15),
+      email varchar(50),
+      district varchar(20) not null,
+      place varchar(50) not null,
+      date varchar(15) not null,
+      type varchar(20) not null,
+      primary key (id, date)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
+    try {
+      mysqli_report(MYSQLI_REPORT_ALL);
+      $id = $details['id'];
+      $name = $details['name'];
+      $contact = $details['contact'];
+      $email = $details['email'];
+      $district = $details['district'];
+      $place = $details['place'];
+      $date = $details['date']->format('Y-m-d');
+      $type = $details['type'];
+      $q0 = 'SELECT appointments FROM testing_stocks WHERE district = ? AND place = ? AND date = ? AND type = ? AND appointments > 0';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ssss', $district, $place, $date, $type);
+      $stmt0->execute();
+      $result = $stmt0->get_result();
+      if ($result->num_rows == 0) {
+        return false;
+      }
+      $stmt0->close();
+      $q = 'INSERT INTO testing_appointments (id, name, contact, email, district, place, date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('ssssssss', $id, $name, $contact, $email, $district, $place, $date, $type);
+      $success = $stmt->execute();
+      $stmt->close();
+      ($this->conn)->commit();
+      return $success;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return false;
+    }
+  }
+
+  public function add_testing_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
+  {
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS testing_stocks (
+        district varchar(20) not null,
+        place varchar(50) not null,
+        date varchar(15) not null,
+        type varchar(20) not null,
+        reserved int not null,
+        not_reserved int not null,
+        appointments int not null,
+        primary key (district, place, date, type)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    ($this->conn)->begin_transaction();
+    try {
+      $datestr = $date->format('Y-m-d');
+      $q = 'INSERT INTO testing_stocks (district, place, date, type, not_reserved, reserved, appointments) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('ssssiii', $district, $place, $datestr, $type, $not_reserved, $reserved, $reserved);
+      $success = $stmt->execute();
+      $stmt->close();
+      ($this->conn)->commit();
+      return $success;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return false;
+    }
+  }
+
+  public function get_testing_availability($district, $type, $date)
+  {
+    ($this->conn)->begin_transaction();
+    try {
+      $date = $date->format('Y-m-d');
+      $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND date=?";
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ssis', $district, $type, $date);
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      $arr = array();
+      while ($row = $result0->fetch_assoc()) {
+        $place = $row['place'];
+        $reserved = $row['reserved'];
+        $not_reserved = $row['not_reserved'];
+        array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return [];
+    }
+  }
+
   public function close_conn()
   {
     if (DatabaseConn::$dbconn != null) {
@@ -641,6 +762,9 @@ class DatabaseConn
     }
     return false;
   }
+
+
+
 
   public function __destruct()
   {

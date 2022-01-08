@@ -2,6 +2,17 @@ function getCert() {
   let id = document.getElementById("inputID").value;
   let token = document.getElementById("inputToken").value;
 
+  if (id.length < 4 || id.length > 12) {
+    //check id
+    alert("Invalid ID!");
+    return false;
+  }
+
+  if (token.length !== 6) {
+    alert("Invalid Token!");
+    return false;
+  }
+
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -36,7 +47,7 @@ function getCert() {
             alert('Error occured!');
           }
         } catch (error) {
-          alert('Error occured!');
+          alert('Error occured');
         }
       }
     }

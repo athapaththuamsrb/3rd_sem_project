@@ -10,13 +10,19 @@ function getDateStr() {
   return [year, month, day].join('-');
 }
 const resultDiv = document.getElementById("resultDiv");
+document.getElementById("date").setAttribute("min",getDateStr());
 document.getElementById('date').value = getDateStr();
 
 function getAvailability() {
   let district = document.getElementById("district").value;
   let type = document.getElementById("type").value;
-  let dose = document.getElementById("dose").value;
+  let dose = parseInt(document.getElementById("dose").value,10);
   let date = document.getElementById("date").value;
+
+  if (dose<1) {
+    alert("Invalid Dose!");
+    return false;
+  }
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);

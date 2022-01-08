@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             readfile($pdfFilePath);
         } else {
             header('Content-Type: application/json');
-            echo json_encode(['success' => false]);
+            echo json_encode(['success' => false,'doses'=>[]]);
         }
     } else {
         echo json_encode(['success' => false, 'reason' => 'insufficent data']);
