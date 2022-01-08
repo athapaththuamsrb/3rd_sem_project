@@ -29,18 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $address = '';
       $contact = '';
       $email = '';
-      if (isset($_POST['address']) && $_POST['address']) {
-        $address = $_POST['address'];
-      }
-      if (isset($_POST['contact']) && $_POST['contact']) {
-        $contact = $_POST['contact'];
-      }
-      if (isset($_POST['email']) && $_POST['email']) {
-        $email = $_POST['email'];
-      }
+      $address = isset($_POST['address']) ? $_POST['address'] : '';
+      $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
+      $email = isset($_POST['email']) ? $_POST['email'] : '';
       $contact_pattern = '/^[0-9]{10}+$/';
       $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
-      if (!preg_match($contact_pattern, $contact) || !preg_match($email_pattern, $email)){
+      if (($contact && !preg_match($contact_pattern, $contact)) || ($email && !preg_match($email_pattern, $email))){
         echo json_encode($data);
         die();
       }
