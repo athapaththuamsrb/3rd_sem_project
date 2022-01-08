@@ -3,6 +3,12 @@ const output = document.getElementById("results");
 function getStatus() {
   let id = document.getElementById("inputID").value;
 
+  if (id.length < 4 || id.length > 12) {
+    //check id
+    alert("Invalid ID!");
+    return false;
+  }
+
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

@@ -96,14 +96,14 @@ function submitRecord() {
     alert("Invalid ID!");
     return false;
   }
-  if(!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)){
+  if(email && !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email)){
     alert("Invalid email");
     return false;
   }
-  if(!/^(\+[0-9]{1,3})|(0)[0-9]{9}$/.test(contact)){
+  if (contact && !/^(\+[0-9]{1,3})|(0)[0-9]{9}$/.test(contact)) {
     alert("Invalid contact number");
     return false;
-}
+  }
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField('id', id);
   xhrBuilder.addField('name', name);
