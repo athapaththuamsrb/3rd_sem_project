@@ -1,10 +1,18 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && isset($_POST['token']) && $_POST['id'] && $_POST['token']) {
-        $id = $_POST['id'];
-        $token = $_POST['token'];
-        require_once('.utils/dbcon.php');
         $data = null;
+        $id = $_POST['id'];
+        if (strlen($id) < 4 || strlen($id) > 12){
+            echo json_encode($data);
+            die();
+        }
+        $token = $_POST['token'];
+        if (strlen($token) != 6){
+            echo json_encode($data);
+            die();
+        }
+        require_once('.utils/dbcon.php');
         if ($con = DatabaseConn::get_conn()) {
             $data = $con->get_vaccination_records($id, $token);
         }

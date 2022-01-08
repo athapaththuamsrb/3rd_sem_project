@@ -1,9 +1,15 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $data = null;
   if (!isset($_POST['id']) || !$_POST['id']) {
+    echo json_encode($data);
     die();
   }
   $id = $_POST['id'];
+  if (strlen($id) < 4 || strlen($id) > 12){
+    echo json_encode($data);
+    die();
+  }
   require_once('.utils/dbcon.php');
   $conn = DatabaseConn::get_conn();
   if ($conn) {
@@ -14,11 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($data[$key]['place']);
         unset($data[$key]['district']);
       }
-    } else {
-      $data = null;
-    }
-  } else {
-    $data = null;
+    } 
   }
   echo json_encode($data);
   die();
