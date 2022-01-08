@@ -6,7 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="/styles/all.css" />
-	<link rel="stylesheet" type="text/css" href="/styles/modal.css" />
 	<link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
 	<script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 	<title>Request Vaccination</title>
@@ -136,26 +135,13 @@
 		<button onclick="requestSubmit()" class="btn btn-success">Request</button>
 		<br>
 	</fieldset>
-	<!-- Trigger/Open The Modal -->
-	<!-- <button id="myBtn">Open Modal</button> -->
-	<!-- The Modal -->
-	<div id="myModal" class="modal">
-		<!-- Modal content -->
-		<div class="modal-content">
-			<div class="modal-header" id="mHeader">
-				<span class="close" id="close-span">&times;</span>
-				<h2>Add Stock</h2>
-			</div>
-			<div class="modal-body" id="mBody">
-				<p>Success!</p>
-			</div>
-			<div class="modal-footer" id="mFooter">
-				<h3>Thank you!</h3>
-			</div>
-		</div>
-	</div>
+
+	<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
+	addModal('Request Vaccines');
+	?>
+
 	<script src="/scripts/common.js"></script>
-	<script src="/scripts/modal.js"></script>
 	<script src="/scripts/vaccination/requestVaccines.js"></script>
 </body>
 

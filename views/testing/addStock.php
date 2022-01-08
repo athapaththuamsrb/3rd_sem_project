@@ -118,7 +118,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Vaccination Center</a>
+      <a class="navbar-brand" href="#">Testing Center</a>
     </div>
   </nav>
   <br><br>
@@ -136,18 +136,14 @@
         <div class="grid-item"><label for="date">Date:</label></div>
         <div class="grid-item"> <input type="date" id="date" name="date" /></div>
 
-        <div class="grid-item"><label for="type">Vaccine Type:</label></div>
+        <div class="grid-item"><label for="type">Test Type:</label></div>
         <div class="grid-item">
           <select name="type" id="type">
-            <option value="Pfizer">Pfizer</option>
-            <option value="Sinopharm">Sinopharm</option>
-            <option value="Aztraseneca">Aztraseneca</option>
-            <option value="Moderna">Moderna</option>
+            <option value="PCR">PCR</option>
+            <option value="Rapid Antigen">Rapid Antigen</option>
+            <option value="Antibody">Antibody</option>
           </select>
         </div>
-
-        <div class="grid-item"><label for="dose">Dose:</label></div>
-        <div class="grid-item"><input type="number" id="dose" name="dose" placeholder="Dose" min="1" max="3" pattern="[0-9]+" /></div>
 
         <div class="grid-item"><label for="amount">Amount:</label></div>
         <div class="grid-item"><input type="number" id="amount" name="amount" placeholder="Amount" min=0 /></div>
@@ -166,7 +162,7 @@
   ?>
 
   <script src="/scripts/common.js"></script>
-  <script src="/scripts/vaccination/addStock.js"></script>
+  <script src="/scripts/testing/addStock.js"></script>
 </body>
 
 </html>

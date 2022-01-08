@@ -194,7 +194,7 @@
       padding-right: 1%;
     }
 
-    .vac_type {
+    .tst_type {
       width: 5%;
     }
 
@@ -228,13 +228,13 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Vaccination Center</a>
+      <a class="navbar-brand" href="#">Testing Center</a>
     </div>
   </nav>
   <br><br>
   <div class="cover-up cover">
     <div class="topic">
-      <h1>Add data for Vaccination</h1>
+      <h1>Add data for Testing</h1>
     </div>
 
     <form id="application" method="post">
@@ -251,12 +251,11 @@
       <br><br>
     </form>
   </div>
-  <div id="resultDiv" class="item4"></div>
   <!-- second form -->
   <div class="cover-down cover">
     <div id="hide">
       <div class="topic">
-        <h1>Add vaccine record</h1>
+        <h1>Add test record</h1>
       </div>
 
       <form id="application" method="post">
@@ -334,20 +333,18 @@
           <br>
           <div class="grid-item">
             <label for="Type">
-              <lable class="field">Vaccination Type:</lable>
+              <lable class="field">Test Type:</lable>
             </label>
           </div>
           <div class="grid-item"></div>
           <br>
           <br>
-          <div class="grid-item"><label for="Pfizer">Pfizer</label></div>
-          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Pfizer" value="Pfizer" /></div>
-          <div class="grid-item"><label for="Aztraseneca">AstraZeneca</label></div>
-          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="AstraZeneca" value="Aztraseneca" /></div>
-          <div class="grid-item"><label for="Sinopharm">Sinopharm</label></div>
-          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Sinopharm" value="Sinopharm" /></div>
-          <div class="grid-item"><label for="Moderna">Moderna</label></div>
-          <div class="grid-item"><input type="radio" class="vac_type" name="type" id="Moderna" value="Moderna" /></div>
+          <div class="grid-item"><label for="PCR">PCR</label></div>
+          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="PCR" value="PCR" /></div>
+          <div class="grid-item"><label for="Rapid Antigen">Rapid Antigen</label></div>
+          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="Rapid Antigen" value="Rapid Antigen" /></div>
+          <div class="grid-item"><label for="Antibody">Antibody</label></div>
+          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="Antibody" value="Antibody" /></div>
         </div>
         <br>
         <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">
@@ -363,7 +360,7 @@
   addModal('Add Record');
   ?>
   <script src="/scripts/common.js"></script>
-  <script src="/scripts/vaccination/addRecord.js"></script>
+  <script src="/scripts/testing/addRecord.js"></script>
 </body>
 
 </html>

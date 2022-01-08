@@ -20,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $district = $_POST['district'];
         require_once('.utils/dbcon.php');
-        if (isset($_POST['vaccineCenter']) && isset($_POST['vaccineType']) && $_POST['vaccineCenter'] && $_POST['vaccineType']) {
+        if (isset($_POST['testingCenter']) && isset($_POST['testType']) && $_POST['testingCenter'] && $_POST['testType']) {
             if ($con = DatabaseConn::get_conn()) {
-                $place = $_POST['vaccineCenter'];
-                $type = $_POST['vaccineType'];
-                if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+                $place = $_POST['testingCenter'];
+                $type = $_POST['testType'];
+                if ($type != "PCR" && $type != "Rapid Antigen" && $type != "Antibody") {
+                    $data = ['status' => false];
                     echo json_encode($data);
                     die();
                 }
@@ -32,16 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $name_pattern = '/^[a-zA-Z. ]+$/';
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
                 $email_pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/";
-
+                
                 $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
                 $contact_pattern = '/^[0-9]{10}+$/';
-
+                
                 if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))) {
                     echo json_encode($data);
                     die();
                 }
                 $details = ['id' => $id, 'name' => $name, 'contact' => $contact, 'email' => $email, 'district' => $district, 'place' => $place, 'date' => $date, 'type' => $type];
-                if ($con->add_appointment($details)) {
+                if ($con->add_testing_appointment($details)) {
                     $data = ['status' => true];
                 } else {
                     $data = ['status' => false];
@@ -51,8 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } else {
             if ($con = DatabaseConn::get_conn()) {
-                $data = $con->filter_vaccine_centers($district, $date, $id);
-            } else {
+                $data = $con->filter_testing_centers($district, $date);
+            }
+            if (!$data){
                 $data = [];
             }
         }
@@ -61,4 +63,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccineAppointment.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testingAppointment.php');

@@ -276,7 +276,7 @@ class DatabaseConn
     }
   }
 
-  public function add_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
+  public function add_vaccine_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
   {
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS stocks (
         district varchar(20) not null,
@@ -688,7 +688,7 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
+  public function add_testing_stock($district, $place, $date, $type, $not_reserved, $reserved)
   {
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS testing_stocks (
         district varchar(20) not null,
@@ -721,9 +721,9 @@ class DatabaseConn
     ($this->conn)->begin_transaction();
     try {
       $date = $date->format('Y-m-d');
-      $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND date=?";
+      $q0 = "SELECT place, reserved, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('ssis', $district, $type, $date);
+      $stmt0->bind_param('sss', $district, $type, $date);
       $stmt0->execute();
       $result0 = $stmt0->get_result();
       $arr = array();
@@ -740,6 +740,62 @@ class DatabaseConn
       ($this->conn)->rollback();
       return [];
     }
+  }
+
+  public function filter_testing_centers($district, $date)
+  {
+    ($this->conn)->begin_transaction();
+    try {
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $date = $date->format('Y-m-d');
+      $q0 = "SELECT place FROM admins WHERE district=? AND type='testing'";
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('s', $district);
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      $arr = array();
+      while ($row = $result0->fetch_assoc()) {
+        $record = array();
+        $place = $row['place'];
+        $record['place'] = $place;
+        $q1 = 'SELECT type, not_reserved, appointments FROM testing_stocks WHERE district=? AND place=? AND date=?';
+        $stmt1 = $this->conn->prepare($q1);
+        $stmt1->bind_param('sss', $district, $place, $date);
+        $stmt1->execute();
+        $result1 = $stmt1->get_result();
+        while ($center = $result1->fetch_assoc()) {
+          $type = $center['type'];
+          $not_reserved = $center['not_reserved'];
+          $appointments = $center['appointments'];
+          $availability = array('not_reserved' => $not_reserved, 'appointments' => $appointments);
+          $record[$type] = $availability;
+        }
+        if (count($record) > 1) {
+          array_push($arr, $record);
+        }
+        $stmt1->close();
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return [];
+    }
+  }
+
+  public function get_test_result($id, $token)
+  {
+    // return test result with token if it belongs to that id
+    // "Positive" / "Negative" / "Pending"
+    // return null if token - id mismatch or error
+    return "Pending";
+  }
+
+  public function get_patient_details($id)
+  {
+    // return patient detalis of given id
+    return ['id' => $id, 'district' => 'Colombo', 'address' => 'abcd, efgh', 'name' => 'X. Y. Perera', 'contact' => '0987654321', 'email' => 'qwerty@abc.com'];
   }
 
   public function close_conn()
@@ -762,9 +818,6 @@ class DatabaseConn
     }
     return false;
   }
-
-
-
 
   public function __destruct()
   {

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
     <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-    <title>Vaccine Appointment</title>
+    <title>Testing Appointment</title>
     <style>
         #centers {
             text-align: center;
@@ -109,7 +109,7 @@
     <br>
     <div class="cover">
         <form>
-            <h1>Vaccine Appointment</h1>
+            <h1>Testing Appointment</h1>
             <br>
             <div class="grid-container">
                 <div class="grid-item"><label for="districts">Districts:</label></div>
@@ -178,7 +178,7 @@
     ?>
 
     <script src="/scripts/common.js"></script>
-    <script src="/scripts/vaccineAppointment.js"></script>
+    <script src="/scripts/testingAppointment.js"></script>
 </body>
 
 </html>

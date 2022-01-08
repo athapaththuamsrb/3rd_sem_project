@@ -4,12 +4,8 @@ const id_element = document.getElementById("id");
 const name_element = document.getElementById("name");
 const contact_element = document.getElementById("ContactNo");
 const email_element = document.getElementById("email");
-const result = document.getElementById("resultDiv");
 
 function reset() {
-  while (result.firstChild) {
-    result.removeChild(result.lastChild);
-  }
   district_element.value = 'Colombo';
   district_element.removeAttribute("disabled");
   name_element.value = '';
@@ -41,16 +37,6 @@ function getDetails() {
         reset();
         document.getElementById("hide").style.display = 'block';
         let data = JSON.parse(xhr.responseText);
-        if (!data || data["doses"] == undefined || !Array.isArray(data["doses"]) || data["doses"].length <= 0) {
-          return;
-        };
-        let tableBuilder = new TableBuilder();
-        tableBuilder.addHeadingRow('Type', 'Date');
-        data['doses'].forEach(dose => {
-          tableBuilder.addRow(dose['type'], dose['date']);
-        });
-        let table = tableBuilder.build();
-        result.appendChild(table);
         if (data["district"]) {
           district_element.value = data["district"];
         }
@@ -81,13 +67,13 @@ function getDetails() {
 
 function submitRecord() {
   if (!document.querySelector('input[name="type"]:checked')) {
-    alert("You must select the vaccine type");
+    alert("You must select the test type");
     return false;
   }
   let id = id_element.value;
   let name = name_element.value;
   let district = district_element.value;
-  let vaccineType = document.querySelector('input[name="type"]:checked').value;
+  let testType = document.querySelector('input[name="type"]:checked').value;
   let address = address_element.value;
   let email = email_element.value;
   let contact = contact_element.value;
@@ -112,7 +98,7 @@ function submitRecord() {
   xhrBuilder.addField('id', id);
   xhrBuilder.addField('name', name);
   xhrBuilder.addField('district', district);
-  xhrBuilder.addField('type', vaccineType);
+  xhrBuilder.addField('type', testType);
   xhrBuilder.addField('address', address);
   if (email) xhrBuilder.addField('email', email);
   if (contact) xhrBuilder.addField('contact', contact);

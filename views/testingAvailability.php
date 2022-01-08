@@ -6,24 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
+    <!--link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" /-->
     <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-    <title>Vaccine Appointment</title>
+    <title>Testing Availability</title>
+
     <style>
-        #centers {
-            text-align: center;
-        }
-
-        ul,
-        ol {
-            list-style-type: none;
-            padding-top: 2%;
-            padding-bottom: 2%;
-        }
-
-        ul {
-            margin-top: 2%;
-        }
-
         body,
         html {
             background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
@@ -31,34 +20,32 @@
             background-repeat: no-repeat;
             background-size: cover;
             font-family: sans-serif;
-            margin: 0;
             padding: 0;
+            margin: 0;
         }
 
-        html {
-            overflow-x: scroll;
-            overflow-y: scroll;
-        }
-
-        .cover {
-            background-color: rgb(0, 0, 0, 0.8);
-            width: 60%;
-            margin: auto;
-            border-radius: 10%;
+        table {
+            background-color: black;
             color: white;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
         }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
         }
 
 
-        h1 {
-            text-align: center;
-            padding: 2%;
+        .item4 {
+            /* height: 300px; */
+            width: 300px;
+            margin: auto;
+            margin-top: 60px;
+
         }
 
         h2 {
@@ -69,37 +56,48 @@
         .grid-container {
             display: grid;
             grid-template-columns: auto auto;
-            padding: 5%;
+            padding: 1%;
         }
 
         .grid-item {
-            padding: 2%;
             font-size: 15pt;
             text-align: center;
-            padding-left: 20%;
+            padding-right: 5%;
+            padding-bottom: 5%;
         }
 
         input,
-        #districts {
+        select {
             width: 60%;
-            padding-left: 2%;
+            padding-left: 5%;
         }
 
         label {
             float: left;
-            padding-left: 5%;
+            padding-left: 45%;
         }
 
         button {
-            width: 60%;
+            width: 40%;
             position: relative;
-            left: 20%;
+            left: 30%;
+            padding: 5%;
         }
 
-        #hide {
-            display: none;
+        .cover {
+            background-color: rgb(0, 0, 0, 0.8);
+            width: 45%;
+            margin: auto;
+            border-radius: 10%;
+            color: white;
+            padding: 2%;
+        }
+
+        h1 {
+            text-align: center;
         }
     </style>
+
 </head>
 
 <body>
@@ -107,14 +105,14 @@
         <h2>Public works</h2>
     </nav>
     <br>
-    <div class="cover">
-        <form>
-            <h1>Vaccine Appointment</h1>
-            <br>
+    <form>
+        <div class="cover">
+            <h1>Testing Availability</h1>
             <div class="grid-container">
-                <div class="grid-item"><label for="districts">Districts:</label></div>
+
+                <div class="grid-item"><label for="district">District:</label></div>
                 <div class="grid-item">
-                    <select name="districts" id="districts">
+                    <select name="district" id="district">
                         <option value="Colombo">Colombo</option>
                         <option value="Kalutara">Kalutara</option>
                         <option value="Gampaha">Gampaha</option>
@@ -141,44 +139,29 @@
                         <option value="Vavuniya">Vavuniya</option>
                         <option value="Kandy">Kandy</option>
                     </select>
-                    <br>
                 </div>
+
+                <div class="grid-item"><label for="type">Type:</label></div>
+                <div class="grid-item">
+                    <select name="type" id="type">
+                        <option value="PCR">PCR</option>
+                        <option value="Rapid Antigen">Rapid Antigen</option>
+                        <option value="Antibody">Antibody</option>
+                    </select>
+                </div>
+
                 <div class="grid-item"><label for="date">Date:</label></div>
-                <div class="grid-item"><input type="date" id="date" name="date"></div>
-
-
-                <div class="grid-item"><label for="id">ID:</label></div>
-                <div class="grid-item"><input type="text" id="id" name="id" size="12" placeholder="id"></div>
+                <div class="grid-item"><input type="date" id="date" name="date" value="" min="@DateTime.Now.ToString('yyyy-MM-ddThh:mm')" /></div>
 
             </div>
-            <button type="button" class="btn btn-success" value="Submit" onclick="getCentres()">submit</button>
-            <ul id="centers"></ul>
-            <div id="hide">
-                <div class="grid-container">
+            <button type="button" class="btn btn-success" onclick="getAvailability()">submit</button>
+            <div id="resultDiv" class="item4"></div>
 
-                    <div class="grid-item"><label for="name">Name:</label></div>
-                    <div class="grid-item"><input type="text" id="name" name="name" placeholder="name"></div>
-
-                    <div class="grid-item"><label for="email">Email:</label></div>
-                    <div class="grid-item"><input type="email" id="email" name="email" placeholder="email"></div>
-
-                    <div class="grid-item"><label for="contact">Contact:</label></div>
-                    <div class="grid-item"><input type="tel" size="10" id="contact" name="contact" placeholder="0123456789"></div>
-                </div>
-
-                <button type="button" class="btn btn-success" onclick="submitRequest()">Submit</button>
-            </div>
-        </form>
-        <br>
-    </div>
-
-    <?php
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-    addModal('Place Appointment');
-    ?>
+        </div>
+    </form>
 
     <script src="/scripts/common.js"></script>
-    <script src="/scripts/vaccineAppointment.js"></script>
+    <script src="/scripts/testingAvailability.js"></script>
 </body>
 
 </html>

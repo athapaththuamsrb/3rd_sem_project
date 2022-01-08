@@ -32,8 +32,12 @@
 		}
 
 		#vaccine_appointment,
-		#vaccination_certificat,
-		#vaccination_status {
+		#vaccination_certificate,
+		#vaccination_status,
+		#vaccine_availability,
+		#testing_appointment,
+		#testing_availability,
+		#test_results {
 			padding: 20px 30px;
 			font-size: 25px;
 			font-weight: 500;
@@ -133,11 +137,25 @@
 			<div class="row">
 				<div class="col-1"></div>
 				<div class="col-5" id="actions">
-					<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccination Certificate</button></a>
+					<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificate">Vaccination Certificate</button></a>
 				</div>
 				<div class="col-1"></div>
 				<div class="col-5" id="actions">
-					<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccination_certificat">Vaccine Availability</button></a>
+					<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccine_availability">Vaccine Availability</button></a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/testingAppointment.php"><button type="button" class="btn btn-primary" id="testing_appointment">Testing Appointment</button></a>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/testingAvailability.php"><button type="button" class="btn btn-primary" id="testing_availability">Testing Availability</button></a>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-5" id="actions">
+					<a href="/testResults.php"><button type="button" class="btn btn-primary" id="test_results">Test Results</button></a>
 				</div>
 			</div>
 		</div>

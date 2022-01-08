@@ -6,7 +6,7 @@
   /* Stay in place */
   z-index: 1;
   /* Sit on top */
-  padding-top: 100px;
+  padding-top: 10%;
   /* Location of the box */
   left: 0;
   top: 0;
@@ -71,19 +71,19 @@
 }
 
 .modal-header {
-  padding: 2px 16px;
+  /* padding: 2px 16px; */
   background-color: #5cb85c;
   color: white;
   font-size: large;
 }
 
 .modal-body {
-  padding: 2px 16px;
-  font-size: 20px;
+  /* padding: 2px 16px; */
+  font-size: 24pt;
 }
 
 .modal-footer {
-  padding: 2px 16px;
+  /* padding: 2px 16px; */
   background-color: #5cb85c;
   color: white;
   font-size: large;

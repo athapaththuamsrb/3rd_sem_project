@@ -43,11 +43,10 @@ function getCentres() {
         }
         let data = JSON.parse(xhr.responseText);
         let content = "";
-        let possibleVaccines = [
-          "Pfizer",
-          "Sinopharm",
-          "Aztraseneca",
-          "Moderna"
+        let possibleTests = [
+          "PCR",
+          "Rapid Antigen",
+          "Antibody"
         ];
         data.forEach((centre) => {
           let li = document.createElement("li");
@@ -55,14 +54,14 @@ function getCentres() {
           span.innerText = centre["place"];
           li.appendChild(span);
           let ol = document.createElement("ol");
-          for (i = 0; i < possibleVaccines.length; i++) {
-            if (centre[possibleVaccines[i]] != undefined) {
-              let vaccine_name = possibleVaccines[i];
-              let availability = centre[possibleVaccines[i]]["appointments"];
-              let text = centre["place"] + "?" + vaccine_name;
+          for (i = 0; i < possibleTests.length; i++) {
+            if (centre[possibleTests[i]] != undefined) {
+              let test_name = possibleTests[i];
+              let availability = centre[possibleTests[i]]["appointments"];
+              let text = centre["place"] + "?" + test_name;
               let li2 = document.createElement("li");
               let span2 = document.createElement("span");
-              span2.innerText = vaccine_name + " : " + availability;
+              span2.innerText = test_name + " : " + availability;
               li2.appendChild(span2);
               let inp = document.createElement("input");
               inp.setAttribute("type", "radio");
@@ -98,37 +97,38 @@ function submitRequest() {
   let email = document.getElementById("email").value;
   let contact = document.getElementById("contact").value;
   
-  let vaccineCenter = text[0];
-  let vaccineType = text[1];
-
+  let testingCenter = text[0];
+  let testType = text[1];
+  
   if (id.length < 4 || id.length > 12) {
     //check id
     alert("Invalid ID!");
     return false;
   }
-
+  
   if (!name_pattern.test(name)) {
     alert("Invalid Name!");
     return false;
   }
-
+  
   if (contact && !contact_pattern.test(contact)) {
     alert("Invalid contact number");
     return false;
   }
-
+  
   if (email && !email_pattern.test(email)) {
     alert("Invalid email");
     return false;
   }
+  
 
   let xhrBuilder = new XHRBuilder();
   xhrBuilder.addField("district", district);
   xhrBuilder.addField("date", date);
   xhrBuilder.addField("id", id);
   xhrBuilder.addField("name", name);
-  xhrBuilder.addField("vaccineType", vaccineType);
-  xhrBuilder.addField("vaccineCenter", vaccineCenter);
+  xhrBuilder.addField("testType", testType);
+  xhrBuilder.addField("testingCenter", testingCenter);
   if (email) xhrBuilder.addField("email", email);
   if (contact) xhrBuilder.addField("contact", contact);
 
