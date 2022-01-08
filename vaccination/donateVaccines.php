@@ -4,12 +4,21 @@ check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        $data = ['success' => false, 'email' => false];
         $user = $_SESSION['user'];
         if (isset($_POST['type']) && isset($_POST['place']) && isset($_POST['amount']) && isset($_POST['dose']) && $_POST['type'] && $_POST['place'] && is_numeric($_POST['amount']) && is_numeric($_POST['dose'])) {
             require_once('../.utils/dbcon.php');
             $type = $_POST['type'];
+            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca"){
+                echo json_encode($data);
+                die();
+            }
             $dose = intval($_POST['dose']);
             $amount = intval($_POST['amount']);
+            if ($dose <=0 || $amount <= 0){
+                echo json_encode($data);
+                die();
+            }
             $success = false;
             $email_sent = false;
             if ($dose > 0 && $amount > 0 && ($con = DatabaseConn::get_conn())) {
