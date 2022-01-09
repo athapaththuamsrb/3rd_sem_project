@@ -25,8 +25,7 @@
         width: 50%;
         background-color: antiquewhite;
         border: 2px solid black;
-        border-top-left-radius: 10%;
-        border-bottom-right-radius: 10%;
+        border-radius: 15px;
     }
 
     .centerBox:hover {
@@ -42,7 +41,7 @@
         background-color: green;
         color: white;
         border: 2px solid black;
-        border-radius: 5%;
+        border-radius: 15px;
         width: 40%;
         margin: 10px;
     }

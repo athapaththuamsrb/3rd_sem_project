@@ -51,7 +51,7 @@
             background-color: rgb(0, 0, 0, 0.8);
             width: 60%;
             margin: auto;
-            border-radius: 10%;
+            border-radius: 15px;
             color: white;
         }
 

@@ -68,8 +68,9 @@
 
         input,
         select {
-            width: 60%;
+            width: 70%;
             padding-left: 5%;
+            border-radius: 5px;
         }
 
         label {
@@ -88,7 +89,7 @@
             background-color: rgb(0, 0, 0, 0.8);
             width: 45%;
             margin: auto;
-            border-radius: 10%;
+            border-radius: 15px;
             color: white;
             padding: 2%;
         }

@@ -30,8 +30,8 @@
 
     .container {
       background-color: rgb(0, 0, 0, 0.8);
-      border-top-left-radius: 10%;
-      border-bottom-right-radius: 10%;
+      border-top-left-radius: 15px;
+      border-bottom-right-radius: 15px;
       width: 55%;
       padding: 2%;
     }
