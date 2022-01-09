@@ -10,19 +10,34 @@
     <title>Testing Appointment</title>
     <style>
         #centers {
-            text-align: center;
+            text-align: left;
         }
 
         ul,
         ol {
-            list-style-type: none;
+            /* list-style-type: none; */
             padding-top: 2%;
             padding-bottom: 2%;
         }
 
         ul {
             margin-top: 2%;
+            padding-left: 16%;
+            padding-right: 20%;
         }
+
+        li>input {
+            float: right;
+            text-align: right;
+        }
+
+        li>span {
+            text-align: left;
+            width: 300px;
+
+        }
+
+
 
         body,
         html {
