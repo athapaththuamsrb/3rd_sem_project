@@ -94,10 +94,11 @@
       padding-left: 2%;
       font-size: 15pt;
       text-align: center;
+      padding-bottom: 2%;
     }
 
     input {
-      width: 60%;
+      width: 80%;
       padding-left: 4%;
     }
 
@@ -131,7 +132,7 @@
     <h1>View Test Result</h1>
     <br>
     <form>
-      <div class="grid-contener">
+      <div class="grid-container">
         <div class="grid-item"><label for="inputID">Enter ID:</label></div>
         <div class="grid-item"><input type="text" id="inputID" onkeypress="keypress(event, 0);"></div>
         <div class="grid-item"><label for="inputToken">Enter Token:</label></div>
