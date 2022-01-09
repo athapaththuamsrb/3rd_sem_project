@@ -22,34 +22,20 @@
   }
 
   body {
-    background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    font-family: sans-serif;
+    background-color: #dfc;
   }
 
   #regForm {
     background-color: #ffffff;
-    margin: 100px auto;
+    margin: 5% auto;
     font-family: Raleway;
-    padding: 40px;
+    padding: 3%;
     width: 70%;
     min-width: 300px;
   }
 
   h1 {
     text-align: center;
-  }
-
-  input {
-    padding: 10px;
-    width: 100%;
-    font-size: 17px;
-    font-family: Raleway;
-    border: 1px solid #aaaaaa;
-    border: black solid 2px;
   }
 
   /* Mark input boxes that gets an error on validation: */
@@ -64,7 +50,7 @@
 
   #regForm {
     border: black solid 3px;
-    border-radius: 10%;
+    border-radius: 50px;
     background-color: rgba(255, 255, 255, 0.9);
   }
 
@@ -118,24 +104,27 @@
 
   .grid-item {
     font-size: 15pt;
-    text-align: center;
     width: 40%;
+    padding-bottom: 2%;
+    padding-top: 1%;
   }
 
-  input {
-    width: 100%;
-    padding-right: 30%;
+  input,
+  select {
+    width: 150%;
+    padding-left: 5%;
   }
 
   label {
     float: left;
     padding-left: 8%;
+    width: 150%;
   }
 </style>
 
 <body>
   <form id="regForm" method="POST">
-    <h1>Create account:</h1>
+    <h1><b>Create account</b></h1>
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
       <h3>Admin type:</h3>
@@ -148,13 +137,13 @@
           <input type="radio" class="radio_bt" name="type" id="Testing_center" value="testing" oninput="this.className = ''" />
         </div>
         <div class="grid-item">
-          <label for="Vaccination_center">Vaccination center</label>
+          <label for="Vaccination_center">Vaccination center:</label>
         </div>
         <div class="grid-item">
           <input type="radio" class="radio_bt" name="type" id="Vaccination_center" value="vaccination" oninput="this.className = ''" />
         </div>
         <div class="grid-item">
-          <label for="Administrator">Administrator</label>
+          <label for="Administrator">Administrator:</label>
         </div>
         <div class="grid-item">
           <input type="radio" class="radio_bt" name="type" id="Administrator" value="admin" oninput="this.className = ''" checked />
@@ -162,68 +151,80 @@
       </div>
     </div>
     <div class="tab">
+      <br><br>
       <div id="address">
-        <label for="districts">Districts:</label>
-        <select name="district" id="districts" oninput="this.className = ''">
-          <option value="Colombo">Colombo</option>
-          <option value="Gampaha">Gampaha</option>
-          <option value="Kalutara">Kalutara</option>
-          <option value="Galle">Galle</option>
-          <option value="Matara">Matara</option>
-          <option value="Hambantota">Hambantota</option>
-          <option value="Kandy">Kandy</option>
-          <option value="Matale">Matale</option>
-          <option value="Nuwara Eliya">Nuwara Eliya</option>
-          <option value="Anuradhapura">Anuradhapura</option>
-          <option value="Polonnaruwa">Polonnaruwa</option>
-          <option value="Puttalam">Puttalam</option>
-          <option value="Kurunegala">Kurunegala</option>
-          <option value="Kegalle">Kegalle</option>
-          <option value="Ratnapura">Ratnapura</option>
-          <option value="Trincomalee">Trincomalee</option>
-          <option value="Batticaloa">Batticaloa</option>
-          <option value="Ampara">Ampara</option>
-          <option value="Badulla">Badulla</option>
-          <option value="Monaragala">Monaragala</option>
-          <option value="Jaffna">Jaffna</option>
-          <option value="Kilinochchi">Kilinochchi</option>
-          <option value="Mannar">Mannar</option>
-          <option value="Mullaitivu">Mullaitivu</option>
-          <option value="Vavuniya">Vavuniya</option>
-        </select><br />
-        <div>
-          Location:
-          <p>
+        <div class="grid-container">
+          <div class="grid-item">
+            <label for="districts">Districts:</label>
+          </div>
+          <div class="grid-item">
+            <select name="district" id="districts" oninput="this.className = ''">
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kalutara">Kalutara</option>
+              <option value="Galle">Galle</option>
+              <option value="Matara">Matara</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Matale">Matale</option>
+              <option value="Nuwara Eliya">Nuwara Eliya</option>
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Polonnaruwa">Polonnaruwa</option>
+              <option value="Puttalam">Puttalam</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Kegalle">Kegalle</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+              <option value="Batticaloa">Batticaloa</option>
+              <option value="Ampara">Ampara</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Monaragala">Monaragala</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kilinochchi">Kilinochchi</option>
+              <option value="Mannar">Mannar</option>
+              <option value="Mullaitivu">Mullaitivu</option>
+              <option value="Vavuniya">Vavuniya</option>
+            </select>
+          </div>
+          <div class="grid-item">
+            <label for="place">Location:</label>
+          </div>
+          <div class="grid-item">
             <input id="place" placeholder="location" oninput="this.className = ''" name="place" onkeypress="keypress(event, 0);" />
-          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="tab">
+      <br><br>
+      <div class="grid-container">
+        <div class="grid-item"><label for="email">Email:</label></div>
+        <div class="grid-item">
+          <input placeholder="Email" type="email" id="email" oninput="this.className = ''" name="email" onkeypress="keypress(event, 1);" />
         </div>
       </div>
     </div>
     <div class="tab">
-      <div>
-        Email:
-        <p>
-          <input placeholder="Email" type="email" id="email" oninput="this.className = ''" name="email" onkeypress="keypress(event, 1);" />
-        </p>
-      </div>
-    </div>
-    <div class="tab">
-      <div>
-        User Name:
-        <p>
+      <div class="grid-container">
+        <div class="grid-item"><label for="username">User Name:</label></div>
+        <div class="grid-item">
           <input id="username" placeholder="User Name" oninput="this.className = ''" name="username" onkeypress="keypress(event, 2);" />
-        </p>
+        </div>
       </div>
     </div>
 
     <div class="tab">
-      password:
-      <p>
-        <input id="password" placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" onkeypress="keypress(event, 3);" />
-      </p>
-      <p>
-        <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" onkeypress="keypress(event, 4);" />
-      </p>
+      <div class="grid-container">
+        <div class="grid-item"><label for="password">password:</label></div>
+        <div class="grid-item">
+          <input id="password" placeholder="Password" id="password" type="password" oninput="this.className = ''" name="password" onkeypress="keypress(event, 3);" />
+        </div>
+        <div class="grid-item"><label for="conPassword">password:</label></div>
+        <div class="grid-item">
+          <input placeholder="conform password" id="conPassword" type="password" oninput="this.className = ''" onkeypress="keypress(event, 4);" />
+        </div>
+      </div>
     </div>
     <div style="overflow: auto">
       <div style="float: right">
