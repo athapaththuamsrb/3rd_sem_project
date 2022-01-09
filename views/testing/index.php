@@ -45,6 +45,15 @@
             width: 250px;
             font-size: 150%;
         }
+
+        .btn:hover {
+            -ms-transform: scale(1.2);
+            /* IE 9 */
+            -webkit-transform: scale(1.2);
+            /* Safari 3-8 */
+            transform: scale(1.2);
+            background-color: blue;
+        }
     </style>
 </head>
 

@@ -35,6 +35,15 @@
             color: white;
         }
 
+        .btn:hover {
+            -ms-transform: scale(1.2);
+            /* IE 9 */
+            -webkit-transform: scale(1.2);
+            /* Safari 3-8 */
+            transform: scale(1.2);
+            background-color: blue;
+        }
+
         body {
             height: auto;
             background-color: rgba(0, 0, 0, 0.6);
