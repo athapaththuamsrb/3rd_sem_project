@@ -354,7 +354,7 @@ class TestingAdmin extends CentreAdmin
                 return $data;
             }
             $vac_data = ['id' => $id, 'name' => $name, 'type' => $type, 'centre_district' => $this->getDistrict(), 'place' => $this->getPlace(), 'patient_district' => $district, 'address' => $address, 'contact' => $contact, 'email' => $email];
-            $token = $con->add_testing_record($vac_data);
+            $token = $con->add_test_record($vac_data);
             return ['token' => $token];
         } catch (Exception $e) {
             return $data;
