@@ -821,7 +821,7 @@ class DatabaseConn
       $stmt0->execute();
       $result0 = $stmt0->get_result();
       while ($row = $result0->fetch_assoc()) {
-        $arr['id'] = $row['id']; 
+        $arr['id'] = $id; 
         $arr['district'] = $row['district'];
         $arr['address'] = $row['address'];
         $arr['name'] = $row['name'];
@@ -834,6 +834,33 @@ class DatabaseConn
     } catch (Exception $e){
       ($this->conn)->rollback();
       return $arr;
+    }
+  }
+
+  public function getTestingAppointmentsByDate($date)
+  {
+    ($this->conn)->begin_transaction();
+    try {
+      $arr = array();
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
+      $q = 'SELECT * FROM testing_appointments WHERE date = ?';
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('s', $date);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      while ($row = $result->fetch_assoc()) {
+        $details = array('email' => $row['email'], 'id' => $row['id'], 'name' => $row['name'], 'type' => $row['type'], 'place' => $row['place'], 'district' => $row['district']);
+        array_push($arr, $details);
+      }
+      $stmt->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return [];
     }
   }
 

@@ -62,6 +62,11 @@ abstract class Authenticator
             return $_SESSION['user'];
         }
     }
+
+    public function getType()
+    {
+        return $this->type;
+    }
 }
 
 ?>

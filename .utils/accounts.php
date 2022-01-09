@@ -52,6 +52,25 @@ class Administrator extends User
     {
         parent::__construct('admin', $email);
     }
+
+    public function createUserAccount($type, $email, $username, $password, $place, $district)
+    {
+        $uname_pattern = '/^[a-zA-Z0-9_]{5,20}$/';
+        $pw_pattern = '/^\S{8,15}$/';
+        $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+        if (!preg_match($uname_pattern, $username) || !preg_match($pw_pattern, $password) || !preg_match($email_pattern, $email)) {
+            return false;
+        }
+        if ($type != "admin" && $type != "vaccination" && $type != "testing") {
+            return false;
+        }
+        require_once 'factory.php';
+        $details = ['username' => $username, 'password' => $password, 'email' => $email, 'place' => $place, 'district' => $district];
+        $accountSaver = AccountFactory::getAccount($type, $details);
+        if ($accountSaver && $accountSaver instanceof IaccountSaver && $accountSaver->saveToDB()) {
+            sendSuccess(true);
+        }
+    }
 }
 
 class VaccinationAdmin extends CentreAdmin
@@ -182,6 +201,59 @@ class VaccinationAdmin extends CentreAdmin
             }
             $data['success'] = $con->update_stocks($district, $place, $date, $type, 'not_reserved', $amount, $dose);
             return $data;
+        } catch (Exception $e) {
+            return $data;
+        }
+    }
+
+    public function requestVaccines($type, $dose, $amount)
+    {
+        try {
+            $district = $this->getDistrict();
+            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+                return ['count' => 0, 'resaon' => 'Invalid type'];
+            }
+            if ($dose <= 0 || $amount <= 0) {
+                return ['count' => 0, 'resaon' => 'Invalid dose or amount'];
+            }
+            require_once('mediator.php');
+            $mediator = new Mediator($district, $type);
+            $count = $mediator->sendEmails($this, $dose, $amount);
+            return ['count' => $count];
+        } catch (Exception $e) {
+            return ['count' => 0, 'resaon' => 'Server error'];
+        }
+    }
+
+    public function donateVaccines($type, $place, $amount, $dose)
+    {
+        $data = ['success' => false, 'email' => false];
+        try {
+            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+                $data['reason'] = 'Invalid type';
+                return $data;
+            }
+            if ($dose <= 0 || $amount <= 0) {
+                $data['reason'] = 'Invalid dose or amount';
+                return $data;
+            }
+            $success = false;
+            $email_sent = false;
+            if ($con = DatabaseConn::get_conn()) {
+                $success = $con->update_stocks($this->getDistrict(), $this->getPlace(), new DateTime(), $type, 'not_reserved', -$amount, $dose);
+                if ($success) {
+                    $district = $this->getDistrict();
+                    $donor_place = $this->getPlace();
+                    $email = $con->getEmailByPlace($district, $place, 'vaccination');
+                    if ($email) {
+                        $headers  = 'MIME-Version: 1.0' . "\r\n";
+                        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                        $msg = "<html><body><h3>We can donate $amount vaccines from $donor_place to $place </h3><p>type : $type <br>dose : $dose <br>amount : $amount </p><p>You can collect the vaccines from $donor_place</p><p>Once you collect the vaccies, you can update your stock from <a href=\"http://$_SERVER[HTTP_HOST]/vaccination/updateStock.php?type=$type&amount=$amount\">this link</a>.</p></body></html>";
+                        $email_sent =  mail($email, "Donate vaccines", $msg, $headers);
+                    }
+                }
+            }
+            return ['success' => $success, 'email' => $email_sent];
         } catch (Exception $e) {
             return $data;
         }
