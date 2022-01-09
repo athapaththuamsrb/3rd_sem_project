@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($conn) {
     $result = $conn->get_test_result($id, $token);
     if ($result) {
-      $data['result'] = $result;
+      $data = $result;
     }
   }
   echo json_encode($data);

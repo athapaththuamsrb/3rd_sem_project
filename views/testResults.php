@@ -66,8 +66,8 @@
     .item4 {
       width: 300px;
       margin: auto;
-      margin-top: 60px;
-
+      margin-top: 40px;
+      text-align: center;
     }
 
     .cover {
@@ -87,7 +87,7 @@
     .grid-container {
       display: grid;
       grid-template-columns: auto auto;
-      padding: 10%;
+      padding: 5% 10%;
     }
 
     .grid-item {

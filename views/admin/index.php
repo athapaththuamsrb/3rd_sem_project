@@ -30,9 +30,9 @@
 
         #title {
             margin-top: 30px;
-            font-size: 50px;
+            font-size: 42pt;
             font-weight: 600;
-            color: white;
+            color: black;
         }
 
         .btn:hover {

@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { // GET
                 <form id="login" method='POST'>
                     <div class="form-group">
                         <i class="fas fa-users" aria-hidden="true"></i>
-                        <input placeholder="Username" type="text" id="UserName" name="username" required />
+                        <input placeholder="Username" type="text" id="UserName" name="username" onkeypress="keypress(event)" required />
                     </div>
 
                     <div class="form-group">
@@ -189,6 +189,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { // GET
             <button id="loginButton" class="btn btn-primary" type="submit" id="btn">Log in</button>
             </form>
         </div>
+        <script type="text/javascript">
+            document.getElementById("UserName").focus();
+            function keypress(e){
+                if (e.keyCode==13){
+                    e.preventDefault();
+                    document.getElementById("password").focus();
+                }
+            }
+        </script>
     </body>
 
     </html>

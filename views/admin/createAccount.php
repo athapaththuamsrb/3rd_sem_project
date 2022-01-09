@@ -111,7 +111,7 @@
 
   input,
   select {
-    width: 150%;
+    width: 200%;
     padding-left: 5%;
   }
 
@@ -206,6 +206,7 @@
       </div>
     </div>
     <div class="tab">
+      <br><br>
       <div class="grid-container">
         <div class="grid-item"><label for="username">User Name:</label></div>
         <div class="grid-item">

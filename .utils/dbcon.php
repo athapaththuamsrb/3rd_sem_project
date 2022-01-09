@@ -76,7 +76,7 @@ class DatabaseConn
         district varchar(20),
         email varchar(50) not null,
         primary key (username)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+      ) ENGINE=InnoDB;");
     if ($type !== 'admin' && (!$place || !$district)) {
       return false;
     }
@@ -182,7 +182,7 @@ class DatabaseConn
         token varchar(50) not null, 
         last_dose int not null, 
         primary key (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        ) ENGINE=InnoDB;");
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS vaccines (
         vaccine_id int NOT NULL AUTO_INCREMENT,
         type varchar(20) NOT NULL,
@@ -193,7 +193,7 @@ class DatabaseConn
         id varchar(20) not null,
         PRIMARY KEY (vaccine_id),
         foreign key (id) references persons (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       $reserved = true;
@@ -288,7 +288,7 @@ class DatabaseConn
         not_reserved int not null,
         appointments int not null,
         primary key (district, place, date, type, dose)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
@@ -414,7 +414,7 @@ class DatabaseConn
       date varchar(15) not null,
       type varchar(20) not null,
       primary key (id, date)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+      ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ALL);
@@ -587,7 +587,7 @@ class DatabaseConn
       token varchar(50) not null, 
       last_dose int not null, 
       primary key (id)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+      ) ENGINE=InnoDB;");
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS tests (
       token varchar(20) not null,
       type varchar(20) NOT NULL,
@@ -596,8 +596,9 @@ class DatabaseConn
       place varchar(50) not null,
       id varchar(20) not null,
       result varchar(10) not null,
-      PRIMARY KEY (token)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+      PRIMARY KEY (token),
+      FOREIGN KEY (id) REFERENCES persons (id)
+      ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       $name = $details['name'];
@@ -660,7 +661,7 @@ class DatabaseConn
       date varchar(15) not null,
       type varchar(20) not null,
       primary key (id, date)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+      ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ALL);
@@ -706,7 +707,7 @@ class DatabaseConn
         not_reserved int not null,
         appointments int not null,
         primary key (district, place, date, type)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
@@ -898,16 +899,16 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_results($id, $result)
+  public function add_testing_results($token, $result)
   {
     if ($result != "Negative" && $result != "Positive") {
       return false;
     }
     ($this->conn)->begin_transaction();
     try {
-      $q0 = "UPDATE tests SET result = $result WHERE id = ?";
+      $q0 = 'UPDATE tests SET result = ? WHERE token = ? AND result = "Pending"';
       $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('s', $id);
+      $stmt0->bind_param('ss', $result, $token);
       $success = $stmt0->execute();
       $num = $stmt0->affected_rows;
       $stmt0->close();

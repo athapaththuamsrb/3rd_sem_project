@@ -33,7 +33,7 @@
             margin-top: 30px;
             font-size: 50px;
             font-weight: 600;
-            color: white;
+            color: black;
         }
 
         .mask {

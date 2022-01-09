@@ -3,7 +3,14 @@ require_once('.auth.php');
 check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  echo json_encode(['success' => false]);
+  $user = $_SESSION['user'];
+  $data = ['success' => false];
+  if (isset($_POST['token']) && isset($_POST['result']) && $_POST['token'] && $_POST['result']) {
+    $token = $_POST['token'];
+    $result = $_POST['result'];
+    $data = $user->addResult($token, $result);
+  }
+  echo json_encode($data);
   die();
 }
 

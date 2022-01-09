@@ -357,7 +357,31 @@ class TestingAdmin extends CentreAdmin
             $token = $con->add_test_record($vac_data);
             return ['token' => $token];
         } catch (Exception $e) {
+            $data['reason'] = 'Server error';
             return $data;
         }
+    }
+
+    public function addResult($token, $result)
+    {
+        $data = ['success' => false];
+        try {
+            $con = DatabaseConn::get_conn();
+            if (!$con) {
+                $data['reason'] = 'Server error';
+                return $data;
+            }
+            if (strlen($token) != 6){
+                $data['reason'] = 'Invalid token';
+                return $data;
+            }if ($result !== 'Positive' && $result !== 'Negative'){
+                $data['reason'] = 'Invalid result';
+                return $data;
+            }
+            $data['success'] = $con->add_testing_results($token, $result);
+        } catch (Exception $e) {
+            $data['reason'] = 'Server error';
+        }
+        return $data;
     }
 }

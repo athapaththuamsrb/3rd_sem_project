@@ -1,4 +1,5 @@
 const output = document.getElementById("results");
+document.getElementById('inputID').focus();
 
 function getResult() {
   let id = document.getElementById("inputID").value;
@@ -34,11 +35,8 @@ function getResult() {
             output.removeChild(output.lastChild);
           }
           let h2 = document.createElement('h2');
-          h2.innerText = 'Error occured!';
-          let p = document.createElement('p');
-          p.innerText = 'Couldn\'t load result.';
+          h2.innerText = 'Couldn\'t load result';
           output.appendChild(h2);
-          output.appendChild(p);
         }
       } catch (error) {
         alert("Error occured");
