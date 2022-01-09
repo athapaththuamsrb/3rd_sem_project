@@ -73,13 +73,16 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-1"></div>
-            <div class="col-5" id="actions">
+            <div class="col-3" id="actions">
                 <a href="/testing/addRecord.php"><button type="button" class="btn btn-primary btn-shape">Add Record</button></a>
             </div>
             <div class="col-1"></div>
-            <div class="col-5" id="actions">
+            <div class="col-3" id="actions">
                 <a href="/testing/addStock.php"><button type="button" class="btn btn-primary btn-shape">Add Stock</button></a>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-3" id="actions">
+                <a href="/testing/addTestResult.php"><button type="button" class="btn btn-primary btn-shape">Add Test Result</button></a>
             </div>
         </div>
 
