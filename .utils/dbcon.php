@@ -595,6 +595,7 @@ class DatabaseConn
       district varchar(25) not null,
       place varchar(50) not null,
       id varchar(20) not null,
+      result varchar(10) not null,
       PRIMARY KEY (test_id),
       foreign key (id) references persons (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
@@ -786,16 +787,54 @@ class DatabaseConn
 
   public function get_test_result($id, $token)
   {
-    // return test result with token if it belongs to that id
-    // "Positive" / "Negative" / "Pending"
-    // return null if token - id mismatch or error
-    return "Pending";
+    $arr = array();
+    ($this->conn)->begin_transaction();
+    try{
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $q0 = 'SELECT result FROM tests WHERE id =? AND token = ?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ss', $id, $token);
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      while ($row = $result0->fetch_assoc()) {
+        $arr['token'] = $token; 
+        $arr['result'] = $row['result'];
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return $arr;
+    }
   }
 
   public function get_patient_details($id)
   {
-    // return patient detalis of given id
-    return ['id' => $id, 'district' => 'Colombo', 'address' => 'abcd, efgh', 'name' => 'X. Y. Perera', 'contact' => '0987654321', 'email' => 'qwerty@abc.com'];
+    $arr = array();
+    ($this->conn)->begin_transaction();
+    try{
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id =?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('s', $id);
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      while ($row = $result0->fetch_assoc()) {
+        $arr['id'] = $row['id']; 
+        $arr['district'] = $row['district'];
+        $arr['address'] = $row['address'];
+        $arr['name'] = $row['name'];
+        $arr['contact'] = $row['contact']; 
+        $arr['email'] = $row['email'];
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e){
+      ($this->conn)->rollback();
+      return $arr;
+    }
   }
 
   public function close_conn()
