@@ -589,14 +589,14 @@ class DatabaseConn
       primary key (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS tests (
-      test_id int NOT NULL AUTO_INCREMENT,
+      token int not null,
       type varchar(20) NOT NULL,
       date varchar(15) not null,
       district varchar(25) not null,
       place varchar(50) not null,
       id varchar(20) not null,
       result varchar(10) not null,
-      PRIMARY KEY (test_id),
+      PRIMARY KEY (token),
       foreign key (id) references persons (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     ($this->conn)->begin_transaction();
@@ -607,7 +607,7 @@ class DatabaseConn
       $contact = $details['contact'];
       $email = $details['email'];
       $type = $details['test'];
-      $result = $details['result'];
+      $result = $details['result']; // or can directly assign as "Pending"
       $place = $details['place'];
       $date = date('Y-m-d');
       $q0 = 'SELECT id FROM persons WHERE id=?';
@@ -681,6 +681,7 @@ class DatabaseConn
       $stmt->bind_param('ssssssss', $id, $name, $contact, $email, $district, $place, $date, $type);
       $success = $stmt->execute();
       $stmt->close();
+      $this->update_testing_stocks($district, $place, $date, $type, 'appointment', -1);
       ($this->conn)->commit();
       return $success;
     } catch (Exception $e) {
@@ -836,6 +837,57 @@ class DatabaseConn
       return $arr;
     }
   }
+
+  public function update_testing_stocks($district, $place, $date, $type, $field, $amount)
+  {
+    ($this->conn)->begin_transaction();
+    try {
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
+      if ($field === 'reserved') {
+        $q = "UPDATE testing_stocks SET reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+      } else if ($field === 'not_reserved') {
+        $q = "UPDATE testing_stocks SET not_reserved = not_reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+      } else {
+        $q = "UPDATE testing_stocks SET appointments = appointments + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+      }
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('ssss', $district, $place, $date, $type);
+      $success = $stmt->execute();
+      $num = $stmt->affected_rows;
+      $stmt->close();
+      ($this->conn)->commit();
+      if (!$success) return false;
+      return ($num > 0);
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return false;
+    }
+  }
+
+  public function add_testing_results($id, $result) {
+    if ($result != "Negative" && $result != "Positive"){
+      return false;
+    }
+    ($this->conn)->begin_transaction();
+    try{
+      $q0 = "UPDATE tests SET result = $result WHERE id = ?";
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('s', $id);
+      $success = $stmt0->execute();
+      $num = $stmt0->affected_rows;
+      $stmt0->close();
+      ($this->conn)->commit();
+      if (!$success) return false;
+      return ($num > 0);
+    } catch (Exception $e){
+      ($this->conn)->rollback();
+      return false;
+    }
+
+  }
+
 
   public function close_conn()
   {
