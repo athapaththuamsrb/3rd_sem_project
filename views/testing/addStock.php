@@ -88,6 +88,7 @@
       text-align: center;
       padding: 1%;
       padding-bottom: 4%;
+      padding-right: 10%;
     }
 
     input,
