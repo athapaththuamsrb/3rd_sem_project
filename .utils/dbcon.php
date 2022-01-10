@@ -630,9 +630,9 @@ class DatabaseConn
       for ($i = 0; $i < 5; $i++) {
         $token = base_convert(rand(1, 0x7fffffff), 10, 36);
         $token = str_pad($token, 6, '0', STR_PAD_LEFT);
-        $q2 = 'INSERT INTO tests (id, token, type, result, place, date) VALUES (?, ?, ?, ?, ?, ?)';
+        $q2 = 'INSERT INTO tests (id, token, type, result, place, district, date) VALUES (?, ?, ?, ?, ?, ?, ?)';
         $stmt2 = $this->conn->prepare($q2);
-        $stmt2->bind_param('ssssss', $id, $token, $type, $result, $place, $date);
+        $stmt2->bind_param('sssssss', $id, $token, $type, $result, $place, $centre_district, $date);
         $success = $stmt2->execute();
         $stmt2->close();
         if ($success) {
