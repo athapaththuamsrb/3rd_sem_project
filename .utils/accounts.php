@@ -86,8 +86,8 @@ class VaccinationAdmin extends CentreAdmin
         try {
             $district = $this->getDistrict();
             $place = $this->getPlace();
-            $now = new DateTime("now");
-            if ($date < $now) {
+            $now = new DateTime();
+            if ($date <= $now) {
                 $data['reason'] = 'Invalid date';
                 return $data;
             }
@@ -273,8 +273,8 @@ class TestingAdmin extends CentreAdmin
         try {
             $district = $this->getDistrict();
             $place = $this->getPlace();
-            $now = new DateTime("now");
-            if ($date < $now) {
+            $now = new DateTime();
+            if ($date <= $now) {
                 $data['reason'] = 'Invalid date';
                 return $data;
             }
