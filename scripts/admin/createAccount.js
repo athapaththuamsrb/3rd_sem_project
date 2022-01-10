@@ -141,6 +141,8 @@ function submitForm() {
         }
       } catch (error) {
         alert("Error occured");
+        currentTab = 0
+        showTab(currentTab);
       }
     }
   };

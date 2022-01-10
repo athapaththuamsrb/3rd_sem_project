@@ -589,15 +589,14 @@ class DatabaseConn
       primary key (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS tests (
-      token int not null,
+      token varchar(20) not null,
       type varchar(20) NOT NULL,
       date varchar(15) not null,
       district varchar(25) not null,
       place varchar(50) not null,
       id varchar(20) not null,
       result varchar(10) not null,
-      PRIMARY KEY (token),
-      foreign key (id) references persons (id)
+      PRIMARY KEY (token)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     ($this->conn)->begin_transaction();
     try {
@@ -606,9 +605,11 @@ class DatabaseConn
       $address = $details['address'];
       $contact = $details['contact'];
       $email = $details['email'];
-      $type = $details['test'];
-      $result = $details['result']; // or can directly assign as "Pending"
+      $type = $details['type'];
+      $result = "Pending";
       $place = $details['place'];
+      $patient_district = $details['patient_district'];
+      $centre_district = $details['centre_district'];
       $date = date('Y-m-d');
       $q0 = 'SELECT id FROM persons WHERE id=?';
       $stmt0 = $this->conn->prepare($q0);
@@ -616,19 +617,22 @@ class DatabaseConn
       $stmt0->execute();
       $stmt0->store_result();
       if ($stmt0->num_rows() == 0) {
-        $q1 = 'INSERT INTO persons (id, name, district, address, contact, email) VALUES (?, ?, ?, ?, ?, ?)';
-        $stmt1 = $this->conn->prepare($q1);
-        $stmt1->bind_param('ssssss', $id, $name, $district, $address, $contact, $email);
-        $stmt1->execute();
+        $token = base_convert(rand(1, 0x7fffffff), 10, 36);
+        $token = str_pad($token, 6, '0', STR_PAD_LEFT);
+        $q = 'INSERT INTO persons (id, name, district, address, contact, email, token, last_dose) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        $stmt1 = $this->conn->prepare($q);
+        $new_dose = 0;
+        $stmt1->bind_param('sssssssi', $id, $name, $patient_district, $address, $contact, $email, $token, $new_dose);
+        $success = $stmt1->execute();
         $stmt1->close();
       }
       $stmt0->close();
       for ($i = 0; $i < 5; $i++) {
-        $token = rand(1, (int)pow(2, 64) - 1);
-        $token = base_convert($token, 10, 32);
-        $q2 = 'INSERT INTO tests (id, token, type, result, place, date) VALUES (?, ?, ?, ?, ?, ?)';
+        $token = base_convert(rand(1, 0x7fffffff), 10, 36);
+        $token = str_pad($token, 6, '0', STR_PAD_LEFT);
+        $q2 = 'INSERT INTO tests (id, token, type, result, place, district, date) VALUES (?, ?, ?, ?, ?, ?, ?)';
         $stmt2 = $this->conn->prepare($q2);
-        $stmt2->bind_param('ssssss', $id, $token, $type, $result, $place, $date);
+        $stmt2->bind_param('sssssss', $id, $token, $type, $result, $place, $centre_district, $date);
         $success = $stmt2->execute();
         $stmt2->close();
         if ($success) {
@@ -638,6 +642,7 @@ class DatabaseConn
       }
       ($this->conn)->commit();
     } catch (Exception $e) {
+      echo $e;
       ($this->conn)->rollback();
       return false;
     }
@@ -790,7 +795,7 @@ class DatabaseConn
   {
     $arr = array();
     ($this->conn)->begin_transaction();
-    try{
+    try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $q0 = 'SELECT result FROM tests WHERE id =? AND token = ?';
       $stmt0 = $this->conn->prepare($q0);
@@ -798,7 +803,7 @@ class DatabaseConn
       $stmt0->execute();
       $result0 = $stmt0->get_result();
       while ($row = $result0->fetch_assoc()) {
-        $arr['token'] = $token; 
+        $arr['token'] = $token;
         $arr['result'] = $row['result'];
       }
       $stmt0->close();
@@ -814,7 +819,7 @@ class DatabaseConn
   {
     $arr = array();
     ($this->conn)->begin_transaction();
-    try{
+    try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       $q0 = 'SELECT name, district, address, contact, email FROM persons WHERE id =?';
       $stmt0 = $this->conn->prepare($q0);
@@ -822,19 +827,46 @@ class DatabaseConn
       $stmt0->execute();
       $result0 = $stmt0->get_result();
       while ($row = $result0->fetch_assoc()) {
-        $arr['id'] = $row['id']; 
+        $arr['id'] = $id;
         $arr['district'] = $row['district'];
         $arr['address'] = $row['address'];
         $arr['name'] = $row['name'];
-        $arr['contact'] = $row['contact']; 
+        $arr['contact'] = $row['contact'];
         $arr['email'] = $row['email'];
       }
       $stmt0->close();
       ($this->conn)->commit();
       return $arr;
-    } catch (Exception $e){
+    } catch (Exception $e) {
       ($this->conn)->rollback();
       return $arr;
+    }
+  }
+
+  public function getTestingAppointmentsByDate($date)
+  {
+    ($this->conn)->begin_transaction();
+    try {
+      $arr = array();
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
+      $q = 'SELECT * FROM testing_appointments WHERE date = ?';
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $stmt = $this->conn->prepare($q);
+      $stmt->bind_param('s', $date);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      while ($row = $result->fetch_assoc()) {
+        $details = array('email' => $row['email'], 'id' => $row['id'], 'name' => $row['name'], 'type' => $row['type'], 'place' => $row['place'], 'district' => $row['district']);
+        array_push($arr, $details);
+      }
+      $stmt->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return [];
     }
   }
 
@@ -866,13 +898,14 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_results($token, $result) {
-    if ($result != "Negative" && $result != "Positive"){
+  public function add_testing_results($id, $result)
+  {
+    if ($result != "Negative" && $result != "Positive") {
       return false;
     }
     ($this->conn)->begin_transaction();
-    try{
-      $q0 = "UPDATE tests SET result = $result WHERE token = ?";
+    try {
+      $q0 = "UPDATE tests SET result = $result WHERE id = ?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('s', $token);
       $success = $stmt0->execute();
@@ -881,11 +914,10 @@ class DatabaseConn
       ($this->conn)->commit();
       if (!$success) return false;
       return ($num > 0);
-    } catch (Exception $e){
+    } catch (Exception $e) {
       ($this->conn)->rollback();
       return false;
     }
-
   }
 
 
