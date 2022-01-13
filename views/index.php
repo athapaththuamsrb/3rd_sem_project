@@ -109,7 +109,7 @@
 
 	<body>
 		<nav class="navbar navbar-dark bg-dark">
-			<h1 class="navbar-brand" style="margin-left: 1%;"><img src="/image/icon-public.gif" width="30%" height="30%">&nbsp;Testing Center</h1>
+			<h1 class="navbar-brand" style="margin-left: 1%;"><img src="/image/icon-public.gif" width="30%" height="30%">&nbsp; Public</h1>
 			<div class="dropdown">
 				<button class="dropbtn">Login&nbsp;
 					<i class="fa fa-caret-down"></i>
