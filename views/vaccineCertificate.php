@@ -13,11 +13,6 @@
 <style>
     body,
     html {
-        background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        font-family: sans-serif;
         padding: 0;
         margin: 0;
     }
@@ -63,11 +58,14 @@
         padding-left: 5%;
     }
 
-    button {
+    .cover button {
         width: 40%;
         position: relative;
         left: 30%;
-        padding: 5%;
+    }
+
+    nav a {
+        margin-right: 1%;
     }
 </style>
 
@@ -75,6 +73,7 @@
 
     <nav class="navbar navbar-dark bg-dark">
         <h2>Public works</h2>
+        <a href="/index.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Home</button></a>
     </nav>
     <br>
     <div class="cover">
