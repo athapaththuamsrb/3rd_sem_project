@@ -15,11 +15,6 @@
     <style>
         body,
         html {
-            background: url("/image/Covid-19-Test-and-Vaccine.jpg") no-repeat center;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            font-family: sans-serif;
             padding: 0;
             margin: 0;
         }
