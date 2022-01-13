@@ -67,11 +67,15 @@
     border: solid 5% blue;
   }
 
-  button {
+  .cover button {
     width: 40%;
     position: relative;
     left: 30%;
     padding: 5%;
+  }
+
+  nav a {
+    margin-right: 1%;
   }
 </style>
 
@@ -79,6 +83,8 @@
 
   <nav class="navbar navbar-dark bg-dark">
     <h2>Testing Center</h2>
+    <a href="/testing/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
+
   </nav>
   <br>
   <br><br>

@@ -15,6 +15,10 @@
       padding: 0;
     }
 
+    nav a {
+      margin-right: 1%;
+    }
+
     html {
       overflow-x: scroll;
       overflow-y: scroll;
@@ -216,7 +220,7 @@
       text-align: center;
     }
 
-    button {
+    .cover button {
       width: 40%;
       position: relative;
       left: 30%;
@@ -229,6 +233,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Testing Center</a>
+      <a href="/testing/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
+
     </div>
   </nav>
   <br><br>

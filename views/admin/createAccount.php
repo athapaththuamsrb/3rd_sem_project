@@ -123,6 +123,12 @@
 </style>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Create account</a>
+      <a href="/admin/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
+    </div>
+  </nav>
   <form id="regForm" method="POST">
     <h1><b>Create account</b></h1>
     <!-- One "tab" for each step in the form: -->
