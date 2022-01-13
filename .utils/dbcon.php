@@ -921,6 +921,31 @@ class DatabaseConn
     }
   }
 
+  public function getVaccineStatistics($dose, $district = null)
+  {
+    // if district == null, then whole country
+    // return number of vaccinated people of each type in that district
+    // return null on error
+    // sample (remove if statements)
+    if ($dose === 1) {
+      return ['Pfizer' => 12, 'Sinopharm' => 644, 'Aztraseneca' => 251];
+    } else if ($dose === 2) {
+      return ['Pfizer' => 13, 'Sinopharm' => 538, 'Aztraseneca' => 97];
+    } else if ($dose === 3) {
+      return ['Pfizer' => 231, 'Sinopharm' => 10, 'Aztraseneca' => 2];
+    }else{
+      return null;
+    }
+  }
+
+  public function getTestStatistics($district = null)
+  {
+    // if district == null, then whole country
+    // return number of positive, negative, pending tests in the district
+    // return null on error
+    // sample
+    return ['Positive' => 1314, 'Negative' => 875, 'Pending' => 34];
+  }
 
   public function close_conn()
   {

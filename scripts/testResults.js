@@ -22,22 +22,17 @@ function getResult() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        if (data && data['result']) {
-          while (output.firstChild) {
-            output.removeChild(output.lastChild);
-          }
-          let result = data['result'];
-          let h2 = document.createElement('h2');
-          h2.innerText = 'Result : ' + result;
-          output.appendChild(h2);
-        } else {
-          while (output.firstChild) {
-            output.removeChild(output.lastChild);
-          }
-          let h2 = document.createElement('h2');
-          h2.innerText = 'Couldn\'t load result';
-          output.appendChild(h2);
+        while (output.firstChild) {
+          output.removeChild(output.lastChild);
         }
+        let h2 = document.createElement('h2');
+        if (data && data['result']) {
+          let result = data['result'];
+          h2.innerText = 'Result : ' + result;
+        } else {
+          h2.innerText = 'Couldn\'t load result';
+        }
+        output.appendChild(h2);
       } catch (error) {
         alert("Error occured");
       }

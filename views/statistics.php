@@ -22,7 +22,7 @@
     }
 
     input,
-    #districts {
+    #district {
       width: 60%;
       padding-left: 2%;
     }
@@ -73,9 +73,9 @@
   <br>
   <div class="cover">
     <div class="grid-container">
-      <div class="grid-item"><label for="districts">Districts:</label></div>
+      <div class="grid-item"><label for="district">District:</label></div>
       <div class="grid-item">
-        <select name="districts" id="districts">
+        <select name="district" id="district">
           <option value="Sri-Lanka">All</option>
           <option value="Colombo">Colombo</option>
           <option value="Kalutara">Kalutara</option>
@@ -113,76 +113,10 @@
     <div id="piechart-vaccination-dose-3" class="item4"></div>
     <div id="piechart-test" class="item1"></div>
   </div>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-  <script type="text/javascript">
-    // Load google charts
-    google.charts.load('current', {
-      'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
-
-    // Draw the chart and set the chart values
-    function drawChart() {
-      //test piechart
-      var data_test = google.visualization.arrayToDataTable([
-        ['Topic', 'Result'],
-        ['Positive', 8],
-        ['Negative', 2],
-        ['Pending', 4]
-      ]);
-      var options_test1 = {
-        'title': 'TEST RESULT',
-        'width': 400,
-        'height': 400
-      };
-      var chart_test = new google.visualization.PieChart(document.getElementById('piechart-test'));
-      chart_test.draw(data_test, options_test1);
-      //dose-1 piechart
-      var data_dose_1 = google.visualization.arrayToDataTable([
-        ['Vaccine Type', 'count'],
-        ['Positive', 8],
-        ['Negative', 2],
-        ['Pending', 4]
-      ]);
-      var options_dose_1 = {
-        'title': 'Dose 1',
-        'width': 400,
-        'height': 400
-      };
-      var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-1'));
-      chart_test.draw(data_dose_1, options_dose_1);
-
-      //dose-2 piechart
-      var data_dose_1 = google.visualization.arrayToDataTable([
-        ['Vaccine Type', 'count'],
-        ['Positive', 8],
-        ['Negative', 2],
-        ['Pending', 4]
-      ]);
-      var options_dose_1 = {
-        'title': 'Dose 1',
-        'width': 400,
-        'height': 400
-      };
-      var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-2'));
-      chart_test.draw(data_dose_1, options_dose_1);
-      //dose-3 piechart
-      var data_dose_1 = google.visualization.arrayToDataTable([
-        ['Vaccine Type', 'count'],
-        ['Positive', 8],
-        ['Negative', 2],
-        ['Pending', 4]
-      ]);
-      var options_dose_1 = {
-        'title': 'Dose 1',
-        'width': 400,
-        'height': 400
-      };
-      var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-3'));
-      chart_test.draw(data_dose_1, options_dose_1);
-    }
-  </script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/statistics.js"></script>
 </body>
 
 </html>

@@ -41,6 +41,12 @@
             background-color: rgba(0, 0, 0, 0.6);
         }
 
+        nav {
+            padding: 2% 0% 2% 0%;
+            height: 10vh;
+            width: 100%;
+        }
+
         .btn-shape {
             width: 250px;
             font-size: 150%;
@@ -64,7 +70,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand" style="margin-left: 1%;"><img src="/image/icon-public.gif" width="30%" height="30%">&nbsp;Testing Center</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-test.gif" height="48px">&nbsp;&nbsp;Testing Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>

@@ -96,7 +96,7 @@
 		}
 
 		.dropdown-content>a {
-			width: 101%;
+			width: 102%;
 		}
 
 		h2 {

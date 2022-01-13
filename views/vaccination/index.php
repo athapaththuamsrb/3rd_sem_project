@@ -23,12 +23,6 @@
             margin-top: 100px;
         }
 
-        #createAccountBtn {
-            padding: 20px 30px;
-            font-size: 25px;
-            font-weight: 500;
-        }
-
         #title {
             margin-top: 30px;
             font-size: 50px;
@@ -62,7 +56,7 @@
         }
 
         .container-fluid {
-            padding-left: 2.11%;
+            padding-left: 1.11%;
         }
     </style>
 </head>
@@ -70,7 +64,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand"><img src="/image/icon-public.gif" width="20%" height="20%">&nbsp;Vaccination Center</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-vaccinate.gif" height="48px">&nbsp;&nbsp;Vaccination Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>
