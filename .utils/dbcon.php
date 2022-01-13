@@ -906,9 +906,9 @@ class DatabaseConn
     }
     ($this->conn)->begin_transaction();
     try {
-      $q0 = 'UPDATE tests SET result = ? WHERE token = ? AND result = "Pending"';
+      $q0 = "UPDATE tests SET result = $result WHERE token = ?";
       $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('ss', $result, $token);
+      $stmt0->bind_param('s', $token);
       $success = $stmt0->execute();
       $num = $stmt0->affected_rows;
       $stmt0->close();
