@@ -72,11 +72,10 @@
             padding-left: 45%;
         }
 
-        button {
+        .cover button {
             width: 40%;
             position: relative;
             left: 30%;
-            padding: 5%;
         }
 
         .cover {
@@ -91,6 +90,10 @@
         h1 {
             text-align: center;
         }
+
+        nav a {
+            margin-right: 1%;
+        }
     </style>
 
 </head>
@@ -98,6 +101,7 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <h2>Public works</h2>
+        <a href="/index.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Home</button></a>
     </nav>
     <br>
     <form>
