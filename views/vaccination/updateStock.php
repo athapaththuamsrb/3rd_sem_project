@@ -37,7 +37,7 @@
         border: 2px solid blue;
     }
 
-    button {
+    .centerBox button {
         background-color: green;
         color: white;
         border: 2px solid black;
@@ -91,13 +91,24 @@
         text-align: left;
         float: left;
     }
+
+    /* .dashboard {
+        float: right;
+    } */
+
+    nav a {
+        margin-right: 1%;
+    }
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Vaccination Center</a>
+            <a class="nav-link" href="/vaccination/index.php"><button type="button" class="btn btn-primary dashboard">Dashboard</button></a>
+
         </div>
+
     </nav>
     <fieldset class="centerBox">
         <legend>Update the stock</legend>

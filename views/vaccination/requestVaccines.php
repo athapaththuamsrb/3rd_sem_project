@@ -99,6 +99,9 @@
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">Vaccination Center</a>
 		</div>
+		<div class="dashboard">
+			<a href="/vaccination/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
+		</div>
 	</nav>
 	<fieldset class="centerBox">
 		<legend>

@@ -106,11 +106,15 @@
       text-align: center;
     }
 
-    button {
+    .container button {
       width: 40%;
       position: relative;
       left: 30%;
       padding: 5%;
+    }
+
+    nav a {
+      margin-right: 1%;
     }
   </style>
 </head>
@@ -119,7 +123,10 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Vaccination Center</a>
+      <a href="/vaccination/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
     </div>
+
+
   </nav>
   <br><br>
   <form>

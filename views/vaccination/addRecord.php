@@ -216,11 +216,15 @@
       text-align: center;
     }
 
-    button {
+    .cover button {
       width: 40%;
       position: relative;
       left: 30%;
       padding: 4%;
+    }
+
+    nav a {
+      margin-right: 1%;
     }
   </style>
 </head>
@@ -229,7 +233,9 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Vaccination Center</a>
+      <a class="nav-link" href="/vaccination/index.php"><button type="button" class="btn btn-primary dashboard">Dashboard</button></a>
     </div>
+
   </nav>
   <br><br>
   <div class="cover-up cover">
