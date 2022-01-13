@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('.utils/dbcon.php');
     if ($con = DatabaseConn::get_conn()) {
       $data = $con->getAvailability($district, $type, $dose, $date);
-    }else{
+    } else {
       $data['reason'] = 'Server error';
     }
     echo json_encode($data);
   }
   die();
 }
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccineAvailability.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccineAvailability.php');

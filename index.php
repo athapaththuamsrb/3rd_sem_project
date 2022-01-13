@@ -7,4 +7,4 @@ if (isset($_GET['logout']) && $_GET['logout']) {
     header('Location: .');
     die();
 }
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/index.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/index.php');

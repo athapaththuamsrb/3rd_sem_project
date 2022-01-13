@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dose = intval($_POST['dose']);
             $amount = intval($_POST['amount']);
             $data = $user->requestVaccines($type, $dose, $amount);
-        }else{
+        } else {
             $data = ['count' => 0, 'reason' => 'Insufficient data'];
         }
     } catch (Exception $e) {
@@ -21,4 +21,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccination/requestVaccines.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccination/requestVaccines.php');

@@ -16,6 +16,7 @@
 			background-attachment: fixed;
 			background-position: center;
 			background-color: rgb(190, 190, 190);
+			z-index: 0;
 		}
 
 		#actions {
@@ -31,13 +32,7 @@
 			background-color: blue;
 		}
 
-		#vaccine_appointment,
-		#vaccination_certificate,
-		#vaccination_status,
-		#vaccine_availability,
-		#testing_appointment,
-		#testing_availability,
-		#test_results {
+		.btn-font {
 			font-size: 14pt;
 		}
 
@@ -68,6 +63,7 @@
 		.dropdown {
 			position: relative;
 			display: inline-block;
+			margin-right: 1%;
 		}
 
 		.dropdown-content {
@@ -76,7 +72,7 @@
 			background-color: #f1f1f1;
 			min-width: 160px;
 			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-			z-index: 1;
+			z-index: 2;
 			right: 0;
 		}
 
@@ -100,7 +96,7 @@
 		}
 
 		.dropdown-content>a {
-			width: 500%;
+			width: 101%;
 		}
 
 		h2 {
@@ -112,55 +108,61 @@
 <div class="mask">
 
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container-fluid">
-				<h1 class="navbar-brand">Public</h1>
-				<div class="dropdown">
-					<button class="dropbtn">Login
-						<i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-content">
-						<a href="/vaccination/">Vaccination&nbsp;center&nbsp;</a>
-						<a href="/testing/">Testing&nbsp;center&nbsp;</a>
-						<a href="/admin/">Admin&nbsp;</a>
-					</div>
+		<nav class="navbar navbar-dark bg-dark">
+			<h1 class="navbar-brand" style="margin-left: 1%;"><img src="/image/icon-public.gif" width="30%" height="30%">&nbsp;Testing Center</h1>
+			<div class="dropdown">
+				<button class="dropbtn">Login&nbsp;
+					<i class="fa fa-caret-down"></i>
+				</button>
+				<div class="dropdown-content">
+					<a href="/vaccination/">Vaccination center</a>
+					<a href="/testing/">Testing center</a>
+					<a href="/admin/">Admin</a>
 				</div>
 			</div>
 		</nav>
+		<br>
 		<h2>Dashboard</h2>
 		<div class="container">
 			<div class="row">
 				<div class="col-3" id="actions">
-					<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Vaccine Appointment</button></a>
+					<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary btn-font" id="vaccine_appointment">Vaccine Appointment</button></a>
 				</div>
 				<div class="col-1"></div>
 				<div class="col-3" id="actions">
-					<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary" id="vaccination_status">Vaccination Status</button></a>
+					<a href="/vaccinationStatus.php"><button type="button" class="btn btn-primary btn-font" id="vaccination_status">Vaccination Status</button></a>
 				</div>
 				<div class="col-1"></div>
 				<div class="col-3" id="actions">
-					<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary" id="vaccination_certificate">Vaccination Certificate</button></a>
+					<a href="/vaccineCertificate.php"><button type="button" class="btn btn-primary btn-font" id="vaccination_certificate">Vaccination Certificate</button></a>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-4"></div>
 				<div class="col-3" id="actions">
-					<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary" id="vaccine_availability">Vaccine Availability</button></a>
+					<a href="/vaccineAvailability.php"><button type="button" class="btn btn-primary btn-font" id="vaccine_availability">Vaccine Availability</button></a>
 				</div>
 				<div class="col-4"></div>
 			</div>
 			<div class="row">
 				<div class="col-3" id="actions">
-					<a href="/testingAppointment.php"><button type="button" class="btn btn-primary" id="testing_appointment">Testing Appointment</button></a>
+					<a href="/testingAppointment.php"><button type="button" class="btn btn-primary btn-font" id="testing_appointment">Testing Appointment</button></a>
 				</div>
 				<div class="col-1"></div>
 				<div class="col-3" id="actions">
-					<a href="/testingAvailability.php"><button type="button" class="btn btn-primary" id="testing_availability">Testing Availability</button></a>
+					<a href="/testingAvailability.php"><button type="button" class="btn btn-primary btn-font" id="testing_availability">Testing Availability</button></a>
 				</div>
 				<div class="col-1"></div>
 				<div class="col-3" id="actions">
-					<a href="/testResults.php"><button type="button" class="btn btn-primary" id="test_results">Test Results</button></a>
+					<a href="/testResults.php"><button type="button" class="btn btn-primary btn-font" id="test_results">Test Results</button></a>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-3" id="actions">
+					<a href="/statistics.php"><button type="button" class="btn btn-primary btn-font" id="statistics">Statistics</button></a>
+				</div>
+				<div class="col-4"></div>
 			</div>
 		</div>
 		<br><br>

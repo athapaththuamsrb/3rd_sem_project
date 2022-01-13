@@ -22,12 +22,6 @@
       color: white;
     }
 
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-    }
-
     .container {
       background-color: rgb(0, 0, 0, 0.8);
       border-top-left-radius: 15px;
@@ -110,25 +104,18 @@
       width: 40%;
       position: relative;
       left: 30%;
-      padding: 5%;
     }
 
-    nav a {
-      margin-right: 1%;
+    .container-fluid {
+      padding-left: 1.5%;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Vaccination Center</a>
-      <a href="/vaccination/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
-    </div>
-
-
-  </nav>
-  <br><br>
+  <?php
+  @include('navbar.php') ?>
+  <br>
   <form>
     <div class="container">
       <div class="row">

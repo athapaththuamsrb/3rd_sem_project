@@ -54,14 +54,6 @@
         transform: scale(1.2);
     }
 
-    nav {
-        background-color: rgb(2, 2, 59);
-        height: 10vh;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-
     #type {
         width: 30%;
         font-size: medium;
@@ -92,24 +84,15 @@
         float: left;
     }
 
-    /* .dashboard {
-        float: right;
-    } */
-
-    nav a {
-        margin-right: 1%;
+    .container-fluid {
+        padding-left: 2.11%;
     }
 </style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Vaccination Center</a>
-            <a class="nav-link" href="/vaccination/index.php"><button type="button" class="btn btn-primary dashboard">Dashboard</button></a>
-
-        </div>
-
-    </nav>
+    <?php
+    @include('navbar.php') ?>
+    <br>
     <fieldset class="centerBox">
         <legend>Update the stock</legend>
         <div class="grid-container">

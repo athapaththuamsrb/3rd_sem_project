@@ -48,11 +48,6 @@
       transform: scale(1.2);
     }
 
-    .buttons {
-      text-align: center;
-      margin: 2%;
-    }
-
     #submitButton {
       background-color: rgb(225, 220, 220);
       display: inline-block;
@@ -94,7 +89,6 @@
 
     .topic {
       width: 800px;
-      /* background-color: rgb(0, 0, 0, 0.8); */
       margin: auto;
       color: white;
       padding: 10px 0px 10px 0px;
@@ -220,24 +214,19 @@
       width: 40%;
       position: relative;
       left: 30%;
-      padding: 4%;
     }
 
-    nav a {
-      margin-right: 1%;
+    .container-fluid {
+      padding-left: 1.5%;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Vaccination Center</a>
-      <a class="nav-link" href="/vaccination/index.php"><button type="button" class="btn btn-primary dashboard">Dashboard</button></a>
-    </div>
+  <?php
+  @include('navbar.php') ?>
+  <br>
 
-  </nav>
-  <br><br>
   <div class="cover-up cover">
     <div class="topic">
       <h1>Add data for Vaccination</h1>

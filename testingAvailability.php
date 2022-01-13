@@ -27,4 +27,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   die();
 }
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testingAvailability.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testingAvailability.php');

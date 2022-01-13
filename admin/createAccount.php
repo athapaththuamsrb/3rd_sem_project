@@ -24,4 +24,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   sendSuccess($success);
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/admin/createAccount.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/admin/createAccount.php');

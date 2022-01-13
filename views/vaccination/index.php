@@ -54,20 +54,26 @@
             width: 250px;
             font-size: 150%;
         }
+
+        nav {
+            padding: 2% 0% 2% 0%;
+            height: 10vh;
+            width: 100%;
+        }
+
+        .container-fluid {
+            padding-left: 2.11%;
+        }
     </style>
 </head>
 
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Vaccination Center</a>
+            <h1 class="navbar-brand"><img src="/image/icon-public.gif" width="20%" height="20%">&nbsp;Vaccination Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
-
         </div>
     </nav>
-
     <div class="d-flex justify-content-center" id="title">
         Vaccination Center Dashboard
     </div>

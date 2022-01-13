@@ -224,20 +224,14 @@
       width: 40%;
       position: relative;
       left: 30%;
-      padding: 4%;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Testing Center</a>
-      <a href="/testing/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
-
-    </div>
-  </nav>
-  <br><br>
+  <?php
+  @include('navbar.php') ?>
+  <br>
   <div class="cover-up cover">
     <div class="topic">
       <h1>Add data for Testing</h1>

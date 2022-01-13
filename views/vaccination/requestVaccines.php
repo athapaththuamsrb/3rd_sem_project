@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<link rel="stylesheet" type="text/css" href="/styles/all.css" />
 	<link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
 	<script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
@@ -38,7 +39,7 @@
 		border: 2px solid blue;
 	}
 
-	button {
+	.centerBox button {
 		background-color: green;
 		color: white;
 		border: 2px solid black;
@@ -53,14 +54,6 @@
 		-webkit-transform: scale(1.2);
 		/* Safari 3-8 */
 		transform: scale(1.2);
-	}
-
-	nav {
-		background-color: rgb(2, 2, 59);
-		height: 10vh;
-		width: 100%;
-		padding: 0;
-		margin: 0;
 	}
 
 	#type {
@@ -92,17 +85,16 @@
 		text-align: left;
 		float: left;
 	}
+
+	.container-fluid {
+		padding-left: 2.11%;
+	}
 </style>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Vaccination Center</a>
-		</div>
-		<div class="dashboard">
-			<a href="/vaccination/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
-		</div>
-	</nav>
+	<?php
+	@include('navbar.php') ?>
+	<br>
 	<fieldset class="centerBox">
 		<legend>
 			<h2>Requesting Vaccination</h2>

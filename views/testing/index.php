@@ -54,17 +54,18 @@
             transform: scale(1.2);
             background-color: blue;
         }
+
+        .container-fluid {
+            padding-left: 1%;
+        }
     </style>
 </head>
 
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Testing Center</a>
+            <h1 class="navbar-brand" style="margin-left: 1%;"><img src="/image/icon-public.gif" width="30%" height="30%">&nbsp;Testing Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
-
         </div>
     </nav>
 

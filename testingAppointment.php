@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $name_pattern = '/^[a-zA-Z. ]+$/';
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
                 $email_pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/";
-                
+
                 $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
                 $contact_pattern = '/^[0-9]{10}+$/';
-                
+
                 if (!preg_match($name_pattern, $name) || ($email && !preg_match($email_pattern, $email)) || ($contact && !preg_match($contact_pattern, $contact))) {
                     echo json_encode($data);
                     die();
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($con = DatabaseConn::get_conn()) {
                 $data = $con->filter_testing_centers($district, $date);
             }
-            if (!$data){
+            if (!$data) {
                 $data = [];
             }
         }
@@ -63,4 +63,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testingAppointment.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testingAppointment.php');

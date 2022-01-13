@@ -102,7 +102,7 @@
       padding-left: 8%;
     }
 
-    h1 {
+    .cover h1 {
       text-align: center;
     }
 
@@ -119,23 +119,18 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <h2>Public works</h2>
-    <a href="/index.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Home</button></a>
-  </nav>
+  <?php
+  @include('navbar.php') ?>
   <br>
-
-
-
   <div class="cover">
     <h1>View Test Result</h1>
     <br>
     <form>
       <div class="grid-container">
         <div class="grid-item"><label for="inputID">Enter ID:</label></div>
-        <div class="grid-item"><input type="text" id="inputID" onkeypress="keypress(event, 0);"></div>
+        <div class="grid-item"><input type="text" id="inputID" placeholder="ID" onkeypress="keypress(event, 0);"></div>
         <div class="grid-item"><label for="inputToken">Enter Token:</label></div>
-        <div class="grid-item"><input type="text" id="inputToken" onkeypress="keypress(event, 1);"></div>
+        <div class="grid-item"><input type="text" id="inputToken" placeholder="Token" onkeypress="keypress(event, 1);"></div>
       </div>
       <br>
       <button id="submitBtn" type="button" class="btn btn-success" onclick="getResult()">Submit</button>

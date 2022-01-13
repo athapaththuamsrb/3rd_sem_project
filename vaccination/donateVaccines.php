@@ -23,5 +23,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /vaccination/');
         die();
     }
-    include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccination/donateVaccines.php');
+    @include_once($_SERVER['DOCUMENT_ROOT'] . '/views/vaccination/donateVaccines.php');
 }

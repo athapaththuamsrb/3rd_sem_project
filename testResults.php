@@ -23,4 +23,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   die();
 }
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testResults.php');
+@include_once($_SERVER['DOCUMENT_ROOT'] . '/views/testResults.php');

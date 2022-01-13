@@ -66,9 +66,8 @@
         }
 
 
-        h1 {
+        .cover h1 {
             text-align: center;
-            padding: 2%;
         }
 
         h2 {
@@ -109,18 +108,12 @@
         #hide {
             display: none;
         }
-
-        nav a {
-            margin-right: 1%;
-        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <h2>Public works</h2>
-        <a href="/index.php"><button type="button" class="btn btn-primary" id="vaccine_appointment">Home</button></a>
-    </nav>
+    <?php
+    @include('navbar.php') ?>
     <br>
     <div class="cover">
         <form>
@@ -163,7 +156,7 @@
 
 
                 <div class="grid-item"><label for="id">ID:</label></div>
-                <div class="grid-item"><input type="text" id="id" name="id" size="12" placeholder="id"></div>
+                <div class="grid-item"><input type="text" id="id" name="id" size="12" placeholder="ID"></div>
 
             </div>
             <button type="button" class="btn btn-success" value="Submit" onclick="getCentres()">submit</button>

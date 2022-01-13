@@ -71,7 +71,6 @@
     width: 40%;
     position: relative;
     left: 30%;
-    padding: 5%;
   }
 
   nav a {
@@ -81,13 +80,9 @@
 
 <body>
 
-  <nav class="navbar navbar-dark bg-dark">
-    <h2>Testing Center</h2>
-    <a href="/testing/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
-
-  </nav>
+  <?php
+  @include('navbar.php') ?>
   <br>
-  <br><br>
   <div class="cover">
     <h1>Add Testing Results</h1>
     <div class="grid-container">
