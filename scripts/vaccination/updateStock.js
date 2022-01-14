@@ -3,20 +3,20 @@ function updateStock() {
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
   if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount)) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
   amount = parseInt(amount);
   dose = parseInt(dose);
   if (!type || !dose || !amount || dose <= 0 || amount <= 0) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
 
   let xhrBuilder = new XHRBuilder();
-  xhrBuilder.addField('type', type);
-  xhrBuilder.addField('dose', dose);
-  xhrBuilder.addField('amount', amount);
+  xhrBuilder.addField("type", type);
+  xhrBuilder.addField("dose", dose);
+  xhrBuilder.addField("amount", amount);
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

@@ -6,7 +6,7 @@ function donate() {
   amount = parseInt(amount);
   dose = parseInt(dose);
   if (!type || !place || !dose || !amount || dose <= 0 || amount <= 0) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
 

@@ -4,8 +4,7 @@ function getStatus() {
   let id = document.getElementById("inputID").value;
 
   if (id.length < 4 || id.length > 12) {
-    //check id
-    alert("Invalid ID!");
+    setModal(false, "Invalid ID!");
     return false;
   }
 

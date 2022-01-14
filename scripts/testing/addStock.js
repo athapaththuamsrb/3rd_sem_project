@@ -20,13 +20,13 @@ function submitStock() {
   let onlineAmount = document.getElementById("onlineAmount").value;
 
   if (!/^[0-9]+$/.test(amount) || !/^[0-9]+$/.test(onlineAmount)) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
   amount = parseInt(amount);
   onlineAmount = parseInt(onlineAmount);
   if (!date || !type || !amount || !onlineAmount || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
 

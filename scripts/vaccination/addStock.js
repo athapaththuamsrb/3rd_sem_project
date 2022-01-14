@@ -14,21 +14,27 @@ function getDateStr() {
 document.getElementById("date").setAttribute("min", getDateStr());
 
 function submitStock() {
+  
   let date = document.getElementById("date").value;
   let type = document.getElementById("type").value;
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
   let onlineAmount = document.getElementById("onlineAmount").value;
 
+  if (new Date(date).getTime() < new Date().getTime()) {
+    setModal(false, "Entered date is invalid");
+    return false;
+  }
+
   if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount) || !/^[0-9]+$/.test(onlineAmount)) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
   amount = parseInt(amount);
   onlineAmount = parseInt(onlineAmount);
   dose = parseInt(dose);
   if (!date || !type || !dose || !amount || !onlineAmount || dose <= 0 || amount <= 0 || onlineAmount < 0 || onlineAmount > amount) {
-    alert("Entered data is invalid");
+    setModal(false, "Entered data is invalid");
     return false;
   }
 

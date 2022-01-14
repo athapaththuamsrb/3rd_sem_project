@@ -17,6 +17,11 @@ function getAvailability() {
   let district = document.getElementById("district").value;
   let type = document.getElementById("type").value;
   let date = document.getElementById("date").value;
+  let today = new Date().setHours(0,0,0,0)
+  if (new Date(date).getTime() < new Date(today).getTime()) {
+    setModal(false, "Entered date is invalid");
+    return false;
+  }
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);
@@ -43,9 +48,12 @@ function getAvailability() {
           let table = tableBuilder.build();
           resultDiv.appendChild(table);
         } else {
-          let p = document.createElement('p');
-          p.innerText = 'Not Available'
-          resultDiv.appendChild(p);
+          setModal(false, "Sorry.\nTesting Centers are not available.");
+          return false;
+
+          // let p = document.createElement('p');
+          // p.innerText = 'Not Available'
+          // resultDiv.appendChild(p);
         }
       } catch (error) {
         alert("Error occured");

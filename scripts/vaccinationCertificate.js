@@ -3,13 +3,12 @@ function getCert() {
   let token = document.getElementById("inputToken").value;
 
   if (id.length < 4 || id.length > 12) {
-    //check id
-    alert("Invalid ID!");
+    setModal(false, "Invalid ID!");
     return false;
   }
 
-  if (token.length !== 6) {
-    alert("Invalid Token!");
+  if (token.length != 6) {
+    setModal(false, "Invalid token!");
     return false;
   }
 

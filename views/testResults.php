@@ -139,7 +139,10 @@
     <div id="results" class="item4"></div>
   </div>
 
-
+  <?php
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
+  addModal('Add Stock');
+  ?>
 
   <script src="/scripts/common.js"></script>
   <script src="/scripts/testResults.js"></script>

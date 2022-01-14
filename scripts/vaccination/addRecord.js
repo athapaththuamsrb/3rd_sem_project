@@ -25,7 +25,7 @@ function reset() {
 function getDetails() {
   let id = id_element.value;
   if (id.length < 4 || id.length > 12) {
-    alert("Invalid ID!");
+    setModal(false, "Please enter a valid ID.");
     return;
   }
   let xhr = new XMLHttpRequest();
@@ -81,7 +81,7 @@ function getDetails() {
 
 function submitRecord() {
   if (!document.querySelector('input[name="type"]:checked')) {
-    alert("You must select the vaccine type");
+    setModal(false, "You must select the vaccine type.");
     return false;
   }
   let id = id_element.value;
@@ -93,19 +93,19 @@ function submitRecord() {
   let contact = contact_element.value;
 
   if (id.length < 4 || id.length > 12) {//check id
-    alert("Invalid ID!");
+    setModal(false, "Invalid ID!");
     return false;
   }
   if (!name_pattern.test(name)) {
-    alert("Invalid Name!");
+    setModal(false, "Invalid Name!");
     return false;
   }
   if (email && !email_pattern.test(email)) {
-    alert("Invalid email");
+    setModal(false, "Invalid Email!");
     return false;
   }
   if (contact && !contact_pattern.test(contact)) {
-    alert("Invalid contact number");
+    setModal(false, "Invalid Contact Number!");
     return false;
   }
   let xhrBuilder = new XHRBuilder();

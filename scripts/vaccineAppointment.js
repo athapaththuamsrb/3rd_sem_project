@@ -18,9 +18,13 @@ function getCentres() {
   let date = document.getElementById("date").value;
   let id = document.getElementById("id").value;
 
+  if (new Date(date).getTime() < new Date().getTime()) {
+    setModal(false, "Entered date is invalid");
+    return false;
+  }
+
   if (id.length < 4 || id.length > 12) {
-    //check id
-    alert("Invalid ID!");
+    setModal(false, "Entered ID is invalid");
     return false;
   }
 
@@ -47,8 +51,11 @@ function getCentres() {
           "Pfizer",
           "Sinopharm",
           "Aztraseneca",
-          "Moderna"
+          "Moderna",
         ];
+        if (data.length == 0) {
+          setModal(false, "Sorry.\nVaccine  Centers are not available.");
+          return false;        }
         data.forEach((centre) => {
           let li = document.createElement("li");
           let span = document.createElement("span");
@@ -86,8 +93,8 @@ function getCentres() {
 
 function submitRequest() {
   let elem = document.querySelector('input[name="appointment"]:checked');
-  if (!elem){
-    alert("Please select an option");
+  if (!elem) {
+    setModal(false, "Please select an option");
     return false;
   }
   let text = elem.value.split("?");
@@ -97,28 +104,27 @@ function submitRequest() {
   let name = document.getElementById("name").value;
   let email = document.getElementById("email").value;
   let contact = document.getElementById("contact").value;
-  
+
   let vaccineCenter = text[0];
   let vaccineType = text[1];
 
   if (id.length < 4 || id.length > 12) {
-    //check id
-    alert("Invalid ID!");
+    setModal(false, "Invalid ID!");
     return false;
   }
 
   if (!name_pattern.test(name)) {
-    alert("Invalid Name!");
+    setModal(false, "Invalid Name!");
     return false;
   }
 
   if (contact && !contact_pattern.test(contact)) {
-    alert("Invalid contact number");
+    setModal(false, "Invalid Contact Number!");
     return false;
   }
 
   if (email && !email_pattern.test(email)) {
-    alert("Invalid email");
+    setModal(false, "Invalid Email!");
     return false;
   }
 
@@ -140,7 +146,10 @@ function submitRequest() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       try {
         let data = JSON.parse(xhr.responseText);
-        let msg = data["status"] === true ? "Appointment Success!" : "Appointment Failed!";
+        let msg =
+          data["status"] === true
+            ? "Appointment Success!"
+            : "Appointment Failed!";
         setModal(data["status"], msg);
       } catch (error) {
         alert("Error occured");

@@ -19,8 +19,14 @@ function getAvailability() {
   let dose = parseInt(document.getElementById("dose").value, 10);
   let date = document.getElementById("date").value;
 
+  let today = new Date().setHours(0, 0, 0, 0);
+  if (new Date(date).getTime() < new Date(today).getTime()) {
+    setModal(false, "Entered date is invalid");
+    return false;
+  }
+
   if (dose < 1) {
-    alert("Invalid Dose!");
+    setModal(false, "Invalid Dose!");
     return false;
   }
 
@@ -50,9 +56,11 @@ function getAvailability() {
           let table = tableBuilder.build();
           resultDiv.appendChild(table);
         } else {
-          let p = document.createElement('p');
-          p.innerText = 'Not Available'
-          resultDiv.appendChild(p);
+          setModal(false, "Sorry.\nVaccine Centers are not available.");
+          return false;
+          // let p = document.createElement('p');
+          // p.innerText = 'Not Available'
+          // resultDiv.appendChild(p);
         }
       } catch (error) {
         alert("Error occured");

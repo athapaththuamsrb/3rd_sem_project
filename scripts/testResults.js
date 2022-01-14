@@ -5,11 +5,21 @@ function getResult() {
   let id = document.getElementById("inputID").value;
   let token = document.getElementById("inputToken").value;
 
-  if (id.length < 4 || id.length > 12 || token.length != 6) {
-    //check id
-    alert("Invalid Details!");
+  if (id.length < 4 || id.length > 12) {
+    setModal(false, "Invalid ID!");
     return false;
   }
+
+  if (token.length != 6) {
+    setModal(false, "Invalid token!");
+    return false;
+  }
+
+  // if (id.length < 4 || id.length > 12 || token.length != 6) {
+  //   //check id
+  //   alert("Invalid Details!");
+  //   return false;
+  // }
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", document.URL, true);

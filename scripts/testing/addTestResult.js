@@ -3,11 +3,11 @@ function submitResult() {
   let result = document.getElementById("result").value;
   
   if (!/^[a-z0-9]{6}$/.test(token)) {
-    alert("Entered token is invalid");
+    setModal(false, "Entered token is invalid");
     return false;
   }
   if (result!="Positive"&& result!="Negative") {
-    alert("Entered result is invalid");
+    setModal(false, "Entered result is invalid");
     return false;
   }
 

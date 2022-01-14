@@ -86,6 +86,10 @@
         <button id="submitBtn" class="btn btn-success" onclick="getCert()">Download</button>
         <br>
     </div>
+    <?php
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
+    addModal('Add Stock');
+    ?>
     <script src="/scripts/common.js"></script>
     <script src="/scripts/vaccinationCertificate.js"></script>
 </body>
