@@ -393,7 +393,9 @@ class DatabaseConn
   {
     ($this->conn)->begin_transaction();
     try {
-      $date = $date->format('Y-m-d');
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
       $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('ssis', $district, $type, $dose, $date);
@@ -740,7 +742,9 @@ class DatabaseConn
   {
     ($this->conn)->begin_transaction();
     try {
-      $date = $date->format('Y-m-d');
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
       $q0 = "SELECT place, reserved, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('sss', $district, $type, $date);
@@ -767,7 +771,9 @@ class DatabaseConn
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      $date = $date->format('Y-m-d');
+      if ($date instanceof DateTime) {
+        $date = $date->format('Y-m-d');
+      }
       $q0 = "SELECT place FROM admins WHERE district=? AND type='testing'";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('s', $district);
@@ -996,7 +1002,9 @@ class DatabaseConn
   }
 
   public function add_request_for_extra_vaccines($district, $place, $date, $type, $amount){
-    $date = $date->format('Y-m-d');
+    if ($date instanceof DateTime) {
+      $date = $date->format('Y-m-d');
+    }
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS vaccine_requests (
       district varchar(20) not null,
       place varchar(50) not null,

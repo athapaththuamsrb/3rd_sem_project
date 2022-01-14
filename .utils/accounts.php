@@ -216,6 +216,16 @@ class VaccinationAdmin extends CentreAdmin
             if ($dose <= 0 || $amount <= 0) {
                 return ['count' => 0, 'resaon' => 'Invalid dose or amount'];
             }
+            $con = DatabaseConn::get_conn();
+            if (!$con) {
+                $data['reason'] = 'Server error';
+                return $data;
+            }
+            $place = $this->getPlace();
+            $success = $con->add_request_for_extra_vaccines($district, $place, new DateTime(), $type, $amount);
+            if (!$success){
+                return ['count' => 0, 'resaon' => 'Failed to add request'];
+            }
             require_once('mediator.php');
             $mediator = new Mediator($district, $type);
             $count = $mediator->sendEmails($this, $dose, $amount);
