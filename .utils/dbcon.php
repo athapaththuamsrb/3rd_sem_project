@@ -326,14 +326,14 @@ class DatabaseConn
         $date = $date->format('Y-m-d');
       }
       if ($field === 'reserved') {
-        $q = "UPDATE stocks SET reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET reserved = reserved + ? WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       } else if ($field === 'not_reserved') {
-        $q = "UPDATE stocks SET not_reserved = not_reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET not_reserved = not_reserved + ? WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       } else {
-        $q = "UPDATE stocks SET appointments = appointments + $amount WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
+        $q = "UPDATE stocks SET appointments = appointments + ? WHERE district = ? AND place = ? AND date = ? and type = ? and dose = ?";
       }
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param('ssssi', $district, $place, $date, $type, $dose);
+      $stmt->bind_param('issssi', $amount, $district, $place, $date, $type, $dose);
       $success = $stmt->execute();
       $num = $stmt->affected_rows;
       $stmt->close();
@@ -891,14 +891,14 @@ class DatabaseConn
         $date = $date->format('Y-m-d');
       }
       if ($field === 'reserved') {
-        $q = "UPDATE testing_stocks SET reserved = reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE testing_stocks SET reserved = reserved + ? WHERE district = ? AND place = ? AND date = ? and type = ?";
       } else if ($field === 'not_reserved') {
-        $q = "UPDATE testing_stocks SET not_reserved = not_reserved + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE testing_stocks SET not_reserved = not_reserved + ? WHERE district = ? AND place = ? AND date = ? and type = ?";
       } else {
-        $q = "UPDATE testing_stocks SET appointments = appointments + $amount WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $q = "UPDATE testing_stocks SET appointments = appointments + ? WHERE district = ? AND place = ? AND date = ? and type = ?";
       }
       $stmt = $this->conn->prepare($q);
-      $stmt->bind_param('ssss', $district, $place, $date, $type);
+      $stmt->bind_param('issss', $amount, $district, $place, $date, $type);
       $success = $stmt->execute();
       $num = $stmt->affected_rows;
       $stmt->close();
@@ -918,9 +918,9 @@ class DatabaseConn
     }
     ($this->conn)->begin_transaction();
     try {
-      $q0 = "UPDATE tests SET result = $result WHERE token = ?";
+      $q0 = "UPDATE tests SET result = ? WHERE token = ?";
       $stmt0 = $this->conn->prepare($q0);
-      $stmt0->bind_param('s', $token);
+      $stmt0->bind_param('ss', $result, $token);
       $success = $stmt0->execute();
       $num = $stmt0->affected_rows;
       $stmt0->close();
@@ -992,6 +992,44 @@ class DatabaseConn
     } catch (Exception $e) {
       ($this->conn)->rollback();
       return null;
+    }
+  }
+
+  public function add_request_for_extra_vaccines($district, $place, $date, $type, $amount){
+    $date = $date->format('Y-m-d');
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS vaccine_requests (
+      district varchar(20) not null,
+      place varchar(50) not null,
+      date varchar(15) not null,
+      type varchar(20) not null,
+      amount int not null,
+      primary key (district, place, date, type)
+      ) ENGINE=InnoDB;");
+    ($this->conn)->begin_transaction();
+    try {
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $q0 = 'SELECT amount FROM vaccine_requests WHERE district=? AND place=? AND date=? AND type=?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ssss', $district, $place, $date, $type);
+      $stmt0->execute();
+      $result = $stmt0->get_result();
+      if ($result->num_rows == 0) {
+        $q1 = 'INSERT INTO vaccine_requests (district, place, date, type, amount) VALUES (?, ?, ?, ?, ?)';
+        $stmt1 = $this->conn->prepare($q1);
+        $stmt1->bind_param('ssssi', $district, $place, $date, $type, $amount);
+      }
+      else {
+        $q1 = "UPDATE vaccine_requests SET amount = amount + ? WHERE district = ? AND place = ? AND date = ? and type = ?";
+        $stmt1 = $this->conn->prepare($q1);
+        $stmt1->bind_param('issss', $amount, $district, $place, $date, $type);
+      }
+      $success = $stmt1->execute();
+      $stmt1->close();
+      ($this->conn)->commit();
+      return $success;
+    } catch (Exception $e) {
+      ($this->conn)->rollback();
+      return false;
     }
   }
 
