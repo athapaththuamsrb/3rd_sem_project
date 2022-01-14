@@ -7,8 +7,13 @@ class DatabaseConn
 
   private function __construct($servername, $username, $password, $database)
   {
-    $this->conn = new mysqli($servername, $username, $password, $database);
-    // mysqli_report(MYSQLI_REPORT_ALL);
+    try{
+      $this->conn = new mysqli($servername, $username, $password, $database);
+      // mysqli_report(MYSQLI_REPORT_ALL);
+    }
+    catch (Exception $e){
+
+    }
   }
 
   public static function get_conn()
@@ -923,28 +928,66 @@ class DatabaseConn
 
   public function getVaccineStatistics($dose, $district = null)
   {
-    // if district == null, then whole country
-    // return number of vaccinated people of each type in that district
-    // return null on error
-    // sample (remove if statements)
-    if ($dose === 1) {
-      return ['Pfizer' => 12, 'Sinopharm' => 644, 'Aztraseneca' => 251];
-    } else if ($dose === 2) {
-      return ['Pfizer' => 13, 'Sinopharm' => 538, 'Aztraseneca' => 97];
-    } else if ($dose === 3) {
-      return ['Pfizer' => 231, 'Sinopharm' => 10, 'Aztraseneca' => 2];
-    }else{
+    if ($dose < 1 || $dose > 3){
+      return null;
+    }
+    $arr = array('Pfizer' => 0, 'Sinopharm' => 0, 'Aztraseneca' => 0, "Moderna" => 0);
+    ($this->conn)->begin_transaction();
+    try {
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      if ($district){
+        $q0 = 'SELECT type FROM vaccines WHERE dose=? AND district=?';
+        $stmt0 = $this->conn->prepare($q0);
+        $stmt0->bind_param('is', $dose, $district);
+      }
+      else{
+        $q0 = 'SELECT type FROM vaccines WHERE dose=?';
+        $stmt0 = $this->conn->prepare($q0);
+        $stmt0->bind_param('i', $dose);
+      }
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      while ($row = $result0->fetch_assoc()) {
+        $type = $row['type'];
+        $arr["$type"] += 1;
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e){
+      ($this->conn)->rollback();
       return null;
     }
   }
 
   public function getTestStatistics($district = null)
   {
-    // if district == null, then whole country
-    // return number of positive, negative, pending tests in the district
-    // return null on error
-    // sample
-    return ['Positive' => 1314, 'Negative' => 875, 'Pending' => 34];
+    $arr = array('Positive' => 0, 'Negative' => 0, 'Pending' => 0);
+    ($this->conn)->begin_transaction();
+    try {
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      if ($district){
+        $q0 = 'SELECT result FROM tests WHERE district=?';
+        $stmt0 = $this->conn->prepare($q0);
+        $stmt0->bind_param('s', $district);
+      }
+      else{
+        $q0 = 'SELECT result FROM tests';
+        $stmt0 = $this->conn->prepare($q0);
+      }
+      $stmt0->execute();
+      $result0 = $stmt0->get_result();
+      while ($row = $result0->fetch_assoc()) {
+        $res = $row['result'];
+        $arr["$res"] += 1;
+      }
+      $stmt0->close();
+      ($this->conn)->commit();
+      return $arr;
+    } catch (Exception $e){
+      ($this->conn)->rollback();
+      return null;
+    }    
   }
 
   public function close_conn()
