@@ -53,24 +53,24 @@ function getDetails() {
         result.appendChild(table);
         if (data["district"]) {
           district_element.value = data["district"];
+          district_element.setAttribute("disabled", true);
         }
-        district_element.setAttribute("disabled", true);
         if (data["name"]) {
           name_element.value = data["name"];
+          name_element.setAttribute("readonly", true);
         }
-        name_element.setAttribute("readonly", true);
         if (data["address"]) {
           address_element.value = data["address"];
+          address_element.setAttribute("readonly", true);
         }
-        address_element.setAttribute("readonly", true);
         if (data["contact"]) {
           contact_element.value = data["contact"];
+          contact_element.setAttribute("readonly", true);
         }
-        contact_element.setAttribute("readonly", true);
         if (data["email"]) {
           email_element.value = data["email"];
+          email_element.setAttribute("readonly", true);
         }
-        email_element.setAttribute("readonly", true);
       } catch (error) {
         alert("Error occured");
         reset();
