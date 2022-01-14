@@ -22,6 +22,10 @@ function getCentres() {
     setModal(false, "Entered date is invalid");
     return false;
   }
+  if (date=='') {
+    setModal(false, "Please enter the date");
+    return false;
+  }
 
   if (id.length < 4 || id.length > 12) {
     setModal(false, "Entered ID is invalid");
