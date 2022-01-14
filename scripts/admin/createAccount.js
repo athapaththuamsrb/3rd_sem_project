@@ -36,6 +36,21 @@ function nextPrev(n) {
 
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) {
+    console.log(currentTab);
+    switch(currentTab){
+      case 1:
+        setModal(false,"you must put location");
+        break;
+      case 2:
+        setModal(false,"you must put email");
+        break;
+      case 3:
+        setModal(false,"you must put user name");
+        break;
+      default:
+        setModal(false,"you must put password");
+        break;    
+    }
     return false;
   }
   // Hide the current tab:
