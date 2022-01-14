@@ -7,12 +7,17 @@ class DatabaseConn
 
   private function __construct($servername, $username, $password, $database)
   {
-    try{
+    try {
       $this->conn = new mysqli($servername, $username, $password, $database);
       // mysqli_report(MYSQLI_REPORT_ALL);
-    }
-    catch (Exception $e){
 
+      /* check connection */
+      if ($this->conn->connect_errno || !$this->conn->ping()) {
+        $this->conn =null;
+      }
+
+    } catch (Exception $e) {
+      $this->conn = null;
     }
   }
 
@@ -27,7 +32,10 @@ class DatabaseConn
         $database = $dbconfig['DB_DATABASE'];
         DatabaseConn::$dbconn = new DatabaseConn($servername, $username, $password, $database);
       }
-      return DatabaseConn::$dbconn;
+      if(DatabaseConn::$dbconn && DatabaseConn::$dbconn->conn){
+        return DatabaseConn::$dbconn;
+      }
+      return null;
     } catch (Exception $e) {
       return null;
     }
@@ -648,7 +656,6 @@ class DatabaseConn
       }
       ($this->conn)->commit();
     } catch (Exception $e) {
-      echo $e;
       ($this->conn)->rollback();
       return false;
     }
@@ -928,19 +935,18 @@ class DatabaseConn
 
   public function getVaccineStatistics($dose, $district = null)
   {
-    if ($dose < 1 || $dose > 3){
+    if ($dose < 1 || $dose > 3) {
       return null;
     }
     $arr = array('Pfizer' => 0, 'Sinopharm' => 0, 'Aztraseneca' => 0, "Moderna" => 0);
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if ($district){
+      if ($district) {
         $q0 = 'SELECT type FROM vaccines WHERE dose=? AND district=?';
         $stmt0 = $this->conn->prepare($q0);
         $stmt0->bind_param('is', $dose, $district);
-      }
-      else{
+      } else {
         $q0 = 'SELECT type FROM vaccines WHERE dose=?';
         $stmt0 = $this->conn->prepare($q0);
         $stmt0->bind_param('i', $dose);
@@ -954,7 +960,7 @@ class DatabaseConn
       $stmt0->close();
       ($this->conn)->commit();
       return $arr;
-    } catch (Exception $e){
+    } catch (Exception $e) {
       ($this->conn)->rollback();
       return null;
     }
@@ -966,12 +972,11 @@ class DatabaseConn
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if ($district){
+      if ($district) {
         $q0 = 'SELECT result FROM tests WHERE district=?';
         $stmt0 = $this->conn->prepare($q0);
         $stmt0->bind_param('s', $district);
-      }
-      else{
+      } else {
         $q0 = 'SELECT result FROM tests';
         $stmt0 = $this->conn->prepare($q0);
       }
@@ -984,10 +989,10 @@ class DatabaseConn
       $stmt0->close();
       ($this->conn)->commit();
       return $arr;
-    } catch (Exception $e){
+    } catch (Exception $e) {
       ($this->conn)->rollback();
       return null;
-    }    
+    }
   }
 
   public function close_conn()
