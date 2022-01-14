@@ -141,7 +141,7 @@
 
   <?php
   require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-  addModal('Add Stock');
+  addModal('Vaccination Status');
   ?>
 
   <script src="/scripts/common.js"></script>

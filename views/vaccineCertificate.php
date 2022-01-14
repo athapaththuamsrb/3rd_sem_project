@@ -88,7 +88,7 @@
     </div>
     <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-    addModal('Add Stock');
+    addModal('Vaccine Certificate');
     ?>
     <script src="/scripts/common.js"></script>
     <script src="/scripts/vaccinationCertificate.js"></script>

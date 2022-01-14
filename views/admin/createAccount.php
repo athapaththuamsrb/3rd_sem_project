@@ -252,7 +252,7 @@
   </form>
   <?php
   require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-  addModal('Place Appointment');
+  addModal('Create Appointment');
   ?>
   <script src="/scripts/common.js"></script>
   <script src="/scripts/admin/createAccount.js"></script>

@@ -120,7 +120,7 @@
     </div>
     <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-    addModal('Add Stock');
+    addModal('Donate Vaccines');
     ?>
 
     <script src="/scripts/common.js"></script>

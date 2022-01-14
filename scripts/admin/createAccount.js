@@ -37,19 +37,19 @@ function nextPrev(n) {
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) {
     console.log(currentTab);
-    switch(currentTab){
+    switch (currentTab) {
       case 1:
-        setModal(false,"you must put location");
+        setModal(false, "Please enter a location");
         break;
       case 2:
-        setModal(false,"you must put email");
+        setModal(false, "Please enter a valid email");
         break;
       case 3:
-        setModal(false,"you must put user name");
+        setModal(false, "Please enter a valid username");
         break;
       default:
-        setModal(false,"you must put password");
-        break;    
+        setModal(false, "Please enter a valid password");
+        break;
     }
     return false;
   }
@@ -71,7 +71,7 @@ function nextPrev(n) {
     if (/^[\x21-\x7E]{8,15}$/.test(pass) && pass === document.getElementById("conPassword").value) {
       submitForm();
     } else {
-      alert("check your password again");
+      setModal(false, "Please enter a valid password and confirm");
       currentTab = currentTab - n;
       x[currentTab].style.display = "block";
     }

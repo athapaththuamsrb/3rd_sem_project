@@ -162,7 +162,7 @@
     </form>
     <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/views/modal.php');
-    addModal('Add Stock');
+    addModal('Vaccine Availability');
     ?>
     <script src="/scripts/common.js"></script>
     <script src="/scripts/vaccineAvailability.js"></script>

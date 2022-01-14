@@ -41,12 +41,12 @@ function getCert() {
           let data = JSON.parse(jsonData);
           doses = data['doses'];
           if (doses != undefined && doses != null && Array.isArray(doses) && doses.length == 0) {
-            alert('Are you sure you are vaccinated?\nthen enter the correct id and token');
+            setModal(false, 'Are you sure you are vaccinated?\nthen enter the correct id and token');
           } else {
-            alert('Error occured!');
+            setModal(false, 'Error occured!');
           }
         } catch (error) {
-          alert('Error occured');
+          setModal(false, 'Error occured');
         }
       }
     }

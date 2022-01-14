@@ -76,7 +76,7 @@
       <div class="grid-item"><label for="district">District:</label></div>
       <div class="grid-item">
         <select name="district" id="district">
-          <option value="Sri-Lanka">All</option>
+          <option value="all">All</option>
           <option value="Colombo">Colombo</option>
           <option value="Kalutara">Kalutara</option>
           <option value="Gampaha">Gampaha</option>

@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $data[id]
                 </div>
                 <div class=\"reason\">
-                    For showing dose details<br/>
+                    For showing vaccination details<br/>
                 </div>
                 <div class=\"table\">
                     <table style=\"width:100%\">
