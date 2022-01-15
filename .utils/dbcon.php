@@ -1061,12 +1061,23 @@ class DatabaseConn
         ($this->conn)->rollback();
         return false;
       }
-      $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
-      $q1 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ?";
+      $q1 = 'SELECT amount FROM vaccine_requests WHERE district=? AND place=? AND date=? AND type=?';
       $stmt1 = $this->conn->prepare($q1);
-      $stmt1->bind_param('issss', $amount, $district, $receiver_place, $datestr, $type);
-      $success = $stmt1->execute();
-      $stmt1->close();
+      $stmt1->bind_param('ssss', $district, $receiver_place, $datestr, $type);
+      $stmt1->execute();
+      $stmt1->store_result();
+      $stmt1->bind_result($requested_amount);
+      $stmt1->fetch();
+      if ($requested_amount < $amount){
+        ($this->conn)->rollback();
+        return false;
+      }
+      $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
+      $q2 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ?";
+      $stmt2 = $this->conn->prepare($q2);
+      $stmt2->bind_param('issss', $amount, $district, $receiver_place, $datestr, $type);
+      $success = $stmt2->execute();
+      $stmt2->close();
       ($this->conn)->commit();
       return $success;
     } catch (Exception $e){
