@@ -1041,6 +1041,39 @@ class DatabaseConn
     }
   }
 
+  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place, $receiver_date) {
+    ($this->conn)->begin_transaction();
+    try {
+      $datestr = $date->format('Y-m-d');
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $q0 = 'SELECT not_reserved FROM stocks WHERE district=? AND place=? AND date=? AND type=? AND dose=?';
+      $stmt0 = $this->conn->prepare($q0);
+      $stmt0->bind_param('ssssi', $district, $place, $datestr, $type, $dose);
+      $stmt0->execute();
+      $stmt0->store_result();
+      if ($stmt0->num_rows() == 0) {
+        return false;
+      }
+      $stmt0->bind_result($not_reserved);
+      $stmt0->fetch();
+      if ($amount > $not_reserved) {
+        return false;
+      }
+      $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
+      $r_datestr = $receiver_date->format('Y-m-d');
+      $q1 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ? AND dose = ?";
+      $stmt1 = $this->conn->prepare($q1);
+      $stmt1->bind_param('issssi', $amount, $district, $receiver_place, $r_datestr, $type, $dose);
+      $success = $stmt1->execute();
+      $stmt1->close();
+      ($this->conn)->commit();
+      return $success;
+    } catch (Exception $e){
+      ($this->conn)->rollback();
+      return false;
+    }
+  }
+
   public function close_conn()
   {
     if (DatabaseConn::$dbconn != null) {
