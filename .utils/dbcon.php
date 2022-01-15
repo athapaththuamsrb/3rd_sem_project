@@ -1041,7 +1041,7 @@ class DatabaseConn
     }
   }
 
-  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place, $receiver_date) {
+  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place) {
     ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
@@ -1052,18 +1052,19 @@ class DatabaseConn
       $stmt0->execute();
       $stmt0->store_result();
       if ($stmt0->num_rows() == 0) {
+        ($this->conn)->rollback();
         return false;
       }
       $stmt0->bind_result($not_reserved);
       $stmt0->fetch();
       if ($amount > $not_reserved) {
+        ($this->conn)->rollback();
         return false;
       }
       $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
-      $r_datestr = $receiver_date->format('Y-m-d');
-      $q1 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ? AND dose = ?";
+      $q1 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ?";
       $stmt1 = $this->conn->prepare($q1);
-      $stmt1->bind_param('issssi', $amount, $district, $receiver_place, $r_datestr, $type, $dose);
+      $stmt1->bind_param('issss', $amount, $district, $receiver_place, $datestr, $type);
       $success = $stmt1->execute();
       $stmt1->close();
       ($this->conn)->commit();
