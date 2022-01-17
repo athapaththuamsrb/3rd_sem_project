@@ -140,9 +140,13 @@
         <div class="grid-item"><label for="type">Test Type:</label></div>
         <div class="grid-item">
           <select name="type" id="type">
-            <option value="PCR">PCR</option>
-            <option value="Rapid Antigen">Rapid Antigen</option>
-            <option value="Antibody">Antibody</option>
+            <?php
+            require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+            foreach (TESTS as $type) {
+            ?>
+              <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+            <?php
+            } ?>
           </select>
         </div>
 

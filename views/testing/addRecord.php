@@ -267,31 +267,13 @@
           </div>
           <div class="grid-item">
             <select name="district" id="district" oninput="this.className = ''">
-              <option value="Colombo">Colombo</option>
-              <option value="Gampaha">Gampaha</option>
-              <option value="Kalutara">Kalutara</option>
-              <option value="Galle">Galle</option>
-              <option value="Matara">Matara</option>
-              <option value="Hambantota">Hambantota</option>
-              <option value="Kandy">Kandy</option>
-              <option value="Matale">Matale</option>
-              <option value="Nuwara Eliya">Nuwara Eliya</option>
-              <option value="Anuradhapura">Anuradhapura</option>
-              <option value="Polonnaruwa">Polonnaruwa</option>
-              <option value="Puttalam">Puttalam</option>
-              <option value="Kurunegala">Kurunegala</option>
-              <option value="Kegalle">Kegalle</option>
-              <option value="Ratnapura">Ratnapura</option>
-              <option value="Trincomalee">Trincomalee</option>
-              <option value="Batticaloa">Batticaloa</option>
-              <option value="Ampara">Ampara</option>
-              <option value="Badulla">Badulla</option>
-              <option value="Monaragala">Monaragala</option>
-              <option value="Jaffna">Jaffna</option>
-              <option value="Kilinochchi">Kilinochchi</option>
-              <option value="Mannar">Mannar</option>
-              <option value="Mullaitivu">Mullaitivu</option>
-              <option value="Vavuniya">Vavuniya</option>
+              <?php
+              require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+              foreach (DISTRICTS as $type) {
+              ?>
+                <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+              <?php
+              } ?>
             </select>
           </div>
           <br>
@@ -339,12 +321,14 @@
           <div class="grid-item"></div>
           <br>
           <br>
-          <div class="grid-item"><label for="PCR">PCR</label></div>
-          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="PCR" value="PCR" /></div>
-          <div class="grid-item"><label for="Rapid Antigen">Rapid Antigen</label></div>
-          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="Rapid Antigen" value="Rapid Antigen" /></div>
-          <div class="grid-item"><label for="Antibody">Antibody</label></div>
-          <div class="grid-item"><input type="radio" class="tst_type" name="type" id="Antibody" value="Antibody" /></div>
+          <?php
+          require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+          foreach (TESTS as $type) {
+          ?>
+            <div class="grid-item"><label for="<?php echo $type; ?>"><?php echo $type; ?></label></div>
+            <div class="grid-item"><input type="radio" class="tst_type" name="type" id="<?php echo $type; ?>" value="<?php echo $type; ?>" /></div>
+          <?php
+          } ?>
         </div>
         <br>
         <button id="submitButton2" type="button" name="submit" class="btn btn-success" onclick="submitRecord()">

@@ -368,14 +368,16 @@ class DatabaseConn
         $stmt1->bind_param('sssi', $district, $place, $date, $dose);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
+        $types = [];
         while ($center = $result1->fetch_assoc()) {
           $type = $center['type'];
           $not_reserved = $center['not_reserved'];
           $appointments = $center['appointments'];
           $availability = array('not_reserved' => $not_reserved, 'appointments' => $appointments);
-          $record[$type] = $availability;
+          $types[$type] = $availability;
         }
-        if (count($record) > 1) {
+        $record['types'] = $types;
+        if (!empty($types)) {
           array_push($arr, $record);
         }
         $stmt1->close();

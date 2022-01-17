@@ -6,11 +6,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($data);
     die();
   }
+  require_once('.utils/global.php');
   $district = $_POST['district'];
   if ($district === 'all') {
     $district = null;
+  } else if (!in_array($district, DISTRICTS, true)) {
+    echo json_encode($data);
+    die();
   }
   $dose = intval($_POST['dose']);
+  if ($dose < 1) {
+    echo json_encode($data);
+    die();
+  }
   require_once('.utils/dbcon.php');
   $conn = DatabaseConn::get_conn();
   if (!$conn) {

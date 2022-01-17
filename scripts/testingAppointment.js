@@ -22,12 +22,12 @@ function getCentres() {
     setModal(false, "Entered date is invalid");
     return false;
   }
-  if (date=='') {
+  if (date == '') {
     setModal(false, "Please enter the date");
     return false;
   }
   if (id.length < 4 || id.length > 12) {
-    setModal(false, "Entered data is invalid");
+    setModal(false, "Entered ID is invalid");
     return false;
   }
 
@@ -49,8 +49,6 @@ function getCentres() {
           output.removeChild(output.lastChild);
         }
         let data = JSON.parse(xhr.responseText);
-        let content = "";
-        let possibleTests = ["PCR", "Rapid Antigen", "Antibody"];
         if (data.length == 0) {
           setModal(false, "Sorry.\nTesting Centers are not available.");
           return false;
@@ -62,23 +60,20 @@ function getCentres() {
           span.innerText = centre["place"];
           li.appendChild(span);
           let ol = document.createElement("ol");
-          for (i = 0; i < possibleTests.length; i++) {
-            if (centre[possibleTests[i]] != undefined) {
-              let test_name = possibleTests[i];
-              let availability = centre[possibleTests[i]]["appointments"];
-              let text = centre["place"] + "?" + test_name;
-              let li2 = document.createElement("li");
-              let span2 = document.createElement("span");
-              span2.innerText = test_name + " : " + availability;
-              li2.appendChild(span2);
-              let inp = document.createElement("input");
-              inp.setAttribute("type", "radio");
-              inp.setAttribute("name", "appointment");
-              inp.setAttribute("value", text);
-              li2.appendChild(inp);
-              ol.appendChild(li2);
-            }
-          }
+          Object.keys(centre['types']).forEach((test_name) => {
+            let availability = centre['types'][test_name]["appointments"];
+            let text = centre["place"] + "?" + test_name;
+            let li2 = document.createElement("li");
+            let span2 = document.createElement("span");
+            span2.innerText = test_name + " : " + availability;
+            li2.appendChild(span2);
+            let inp = document.createElement("input");
+            inp.setAttribute("type", "radio");
+            inp.setAttribute("name", "appointment");
+            inp.setAttribute("value", text);
+            li2.appendChild(inp);
+            ol.appendChild(li2);
+          });
           li.appendChild(ol);
           output.appendChild(li);
           output.style.backgroundColor = "black";

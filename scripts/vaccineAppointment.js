@@ -22,7 +22,7 @@ function getCentres() {
     setModal(false, "Entered date is invalid");
     return false;
   }
-  if (date=='') {
+  if (date == '') {
     setModal(false, "Please enter the date");
     return false;
   }
@@ -50,39 +50,30 @@ function getCentres() {
           output.removeChild(output.lastChild);
         }
         let data = JSON.parse(xhr.responseText);
-        let content = "";
-        let possibleVaccines = [
-          "Pfizer",
-          "Sinopharm",
-          "Aztraseneca",
-          "Moderna",
-        ];
         if (data.length == 0) {
           setModal(false, "Sorry.\nVaccine  Centers are not available.");
-          return false;        }
+          return false;
+        }
         data.forEach((centre) => {
           let li = document.createElement("li");
           let span = document.createElement("span");
           span.innerText = centre["place"];
           li.appendChild(span);
           let ol = document.createElement("ol");
-          for (i = 0; i < possibleVaccines.length; i++) {
-            if (centre[possibleVaccines[i]] != undefined) {
-              let vaccine_name = possibleVaccines[i];
-              let availability = centre[possibleVaccines[i]]["appointments"];
-              let text = centre["place"] + "?" + vaccine_name;
-              let li2 = document.createElement("li");
-              let span2 = document.createElement("span");
-              span2.innerText = vaccine_name + " : " + availability;
-              li2.appendChild(span2);
-              let inp = document.createElement("input");
-              inp.setAttribute("type", "radio");
-              inp.setAttribute("name", "appointment");
-              inp.setAttribute("value", text);
-              li2.appendChild(inp);
-              ol.appendChild(li2);
-            }
-          }
+          Object.keys(centre['types']).forEach((vaccine_name) => {
+            let availability = centre['types'][vaccine_name]["appointments"];
+            let text = centre["place"] + "?" + vaccine_name;
+            let li2 = document.createElement("li");
+            let span2 = document.createElement("span");
+            span2.innerText = vaccine_name + " : " + availability;
+            li2.appendChild(span2);
+            let inp = document.createElement("input");
+            inp.setAttribute("type", "radio");
+            inp.setAttribute("name", "appointment");
+            inp.setAttribute("value", text);
+            li2.appendChild(inp);
+            ol.appendChild(li2);
+          });
           li.appendChild(ol);
           output.appendChild(li);
           output.style.backgroundColor = "black";

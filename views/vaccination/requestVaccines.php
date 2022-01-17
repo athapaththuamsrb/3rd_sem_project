@@ -105,10 +105,13 @@
 			</div>
 			<div class="grid-item">
 				<select name="type" id="type" readonly="readonly">
-					<option value="Pfizer">Pfizer</option>
-					<option value="Aztraseneca">Aztraseneca</option>
-					<option value="Sinopharm">Sinopharm</option>
-					<option value="Moderna">Moderna</option>
+					<?php
+					require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+					foreach (VACCINES as $type) {
+					?>
+						<option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+					<?php
+					} ?>
 				</select>
 			</div>
 			<br>

@@ -2,6 +2,8 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [];
     if (isset($_POST['district']) && isset($_POST['date']) && isset($_POST['id']) && $_POST['district'] && $_POST['date'] && $_POST['id']) {
+        require_once('.utils/dbcon.php');
+        require_once('.utils/global.php');
         try {
             $date = new DateTime($_POST['date']);
             $now = new DateTime("now");
@@ -14,17 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die();
         }
         $id = $_POST['id'];
-        if (strlen($id) < 4 || strlen($id) > 12) {
+        $district = $_POST['district'];
+        if (strlen($id) < 4 || strlen($id) > 12 || !in_array($district, DISTRICTS, true)) { // Invalid data
             echo json_encode($data);
             die();
         }
-        $district = $_POST['district'];
-        require_once('.utils/dbcon.php');
         if (isset($_POST['vaccineCenter']) && isset($_POST['vaccineType']) && $_POST['vaccineCenter'] && $_POST['vaccineType']) {
             if ($con = DatabaseConn::get_conn()) {
                 $place = $_POST['vaccineCenter'];
                 $type = $_POST['vaccineType'];
-                if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+                if (!in_array($type, VACCINES, true)) {
                     echo json_encode($data);
                     die();
                 }

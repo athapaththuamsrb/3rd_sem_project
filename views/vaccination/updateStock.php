@@ -101,10 +101,13 @@
             </div>
             <div class="grid-item">
                 <select name="type" id="type" readonly="readonly">
-                    <option value="Pfizer" <?php if (isset($_GET['type']) && $_GET['type'] === 'Pfizer') echo 'selected' ?>>Pfizer</option>
-                    <option value="Aztraseneca" <?php if (isset($_GET['type']) && $_GET['type'] === 'Aztraseneca') echo 'selected' ?>>Aztraseneca</option>
-                    <option value="Sinopharm" <?php if (isset($_GET['type']) && $_GET['type'] === 'Sinopharm') echo 'selected' ?>>Sinopharm</option>
-                    <option value="Moderna" <?php if (isset($_GET['type']) && $_GET['type'] === 'Moderna') echo 'selected' ?>>Moderna</option>
+                    <?php
+                    require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                    foreach (VACCINES as $type) {
+                    ?>
+                        <option value="<?php echo $type; ?>" <?php if (isset($_GET['type']) && $_GET['type'] === $type) echo 'selected' ?>><?php echo $type; ?></option>
+                    <?php
+                    } ?>
                 </select>
             </div>
             <br>

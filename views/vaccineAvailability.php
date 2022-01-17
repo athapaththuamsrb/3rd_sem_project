@@ -110,41 +110,26 @@
                 <div class="grid-item"><label for="district">District:</label></div>
                 <div class="grid-item">
                     <select name="district" id="district">
-                        <option value="Colombo">Colombo</option>
-                        <option value="Kalutara">Kalutara</option>
-                        <option value="Gampaha">Gampaha</option>
-                        <option value="Puttalam">Puttalam</option>
-                        <option value="Kurunegala">Kurunegala</option>
-                        <option value="Anuradhapura">Anuradhapura</option>
-                        <option value="Polonnaruwa">Polonnaruwa</option>
-                        <option value="Matale">Matale</option>
-                        <option value="Nuwara Eliya">Nuwara Eliya</option>
-                        <option value="Kegalle">Kegalle</option>
-                        <option value="Ratnapura">Ratnapura</option>
-                        <option value="Trincomalee">Trincomalee</option>
-                        <option value="Batticaloa">Batticaloa</option>
-                        <option value="Ampara">Ampara</option>
-                        <option value="Badulla">Badulla</option>
-                        <option value="Monaragala">Monaragala</option>
-                        <option value="Hambantota">Hambantota</option>
-                        <option value="Matara">Matara</option>
-                        <option value="Galle">Galle</option>
-                        <option value="Jaffna">Jaffna</option>
-                        <option value="Kilinochchi">Kilinochchi</option>
-                        <option value="Mannar">Mannar</option>
-                        <option value="Mullaitivu">Mullaitivu</option>
-                        <option value="Vavuniya">Vavuniya</option>
-                        <option value="Kandy">Kandy</option>
+                        <?php
+                        require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                        foreach (DISTRICTS as $type) {
+                        ?>
+                            <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+                        <?php
+                        } ?>
                     </select>
                 </div>
 
                 <div class="grid-item"><label for="type">Type:</label></div>
                 <div class="grid-item">
                     <select name="type" id="type">
-                        <option value="Pfizer">Pfizer</option>
-                        <option value="Sinopharm">Sinopharm</option>
-                        <option value="Aztraseneca">Aztraseneca</option>
-                        <option value="Moderna">Moderna</option>
+                        <?php
+                        require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                        foreach (VACCINES as $type) {
+                        ?>
+                            <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
+                        <?php
+                        } ?>
                     </select>
                 </div>
 

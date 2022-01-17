@@ -1,10 +1,12 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['district']) && isset($_POST['type']) && isset($_POST['date']) && $_POST['district'] && $_POST['type'] && $_POST['date']) {
+    require_once('.utils/dbcon.php');
+    require_once('.utils/global.php');
     $data = [];
     $district = $_POST['district'];
     $type = $_POST['type'];
-    if ($type != "PCR" && $type != "Rapid Antigen" && $type != "Antibody") {
+    if (!in_array($type, TESTS, true) || !in_array($district, DISTRICTS, true)) { // Invalid data
       echo json_encode($data);
       die();
     }
@@ -19,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo json_encode($data);
       die();
     }
-    require_once('.utils/dbcon.php');
     if ($con = DatabaseConn::get_conn()) {
       $data = $con->get_testing_availability($district, $type, $date);
     }

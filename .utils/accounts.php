@@ -1,5 +1,6 @@
 <?php
 require_once('dbcon.php');
+require_once('global.php');
 
 abstract class User
 {
@@ -64,6 +65,9 @@ class Administrator extends User
         if ($type != "admin" && $type != "vaccination" && $type != "testing") {
             return false;
         }
+        if (!in_array($district, DISTRICTS, true)){
+            return false;
+        }
         require_once 'factory.php';
         $details = ['username' => $username, 'password' => $password, 'email' => $email, 'place' => $place, 'district' => $district];
         $accountSaver = AccountFactory::getAccount($type, $details);
@@ -91,7 +95,7 @@ class VaccinationAdmin extends CentreAdmin
                 $data['reason'] = 'Invalid date';
                 return $data;
             }
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+            if (!in_array($type, VACCINES, true)) {
                 $data['reason'] = 'Invalid type';
                 return $data;
             }
@@ -161,8 +165,12 @@ class VaccinationAdmin extends CentreAdmin
                 $data['reason'] = 'Invalid name';
                 return $data;
             }
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+            if (!in_array($type, VACCINES, true)) {
                 $data['reason'] = 'Invalid type';
+                return $data;
+            }
+            if (!in_array($district, DISTRICTS, true)) {
+                $data['reason'] = 'Invalid district';
                 return $data;
             }
             $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
@@ -186,7 +194,7 @@ class VaccinationAdmin extends CentreAdmin
             $district = $this->getDistrict();
             $place = $this->getPlace();
             $date = new DateTime();
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+            if (!in_array($type, VACCINES, true)) {
                 $data['reason'] = 'Invalid type';
                 return $data;
             }
@@ -210,7 +218,7 @@ class VaccinationAdmin extends CentreAdmin
     {
         try {
             $district = $this->getDistrict();
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+            if (!in_array($type, VACCINES, true)) {
                 return ['count' => 0, 'resaon' => 'Invalid type'];
             }
             if ($dose <= 0 || $amount <= 0) {
@@ -223,7 +231,7 @@ class VaccinationAdmin extends CentreAdmin
             }
             $place = $this->getPlace();
             $success = $con->add_request_for_extra_vaccines($district, $place, new DateTime(), $type, $amount);
-            if (!$success){
+            if (!$success) {
                 return ['count' => 0, 'resaon' => 'Failed to add request'];
             }
             require_once('mediator.php');
@@ -239,7 +247,7 @@ class VaccinationAdmin extends CentreAdmin
     {
         $data = ['success' => false, 'email' => false];
         try {
-            if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+            if (!in_array($type, VACCINES, true)) {
                 $data['reason'] = 'Invalid type';
                 return $data;
             }
@@ -250,7 +258,8 @@ class VaccinationAdmin extends CentreAdmin
             $success = false;
             $email_sent = false;
             if ($con = DatabaseConn::get_conn()) {
-                $success = $con->update_stocks($this->getDistrict(), $this->getPlace(), new DateTime(), $type, 'not_reserved', -$amount, $dose);
+                //$success = $con->update_stocks($this->getDistrict(), $this->getPlace(), new DateTime(), $type, 'not_reserved', -$amount, $dose);
+                $success = $con->donate_vaccines($this->getDistrict(), $this->getPlace(), new DateTime(), $type, $dose, $amount, $place);
                 if ($success) {
                     $district = $this->getDistrict();
                     $donor_place = $this->getPlace();
@@ -288,7 +297,7 @@ class TestingAdmin extends CentreAdmin
                 $data['reason'] = 'Invalid date';
                 return $data;
             }
-            if ($type != "PCR" && $type != "Rapid Antigen" && $type != "Antibody") {
+            if (!in_array($type, TESTS, true)) {
                 $data['reason'] = 'Invalid type';
                 return $data;
             }
@@ -353,8 +362,12 @@ class TestingAdmin extends CentreAdmin
                 $data['reason'] = 'Invalid name';
                 return $data;
             }
-            if ($type != "PCR" && $type != "Rapid Antigen" && $type != "Antibody") {
+            if (!in_array($type, TESTS, true)) {
                 $data['reason'] = 'Invalid type';
+                return $data;
+            }
+            if (!in_array($district, DISTRICTS, true)) {
+                $data['reason'] = 'Invalid district';
                 return $data;
             }
             $email_pattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
@@ -381,10 +394,11 @@ class TestingAdmin extends CentreAdmin
                 $data['reason'] = 'Server error';
                 return $data;
             }
-            if (strlen($token) != 6){
+            if (strlen($token) != 6) {
                 $data['reason'] = 'Invalid token';
                 return $data;
-            }if ($result !== 'Positive' && $result !== 'Negative'){
+            }
+            if ($result !== 'Positive' && $result !== 'Negative') {
                 $data['reason'] = 'Invalid result';
                 return $data;
             }

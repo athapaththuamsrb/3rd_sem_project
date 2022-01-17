@@ -1,10 +1,12 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['district']) && isset($_POST['type']) && isset($_POST['dose']) && isset($_POST['date']) && $_POST['district'] && $_POST['type'] && is_numeric($_POST['dose']) && $_POST['date']) {
+    require_once('.utils/dbcon.php');
+    require_once('.utils/global.php');
     $data = [];
     $district = $_POST['district'];
     $type = $_POST['type'];
-    if ($type != "Pfizer" && $type != "Moderna" && $type != "Sinopharm" && $type != "Aztraseneca") {
+    if (!in_array($type, VACCINES, true) || !in_array($district, DISTRICTS, true)) { // Invalid data
       $data['reason'] = 'Invalid Type';
       echo json_encode($data);
       die();
@@ -27,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo json_encode($data);
       die();
     }
-    require_once('.utils/dbcon.php');
     if ($con = DatabaseConn::get_conn()) {
       $data = $con->getAvailability($district, $type, $dose, $date);
     } else {
