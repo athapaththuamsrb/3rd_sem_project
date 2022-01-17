@@ -87,7 +87,7 @@
 	}
 
 	.container-fluid {
-		padding-left: 2.11%;
+		padding-left: 1.5%;
 	}
 </style>
 

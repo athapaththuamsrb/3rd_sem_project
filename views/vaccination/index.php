@@ -50,13 +50,9 @@
         }
 
         nav {
-            padding: 2% 0% 2% 0%;
-            height: 10vh;
+            padding: 5px 0px 5px 0.6%;
+            height: 80px;
             width: 100%;
-        }
-
-        .container-fluid {
-            padding-left: 1.11%;
         }
     </style>
 </head>
@@ -64,7 +60,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand"><img src="/image/icon-vaccinate.gif" height="48px">&nbsp;&nbsp;Vaccination Center</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-vaccinate.gif" height="48px">&nbsp;Vaccination Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>

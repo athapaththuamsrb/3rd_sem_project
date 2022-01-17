@@ -125,7 +125,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Create account</a>
+      <h1 class="navbar-brand"><img src="/image/icon-public.gif" width="50px" height="50px">&nbsp;Administrator</h1>
       <a href="/admin/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
     </div>
   </nav>

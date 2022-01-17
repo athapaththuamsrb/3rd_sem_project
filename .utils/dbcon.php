@@ -1043,7 +1043,7 @@ class DatabaseConn
     }
   }
 
-  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place, $receiver_date) {
+  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place) {
     ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
@@ -1054,20 +1054,32 @@ class DatabaseConn
       $stmt0->execute();
       $stmt0->store_result();
       if ($stmt0->num_rows() == 0) {
+        ($this->conn)->rollback();
         return false;
       }
       $stmt0->bind_result($not_reserved);
       $stmt0->fetch();
       if ($amount > $not_reserved) {
+        ($this->conn)->rollback();
+        return false;
+      }
+      $q1 = 'SELECT amount FROM vaccine_requests WHERE district=? AND place=? AND date=? AND type=?';
+      $stmt1 = $this->conn->prepare($q1);
+      $stmt1->bind_param('ssss', $district, $receiver_place, $datestr, $type);
+      $stmt1->execute();
+      $stmt1->store_result();
+      $stmt1->bind_result($requested_amount);
+      $stmt1->fetch();
+      if ($requested_amount < $amount){
+        ($this->conn)->rollback();
         return false;
       }
       $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
-      $r_datestr = $receiver_date->format('Y-m-d');
-      $q1 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ? AND dose = ?";
-      $stmt1 = $this->conn->prepare($q1);
-      $stmt1->bind_param('issssi', $amount, $district, $receiver_place, $r_datestr, $type, $dose);
-      $success = $stmt1->execute();
-      $stmt1->close();
+      $q2 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ?";
+      $stmt2 = $this->conn->prepare($q2);
+      $stmt2->bind_param('issss', $amount, $district, $receiver_place, $datestr, $type);
+      $success = $stmt2->execute();
+      $stmt2->close();
       ($this->conn)->commit();
       return $success;
     } catch (Exception $e){
