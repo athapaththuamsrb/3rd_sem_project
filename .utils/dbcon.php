@@ -43,7 +43,7 @@ class DatabaseConn
     }
   }
 
-  public function auth($uname, $pw, $type): Array
+  public function auth($uname, $pw, $type): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     if ($this->validate($uname, $pw)) {
@@ -119,6 +119,17 @@ class DatabaseConn
   private function get_last_dose($id): Int
   {
     if (!($this->conn instanceof mysqli)) return -1;
+    ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
+      id varchar(20) not null, 
+      name varchar(100) not null, 
+      district varchar(20) not null, 
+      address varchar(100),
+      contact varchar(15),
+      email varchar(50),
+      token varchar(50) not null, 
+      last_dose int not null, 
+      primary key (id)
+      ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT last_dose FROM persons WHERE id=?';
@@ -141,7 +152,7 @@ class DatabaseConn
     }
   }
 
-  public function get_vaccination_records($id, $token): ?Array
+  public function get_vaccination_records($id, $token): ?array
   {
     if (!($this->conn instanceof mysqli)) return null;
     ($this->conn)->begin_transaction();
@@ -355,7 +366,7 @@ class DatabaseConn
     }
   }
 
-  public function filter_vaccine_centers($district, $date, $id): Array
+  public function filter_vaccine_centers($district, $date, $id): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -401,7 +412,7 @@ class DatabaseConn
     }
   }
 
-  public function getAvailability($district, $type, $dose, $date): Array
+  public function getAvailability($district, $type, $dose, $date): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -478,7 +489,7 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineCentresInDistrict($district, $type): Array
+  public function getVaccineCentresInDistrict($district, $type): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
@@ -546,7 +557,7 @@ class DatabaseConn
     }
   }
 
-  public function getAppointmentsByDate($date): Array
+  public function getAppointmentsByDate($date): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -584,11 +595,11 @@ class DatabaseConn
       }
       switch ($type) {
         case 'vaccination':
-          $q = 'update stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; 
+          $q = 'update stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?';
           break;
 
         case 'testing':
-          $q = 'update testing_stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; 
+          $q = 'update testing_stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?';
           break;
 
         default:
@@ -759,7 +770,7 @@ class DatabaseConn
     }
   }
 
-  public function get_testing_availability($district, $type, $date): Array
+  public function get_testing_availability($district, $type, $date): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -788,7 +799,7 @@ class DatabaseConn
     }
   }
 
-  public function filter_testing_centers($district, $date): Array
+  public function filter_testing_centers($district, $date): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -835,7 +846,7 @@ class DatabaseConn
     }
   }
 
-  public function get_test_result($id, $token): Array
+  public function get_test_result($id, $token): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
@@ -860,7 +871,7 @@ class DatabaseConn
     }
   }
 
-  public function get_patient_details($id): Array
+  public function get_patient_details($id): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
@@ -889,7 +900,7 @@ class DatabaseConn
     }
   }
 
-  public function getTestingAppointmentsByDate($date): Array
+  public function getTestingAppointmentsByDate($date): array
   {
     if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
@@ -969,7 +980,7 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineStatistics($dose, $district = null)//: ?Array
+  public function getVaccineStatistics($dose, $district = null) //: ?Array
   {
     if (!($this->conn instanceof mysqli)) return null;
     if ($dose < 1 || $dose > 3) {
@@ -979,7 +990,7 @@ class DatabaseConn
     try {
       ($this->conn)->begin_transaction();
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if (!$district){
+      if (!$district) {
         foreach (VACCINES as $keys => $value) {
           $q0 = 'SELECT COUNT(*) FROM vaccines WHERE dose=? AND type=?';
           $stmt0 = $this->conn->prepare($q0);
@@ -989,8 +1000,7 @@ class DatabaseConn
           $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
           $stmt0->close();
         }
-      }
-      else {
+      } else {
         foreach (VACCINES as $keys => $value) {
           $q0 = 'SELECT COUNT(*) FROM vaccines WHERE dose=? AND type=? AND district=?';
           $stmt0 = $this->conn->prepare($q0);
@@ -1009,14 +1019,14 @@ class DatabaseConn
     }
   }
 
-  public function getTestStatistics($district = null): ?Array
+  public function getTestStatistics($district = null): ?array
   {
     if (!($this->conn instanceof mysqli)) return null;
     $arr = array('Positive' => 0, 'Negative' => 0, 'Pending' => 0);
     try {
       ($this->conn)->begin_transaction();
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if (!$district){
+      if (!$district) {
         foreach ($arr as $keys => $value) {
           $q0 = "SELECT COUNT(*) FROM tests WHERE result=?";
           $stmt0 = $this->conn->prepare($q0);
@@ -1026,8 +1036,7 @@ class DatabaseConn
           $arr["$keys"] = $result0->fetch_assoc()['COUNT(*)'];
           $stmt0->close();
         }
-      }
-      else {
+      } else {
         foreach ($arr as $keys => $value) {
           $q0 = "SELECT COUNT(*) FROM tests WHERE district=? AND result=?";
           $stmt0 = $this->conn->prepare($q0);
