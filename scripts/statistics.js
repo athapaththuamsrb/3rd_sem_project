@@ -38,8 +38,9 @@ function drawChart() {
           var data_test = google.visualization.arrayToDataTable(dataArr);
           var options_test = {
             'title': 'Covid tests',
-            'width': 450,
-            'height': 400
+            'width': 500,
+            'height': 450,
+            'fontSize': 13,
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-test'));
           chart_test.draw(data_test, options_test);
@@ -74,8 +75,9 @@ function drawChart() {
           var data_dose_1 = google.visualization.arrayToDataTable(dataArr);
           var options_dose_1 = {
             'title': 'Dose 1',
-            'width': 450,
-            'height': 400
+            'width': 411,
+            'height': 350,
+            'fontSize': 15,
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-1'));
           chart_test.draw(data_dose_1, options_dose_1);
@@ -109,8 +111,9 @@ function drawChart() {
           var data_dose_2 = google.visualization.arrayToDataTable(dataArr);
           var options_dose_2 = {
             'title': 'Dose 2',
-            'width': 450,
-            'height': 400
+            'width': 411,
+            'height': 350,
+            'fontSize': 15,
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-2'));
           chart_test.draw(data_dose_2, options_dose_2);
@@ -145,8 +148,9 @@ function drawChart() {
           var data_dose_3 = google.visualization.arrayToDataTable(dataArr);
           var options_dose_3 = {
             'title': 'Dose 3',
-            'width': 450,
-            'height': 400
+            'width': 411,
+            'height': 350,
+            'fontSize': 15,
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-3'));
           chart_test.draw(data_dose_3, options_dose_3);

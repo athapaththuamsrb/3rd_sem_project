@@ -18,7 +18,6 @@
       padding: 2%;
       font-size: 15pt;
       text-align: center;
-      padding-left: 2%;
     }
 
     input,
@@ -36,7 +35,8 @@
     }
 
     .item1 {
-      grid-area: test;
+      position: absolute;
+      left: 520px;
     }
 
     .item2 {
@@ -54,10 +54,7 @@
     .grid-container_1 {
       display: grid;
       grid-template-areas:
-        'dose_1 dose_2 dose_3'
-        'test test test';
-      align-content: center;
-      justify-content: center;
+        'dose_1 dose_2 dose_3';
     }
 
     /* #piechart-test {
@@ -72,6 +69,7 @@
   @include('navbar.php') ?>
   <br>
   <div class="cover">
+
     <div class="grid-container">
       <div class="grid-item"><label for="district">District:</label></div>
       <div class="grid-item">
@@ -89,13 +87,15 @@
       </div>
     </div>
   </div>
-  <div class="grid-container_1">
-    <div id="piechart-vaccination-dose-1" class="item2"></div>
-    <div id="piechart-vaccination-dose-2" class="item3"></div>
-    <div id="piechart-vaccination-dose-3" class="item4"></div>
-    <div id="piechart-test" class="item1"></div>
+  <br><br>
+  <div class="container">
+    <div class="grid-container_1">
+      <div id="piechart-vaccination-dose-1" class="item2"></div>
+      <div id="piechart-vaccination-dose-2" class="item3"></div>
+      <div id="piechart-vaccination-dose-3" class="item4"></div>
+    </div>
   </div>
-
+  <div id="piechart-test" class="item1"></div>
   <script src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="/scripts/common.js"></script>
   <script src="/scripts/statistics.js"></script>

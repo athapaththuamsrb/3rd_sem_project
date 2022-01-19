@@ -74,7 +74,7 @@
     @include('navbar.php') ?>
     <br>
     <div class="cover">
-        <h1>Vacination Certificate</h1>
+        <h1>Vaccination Certificate</h1>
         <div class="grid-container">
             <div class="grid-item"><label for="inputID" class="form-label txt">Enter ID:</label></div>
             <div class="grid-item"><input type="text" class="form-control" id="inputID" onkeypress="keypress(event, 0);" size="12"></div>
