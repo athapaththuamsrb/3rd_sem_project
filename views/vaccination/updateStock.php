@@ -23,7 +23,8 @@
         top: 30%;
         left: 25%;
         width: 50%;
-        background-color: antiquewhite;
+        background-color: rgb(0, 0, 0, 0.8);
+        color: white;
         border: 2px solid black;
         border-radius: 15px;
     }

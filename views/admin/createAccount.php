@@ -99,7 +99,8 @@
 
   .grid-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 350px auto;
+    padding-left: 20%;
   }
 
   .grid-item {
@@ -130,6 +131,19 @@
   .container-fluid {
     padding-left: 1.5%;
   }
+
+  .tab h3{
+    margin-left: 7%;
+    margin-top: 3%;
+  }
+
+  /* .grid-item label {
+    background-color: #04aa6d;
+  }
+
+  .grid-item input {
+    background-color: #04aa6d;
+  } */
 </style>
 
 <body>
