@@ -105,10 +105,6 @@
       position: relative;
       left: 30%;
     }
-
-    .container-fluid {
-      padding-left: 1.5%;
-    }
   </style>
 </head>
 

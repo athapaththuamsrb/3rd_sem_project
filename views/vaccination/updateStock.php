@@ -83,10 +83,6 @@
         text-align: left;
         float: left;
     }
-
-    .container-fluid {
-        padding-left: 1.5%;
-    }
 </style>
 
 <body>

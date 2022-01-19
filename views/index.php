@@ -103,21 +103,33 @@
 			text-align: center;
 			padding-right: 3%;
 		}
+
+		nav {
+			padding: 5px 0px 5px 0px;
+			height: 80px;
+			width: 100%;
+		}
+
+		.container-fluid {
+			padding-left: 1.5%;
+		}
 	</style>
 </head>
 <div class="mask">
 
 	<body>
-		<nav class="navbar navbar-dark bg-dark">
-			<h1 class="navbar-brand" style="margin-left: 3px;"><img src="/image/icon-public.gif" width="50px" height="50px">&nbsp; Public</h1>
-			<div class="dropdown">
-				<button class="dropbtn">Login&nbsp;
-					<i class="fa fa-caret-down"></i>
-				</button>
-				<div class="dropdown-content">
-					<a href="/vaccination/">Vaccination center</a>
-					<a href="/testing/">Testing center</a>
-					<a href="/admin/">Admin</a>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<h1 class="navbar-brand"><img src="/image/icon-public.gif" height="48px">&nbsp; Public</h1>
+				<div class="dropdown">
+					<button class="dropbtn">Login&nbsp;
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+						<a href="/vaccination/">Vaccination center</a>
+						<a href="/testing/">Testing center</a>
+						<a href="/admin/">Admin</a>
+					</div>
 				</div>
 			</div>
 		</nav>

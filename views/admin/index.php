@@ -48,6 +48,16 @@
             height: auto;
             background-color: rgba(0, 0, 0, 0.6);
         }
+
+        nav {
+            padding: 5px 0px 5px 0px;
+            height: 80px;
+            width: 100%;
+        }
+
+        .container-fluid {
+            padding-left: 1.5%;
+        }
     </style>
 </head>
 
@@ -55,7 +65,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand"><img src="/image/icon-public.gif" width="50px" height="50px">&nbsp;Administrator</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-public.gif" height="48px">&nbsp;Administrator</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>

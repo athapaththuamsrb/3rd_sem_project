@@ -50,9 +50,13 @@
         }
 
         nav {
-            padding: 5px 0px 5px 0.6%;
+            padding: 5px 0px 5px 0px;
             height: 80px;
             width: 100%;
+        }
+
+        .container-fluid {
+            padding-left: 1.5%;
         }
     </style>
 </head>

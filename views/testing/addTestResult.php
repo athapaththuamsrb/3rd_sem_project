@@ -72,10 +72,6 @@
     position: relative;
     left: 30%;
   }
-
-  nav a {
-    margin-right: 1%;
-  }
 </style>
 
 <body>

@@ -2,7 +2,10 @@
 
 class DatabaseConn
 {
+  /** @var \DatabaseConn */
   private static $dbconn;
+
+  /** @var \myslqi */
   private $conn;
 
   private function __construct($servername, $username, $password, $database)
@@ -13,15 +16,14 @@ class DatabaseConn
 
       /* check connection */
       if ($this->conn->connect_errno || !$this->conn->ping()) {
-        $this->conn =null;
+        $this->conn = null;
       }
-
     } catch (Exception $e) {
       $this->conn = null;
     }
   }
 
-  public static function get_conn()
+  public static function get_conn(): ?DatabaseConn
   {
     try {
       if (DatabaseConn::$dbconn == null) {
@@ -32,7 +34,7 @@ class DatabaseConn
         $database = $dbconfig['DB_DATABASE'];
         DatabaseConn::$dbconn = new DatabaseConn($servername, $username, $password, $database);
       }
-      if(DatabaseConn::$dbconn && DatabaseConn::$dbconn->conn){
+      if (DatabaseConn::$dbconn && DatabaseConn::$dbconn->conn) {
         return DatabaseConn::$dbconn;
       }
       return null;
@@ -41,8 +43,9 @@ class DatabaseConn
     }
   }
 
-  public function auth($uname, $pw, $type)
+  public function auth($uname, $pw, $type): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     if ($this->validate($uname, $pw)) {
       $arr = array();
       ($this->conn)->begin_transaction();
@@ -73,14 +76,15 @@ class DatabaseConn
         return $arr;
       } catch (Exception $e) {
         ($this->conn)->rollback();
-        return $arr;
+        return [];
       }
     }
-    return null;
+    return [];
   }
 
-  public function create_user($uname, $pw, $type, $place, $district, $email)
+  public function create_user($uname, $pw, $type, $place, $district, $email): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS admins (
         username varchar(20) not null,
         password varchar(100) not null,
@@ -112,8 +116,9 @@ class DatabaseConn
     return false;
   }
 
-  private function get_last_dose($id)
+  private function get_last_dose($id): Int
   {
+    if (!($this->conn instanceof mysqli)) return -1;
     ($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT last_dose FROM persons WHERE id=?';
@@ -132,12 +137,13 @@ class DatabaseConn
       return intval($dose);
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return -1; // was 0 before
+      return -1;
     }
   }
 
-  public function get_vaccination_records($id, $token)
+  public function get_vaccination_records($id, $token): ?Array
   {
+    if (!($this->conn instanceof mysqli)) return null;
     ($this->conn)->begin_transaction();
     try {
       if ($token == null) {
@@ -183,8 +189,9 @@ class DatabaseConn
     }
   }
 
-  public function add_vaccine_record($details)
+  public function add_vaccine_record($details): ?String
   {
+    if (!($this->conn instanceof mysqli)) return null;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
         id varchar(20) not null, 
         name varchar(100) not null, 
@@ -231,18 +238,18 @@ class DatabaseConn
       }
       $last_dose = $this->get_last_dose($id);
       if ($last_dose < 0) {
-        return false;
+        return null;
       }
       $new_dose = $last_dose + 1;
       if ($reserved) {
         $res = $this->update_stocks($centre_district, $place, $date, $type, 'reserved', -1, $new_dose);
         if (!$res) {
-          return false;
+          return null;
         }
       } else {
         $res = $this->update_stocks($centre_district, $place, $date, $type, 'not_reserved', -1, $new_dose);
         if (!$res) {
-          return false;
+          return null;
         }
       }
       $Stmt->close();
@@ -285,12 +292,13 @@ class DatabaseConn
       return $token;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return false;
+      return null;
     }
   }
 
-  public function add_vaccine_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved)
+  public function add_vaccine_stock($district, $place, $date, $type, $dose, $not_reserved, $reserved): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS stocks (
         district varchar(20) not null,
         place varchar(50) not null,
@@ -318,8 +326,9 @@ class DatabaseConn
     }
   }
 
-  public function update_stocks($district, $place, $date, $type, $field, $amount, $dose)
+  public function update_stocks($district, $place, $date, $type, $field, $amount, $dose): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
@@ -346,8 +355,9 @@ class DatabaseConn
     }
   }
 
-  public function filter_vaccine_centers($district, $date, $id)
+  public function filter_vaccine_centers($district, $date, $id): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -391,8 +401,9 @@ class DatabaseConn
     }
   }
 
-  public function getAvailability($district, $type, $dose, $date)
+  public function getAvailability($district, $type, $dose, $date): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
@@ -419,8 +430,9 @@ class DatabaseConn
     }
   }
 
-  public function add_appointment($details)
+  public function add_appointment($details): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS appointments (
       id varchar(20) not null,
       name varchar(100) not null,
@@ -466,8 +478,9 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineCentresInDistrict($district, $type)
+  public function getVaccineCentresInDistrict($district, $type): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
     $date = date('Y-m-d');
     ($this->conn)->begin_transaction();
@@ -503,12 +516,13 @@ class DatabaseConn
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return $arr;
+      return [];
     }
   }
 
-  public function getEmailByPlace($district, $place, $type)
+  public function getEmailByPlace($district, $place, $type): ?String
   {
+    if (!($this->conn instanceof mysqli)) return null;
     ($this->conn)->begin_transaction();
     try {
       $q0 = 'SELECT email FROM admins WHERE district = ? AND place = ? AND type = ?';
@@ -532,8 +546,9 @@ class DatabaseConn
     }
   }
 
-  public function getAppointmentsByDate($date)
+  public function getAppointmentsByDate($date): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       $arr = array();
@@ -559,8 +574,9 @@ class DatabaseConn
     }
   }
 
-  public function removeAppointments($type, $date)
+  public function removeAppointments($type, $date): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
@@ -592,8 +608,9 @@ class DatabaseConn
     }
   }
 
-  public function add_test_record($details)
+  public function add_test_record($details): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
       id varchar(20) not null, 
       name varchar(100) not null, 
@@ -665,8 +682,9 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_appointment($details)
+  public function add_testing_appointment($details): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS testing_appointments (
       id varchar(20) not null,
       name varchar(100) not null,
@@ -712,8 +730,9 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_stock($district, $place, $date, $type, $not_reserved, $reserved)
+  public function add_testing_stock($district, $place, $date, $type, $not_reserved, $reserved): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS testing_stocks (
         district varchar(20) not null,
         place varchar(50) not null,
@@ -740,8 +759,9 @@ class DatabaseConn
     }
   }
 
-  public function get_testing_availability($district, $type, $date)
+  public function get_testing_availability($district, $type, $date): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
@@ -768,8 +788,9 @@ class DatabaseConn
     }
   }
 
-  public function filter_testing_centers($district, $date)
+  public function filter_testing_centers($district, $date): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -812,8 +833,9 @@ class DatabaseConn
     }
   }
 
-  public function get_test_result($id, $token)
+  public function get_test_result($id, $token): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
     ($this->conn)->begin_transaction();
     try {
@@ -832,12 +854,13 @@ class DatabaseConn
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return $arr;
+      return [];
     }
   }
 
-  public function get_patient_details($id)
+  public function get_patient_details($id): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     $arr = array();
     ($this->conn)->begin_transaction();
     try {
@@ -860,12 +883,13 @@ class DatabaseConn
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return $arr;
+      return [];
     }
   }
 
-  public function getTestingAppointmentsByDate($date)
+  public function getTestingAppointmentsByDate($date): Array
   {
+    if (!($this->conn instanceof mysqli)) return [];
     ($this->conn)->begin_transaction();
     try {
       $arr = array();
@@ -891,8 +915,9 @@ class DatabaseConn
     }
   }
 
-  public function update_testing_stocks($district, $place, $date, $type, $field, $amount)
+  public function update_testing_stocks($district, $place, $date, $type, $field, $amount): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->begin_transaction();
     try {
       if ($date instanceof DateTime) {
@@ -919,8 +944,9 @@ class DatabaseConn
     }
   }
 
-  public function add_testing_results($token, $result)
+  public function add_testing_results($token, $result): Bool
   {
+    if (!($this->conn instanceof mysqli)) return false;
     if ($result != "Negative" && $result != "Positive") {
       return false;
     }
@@ -941,8 +967,9 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineStatistics($dose, $district = null)
+  public function getVaccineStatistics($dose, $district = null): ?Array
   {
+    if (!($this->conn instanceof mysqli)) return null;
     if ($dose < 1 || $dose > 3) {
       return null;
     }
@@ -974,8 +1001,9 @@ class DatabaseConn
     }
   }
 
-  public function getTestStatistics($district = null)
+  public function getTestStatistics($district = null): ?Array
   {
+    if (!($this->conn instanceof mysqli)) return null;
     $arr = array('Positive' => 0, 'Negative' => 0, 'Pending' => 0);
     ($this->conn)->begin_transaction();
     try {
@@ -1003,7 +1031,9 @@ class DatabaseConn
     }
   }
 
-  public function add_request_for_extra_vaccines($district, $place, $date, $type, $amount){
+  public function add_request_for_extra_vaccines($district, $place, $date, $type, $amount): Bool
+  {
+    if (!($this->conn instanceof mysqli)) return false;
     if ($date instanceof DateTime) {
       $date = $date->format('Y-m-d');
     }
@@ -1027,8 +1057,7 @@ class DatabaseConn
         $q1 = 'INSERT INTO vaccine_requests (district, place, date, type, amount) VALUES (?, ?, ?, ?, ?)';
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param('ssssi', $district, $place, $date, $type, $amount);
-      }
-      else {
+      } else {
         $q1 = "UPDATE vaccine_requests SET amount = amount + ? WHERE district = ? AND place = ? AND date = ? and type = ?";
         $stmt1 = $this->conn->prepare($q1);
         $stmt1->bind_param('issss', $amount, $district, $place, $date, $type);
@@ -1043,7 +1072,9 @@ class DatabaseConn
     }
   }
 
-  public function donate_vaccines ($district, $place, $date, $type, $dose, $amount, $receiver_place) {
+  public function donate_vaccines($district, $place, $date, $type, $dose, $amount, $receiver_place): Bool
+  {
+    if (!($this->conn instanceof mysqli)) return false;
     ($this->conn)->begin_transaction();
     try {
       $datestr = $date->format('Y-m-d');
@@ -1070,7 +1101,7 @@ class DatabaseConn
       $stmt1->store_result();
       $stmt1->bind_result($requested_amount);
       $stmt1->fetch();
-      if ($requested_amount < $amount){
+      if ($requested_amount < $amount) {
         ($this->conn)->rollback();
         return false;
       }
@@ -1082,7 +1113,7 @@ class DatabaseConn
       $stmt2->close();
       ($this->conn)->commit();
       return $success;
-    } catch (Exception $e){
+    } catch (Exception $e) {
       ($this->conn)->rollback();
       return false;
     }
@@ -1090,13 +1121,13 @@ class DatabaseConn
 
   public function close_conn()
   {
-    if (DatabaseConn::$dbconn != null) {
+    if (DatabaseConn::$dbconn != null && $this->conn instanceof mysqli) {
       $this->conn->close();
     }
     $this->__destruct();
   }
 
-  private function validate($uname, $pw)
+  private function validate($uname, $pw): Bool
   {
     $uname = htmlspecialchars($uname);
     $pw = htmlspecialchars($pw);

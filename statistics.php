@@ -11,11 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($district === 'all') {
     $district = null;
   } else if (!in_array($district, DISTRICTS, true)) {
+    $data['reason'] = 'Invalid district';
     echo json_encode($data);
     die();
   }
   $dose = intval($_POST['dose']);
-  if ($dose < 1) {
+  if ($dose < 0) {
+    $data['reason'] = 'Invalid dose';
     echo json_encode($data);
     die();
   }

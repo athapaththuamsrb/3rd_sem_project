@@ -15,10 +15,6 @@
       padding: 0;
     }
 
-    nav a {
-      margin-right: 1%;
-    }
-
     html {
       overflow-x: scroll;
       overflow-y: scroll;

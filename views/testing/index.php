@@ -42,7 +42,9 @@
         }
 
         nav {
-            padding: 5px 0px 5px 0.6%;
+            padding: 5px 0px 5px 0px;
+            height: 80px;
+            width: 100%;
         }
 
         .btn-shape {
@@ -60,7 +62,7 @@
         }
 
         .container-fluid {
-            padding-left: 1%;
+            padding-left: 1.5%;
         }
     </style>
 </head>
@@ -68,7 +70,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand"><img src="/image/icon-test.gif" width="50px" height="50px">&nbsp;Testing Center</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-test.gif" height="48px">&nbsp;Testing Center</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>
