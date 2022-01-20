@@ -65,7 +65,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <h1 class="navbar-brand"><img src="/image/icon-public.gif" height="48px">&nbsp;Administrator</h1>
+            <h1 class="navbar-brand"><img src="/image/icon-admin.gif" height="48px">&nbsp;Administrator</h1>
             <a href="/index.php?logout=1"><button type="button" class="btn btn-primary">Logout</button></a>
         </div>
     </nav>
