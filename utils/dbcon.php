@@ -620,9 +620,9 @@ class DatabaseConn
     }
   }
 
-  public function add_test_record($details): Bool
+  public function add_test_record($details): ?string
   {
-    if (!($this->conn instanceof mysqli)) return false;
+    if (!($this->conn instanceof mysqli)) return null;
     ($this->conn)->query("CREATE TABLE IF NOT EXISTS persons (
       id varchar(20) not null, 
       name varchar(100) not null, 
@@ -688,9 +688,10 @@ class DatabaseConn
         }
       }
       ($this->conn)->commit();
+      return null;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return false;
+      return null;
     }
   }
 
