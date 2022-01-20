@@ -104,7 +104,7 @@
     <br>
     <form>
         <div class="cover">
-            <h1>Vacination Availability</h1>
+            <h1>Vaccination Availability</h1>
             <div class="grid-container">
 
                 <div class="grid-item"><label for="district">District:</label></div>

@@ -409,7 +409,7 @@ class DatabaseConn
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
       }
-      $q0 = "SELECT place, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
+      $q0 = "SELECT place, appointments, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('ssis', $district, $type, $dose, $date);
       $stmt0->execute();
@@ -417,9 +417,9 @@ class DatabaseConn
       $arr = array();
       while ($row = $result0->fetch_assoc()) {
         $place = $row['place'];
-        $reserved = $row['reserved'];
+        $reserved = $row['appointments'];
         $not_reserved = $row['not_reserved'];
-        array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
+        array_push($arr, array('place' => $place, 'appointments' => $reserved, 'not_booking' => $not_reserved));
       }
       $stmt0->close();
       ($this->conn)->commit();
@@ -584,11 +584,11 @@ class DatabaseConn
       }
       switch ($type) {
         case 'vaccination':
-          $q = 'update stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; // TODO : rename table to vaccine_stocks
+          $q = 'update stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; 
           break;
 
         case 'testing':
-          $q = 'update testing_stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; // TODO : create table
+          $q = 'update testing_stocks set not_reserved = not_reserved + appointments, appointments=0 where date=?'; 
           break;
 
         default:
@@ -767,7 +767,7 @@ class DatabaseConn
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
       }
-      $q0 = "SELECT place, reserved, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
+      $q0 = "SELECT place, appointments, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('sss', $district, $type, $date);
       $stmt0->execute();
@@ -775,9 +775,9 @@ class DatabaseConn
       $arr = array();
       while ($row = $result0->fetch_assoc()) {
         $place = $row['place'];
-        $reserved = $row['reserved'];
+        $reserved = $row['appointments'];
         $not_reserved = $row['not_reserved'];
-        array_push($arr, array('place' => $place, 'booking' => $reserved, 'not_booking' => $not_reserved));
+        array_push($arr, array('place' => $place, 'appointments' => $reserved, 'not_booking' => $not_reserved));
       }
       $stmt0->close();
       ($this->conn)->commit();
