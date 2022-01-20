@@ -19,8 +19,12 @@ function submitStock() {
   let amount = document.getElementById("amount").value;
   let onlineAmount = document.getElementById("onlineAmount").value;
 
-  if (!/^[0-9]+$/.test(amount) || !/^[0-9]+$/.test(onlineAmount)) {
-    setModal(false, "Entered data is invalid");
+  if (!/^[0-9]+$/.test(amount)) {
+    setModal(false, "Entered amount is invalid");
+    return false;
+  }
+  if (!/^[0-9]+$/.test(onlineAmount)) {
+    setModal(false, "Entered online amount is invalid");
     return false;
   }
   amount = parseInt(amount);

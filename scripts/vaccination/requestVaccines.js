@@ -2,11 +2,16 @@ function requestSubmit() {
   let type = document.getElementById("type").value;
   let dose = document.getElementById("dose").value;
   let amount = document.getElementById("amount").value;
-  if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount)) {
-    setModal(false, "Entered data is invalid");
+  if (!/^[1-3]$/.test(dose)) {
+    setModal(false, "Entered dose is invalid");
     return false;
   }
-  if (!type || !dose || !amount || dose <= 0 || amount <= 0) {
+  if (!/^[0-9]+$/.test(amount)) {
+    setModal(false, "Entered amount  is invalid");
+    return false;
+  }
+  
+  if (!type || !dose || !amount || Number(dose) <= 0 || Number(amount) <= 0) {
     setModal(false, "Entered data is invalid");
     return false;
   }
