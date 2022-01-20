@@ -143,10 +143,16 @@ function submitForm() {
         if (data['success']) {
           document.getElementById("password").value = '';
           document.getElementById("conPassword").value = '';
-          alert("Success");
-          window.location.replace('/admin/');
+          setModal(true, "Success");
+          document.getElementById("place").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("username").value = "";
+          document.getElementById("password").value = "";
+          document.getElementById('conPassword').value = "";
+          currentTab = 0
+          showTab(currentTab);
         } else {
-          alert("Failed!");
+          setModal(false, "Failed");
           let i, x = document.getElementsByClassName("step");
           for (i = 0; i < x.length; i++) {
             x[i].className = x[i].className.replace(" finish", "").replace(" active", "");
@@ -155,7 +161,7 @@ function submitForm() {
           showTab(currentTab);
         }
       } catch (error) {
-        alert("Error occured");
+        setModal(false, "Error occured");
         currentTab = 0
         showTab(currentTab);
       }
