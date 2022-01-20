@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Request Application</title>
+  <title>Add Record</title>
   <link rel="stylesheet" type="text/css" href="/styles/all.css" />
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />

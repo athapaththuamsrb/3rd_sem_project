@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     try {
       $date = new DateTime($_POST['date']);
-      $now = new DateTime("now");
+      $now = new DateTime('today');
       if ($date < $now) {
         echo json_encode($data);
         die();

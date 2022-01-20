@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" /-->
   <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
-  <title>Document</title>
+  <title>Vaccination Status</title>
   <style>
     table {
       background-color: black;

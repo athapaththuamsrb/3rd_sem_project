@@ -95,7 +95,7 @@ class VaccinationAdmin extends CentreAdmin
         try {
             $district = $this->getDistrict();
             $place = $this->getPlace();
-            $now = new DateTime();
+            $now = new DateTime('today');
             if ($date <= $now) {
                 $data['reason'] = 'Invalid date';
                 return $data;
