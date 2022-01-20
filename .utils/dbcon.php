@@ -1,5 +1,5 @@
 <?php
-
+require_once("global.php");
 class DatabaseConn
 {
   /** @var \DatabaseConn */
@@ -967,37 +967,43 @@ class DatabaseConn
     }
   }
 
-  public function getVaccineStatistics($dose, $district = null): ?Array
+  public function getVaccineStatistics($dose, $district = null)//: ?Array
   {
     if (!($this->conn instanceof mysqli)) return null;
     if ($dose < 1 || $dose > 3) {
       return null;
     }
-    $arr = array('Pfizer' => 0, 'Sinopharm' => 0, 'Aztraseneca' => 0, "Moderna" => 0);
-    ($this->conn)->begin_transaction();
+    $arr = array();
     try {
+      ($this->conn)->begin_transaction();
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if ($district) {
-        $q0 = 'SELECT type FROM vaccines WHERE dose=? AND district=?';
-        $stmt0 = $this->conn->prepare($q0);
-        $stmt0->bind_param('is', $dose, $district);
-      } else {
-        $q0 = 'SELECT type FROM vaccines WHERE dose=?';
-        $stmt0 = $this->conn->prepare($q0);
-        $stmt0->bind_param('i', $dose);
+      if (!$district){
+        foreach (VACCINES as $keys => $value) {
+          $q0 = 'SELECT COUNT(*) FROM vaccines WHERE dose=? AND type=?';
+          $stmt0 = $this->conn->prepare($q0);
+          $stmt0->bind_param('is', $dose, $value);
+          $stmt0->execute();
+          $result0 = $stmt0->get_result();
+          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $stmt0->close();
+        }
       }
-      $stmt0->execute();
-      $result0 = $stmt0->get_result();
-      while ($row = $result0->fetch_assoc()) {
-        $type = $row['type'];
-        $arr["$type"] += 1;
+      else {
+        foreach (VACCINES as $keys => $value) {
+          $q0 = 'SELECT COUNT(*) FROM vaccines WHERE dose=? AND type=? AND district=?';
+          $stmt0 = $this->conn->prepare($q0);
+          $stmt0->bind_param('iss', $dose, $value, $district);
+          $stmt0->execute();
+          $result0 = $stmt0->get_result();
+          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $stmt0->close();
+        }
       }
-      $stmt0->close();
       ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return null;
+      return $arr;
     }
   }
 
@@ -1005,29 +1011,35 @@ class DatabaseConn
   {
     if (!($this->conn instanceof mysqli)) return null;
     $arr = array('Positive' => 0, 'Negative' => 0, 'Pending' => 0);
-    ($this->conn)->begin_transaction();
     try {
+      ($this->conn)->begin_transaction();
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-      if ($district) {
-        $q0 = 'SELECT result FROM tests WHERE district=?';
-        $stmt0 = $this->conn->prepare($q0);
-        $stmt0->bind_param('s', $district);
-      } else {
-        $q0 = 'SELECT result FROM tests';
-        $stmt0 = $this->conn->prepare($q0);
+      if (!$district){
+        foreach ($arr as $keys => $value) {
+          $q0 = 'SELECT COUNT(*) FROM tests';
+          $stmt0 = $this->conn->prepare($q0);
+          $stmt0->execute();
+          $result0 = $stmt0->get_result();
+          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $stmt0->close();
+        }
       }
-      $stmt0->execute();
-      $result0 = $stmt0->get_result();
-      while ($row = $result0->fetch_assoc()) {
-        $res = $row['result'];
-        $arr["$res"] += 1;
+      else {
+        foreach (VACCINES as $keys => $value) {
+          $q0 = 'SELECT COUNT(*) FROM vaccines WHERE district=?';
+          $stmt0 = $this->conn->prepare($q0);
+          $stmt0->bind_param('s', $district);
+          $stmt0->execute();
+          $result0 = $stmt0->get_result();
+          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $stmt0->close();
+        }
       }
-      $stmt0->close();
       ($this->conn)->commit();
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return null;
+      return $arr;
     }
   }
 
@@ -1105,7 +1117,11 @@ class DatabaseConn
         ($this->conn)->rollback();
         return false;
       }
-      $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
+      $res = $this->update_stocks($district, $place, $date, $type, 'not_reserved', -$amount, $dose);
+      if (!$res) {
+        ($this->conn)->rollback();
+        return false;
+      }
       $q2 = "UPDATE vaccine_requests SET amount = amount - ? WHERE district = ? AND place = ? AND date = ? AND type = ?";
       $stmt2 = $this->conn->prepare($q2);
       $stmt2->bind_param('issss', $amount, $district, $receiver_place, $datestr, $type);
