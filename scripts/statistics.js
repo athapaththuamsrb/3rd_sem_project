@@ -5,6 +5,7 @@ google.charts.load('current', {
 });
 google.charts.setOnLoadCallback(() => {
   ready = true;
+  drawChart();
 });
 document.getElementById('district').onchange = drawChart;
 
