@@ -36,7 +36,6 @@ function nextPrev(n) {
 
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) {
-    console.log(currentTab);
     switch (currentTab) {
       case 1:
         setModal(false, "Please enter a location");

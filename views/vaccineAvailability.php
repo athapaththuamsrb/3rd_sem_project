@@ -94,6 +94,14 @@
         nav a {
             margin-right: 1%;
         }
+
+        #resultDiv{
+            width: 90%;
+        }
+
+        td{
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -111,7 +119,7 @@
                 <div class="grid-item">
                     <select name="district" id="district">
                         <?php
-                        require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                        require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
                         foreach (DISTRICTS as $type) {
                         ?>
                             <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
@@ -124,7 +132,7 @@
                 <div class="grid-item">
                     <select name="type" id="type">
                         <?php
-                        require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                        require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
                         foreach (VACCINES as $type) {
                         ?>
                             <option value="<?php echo $type; ?>"><?php echo $type; ?></option>

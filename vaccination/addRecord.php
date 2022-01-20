@@ -4,8 +4,8 @@ check_auth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $user = $_SESSION['user'];
+  $data = [];
   if (isset($_POST['id']) && $_POST['id']) {
-    $data = [];
     $id = $_POST['id'];
     if (isset($_POST['name']) && isset($_POST['type']) && isset($_POST['district']) && $_POST['name'] && $_POST['type'] && $_POST['district']) {
       $name = $_POST['name'];

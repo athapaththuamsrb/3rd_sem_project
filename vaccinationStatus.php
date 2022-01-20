@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($data);
     die();
   }
-  require_once('.utils/dbcon.php');
+  require_once('utils/dbcon.php');
   $conn = DatabaseConn::get_conn();
   if ($conn) {
     $data = $conn->get_vaccination_records($id, null);

@@ -420,7 +420,7 @@ class DatabaseConn
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
       }
-      $q0 = "SELECT place, appointments, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
+      $q0 = "SELECT place, appointments, reserved, not_reserved FROM stocks WHERE district=? AND type=? AND dose=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('ssis', $district, $type, $dose, $date);
       $stmt0->execute();
@@ -428,9 +428,10 @@ class DatabaseConn
       $arr = array();
       while ($row = $result0->fetch_assoc()) {
         $place = $row['place'];
-        $reserved = $row['appointments'];
+        $appointments = $row['appointments'];
+        $reserved = $row['reserved'];
         $not_reserved = $row['not_reserved'];
-        array_push($arr, array('place' => $place, 'appointments' => $reserved, 'not_booking' => $not_reserved));
+        array_push($arr, array('place' => $place, 'appointments' => $appointments, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
       $stmt0->close();
       ($this->conn)->commit();
@@ -778,7 +779,7 @@ class DatabaseConn
       if ($date instanceof DateTime) {
         $date = $date->format('Y-m-d');
       }
-      $q0 = "SELECT place, appointments, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
+      $q0 = "SELECT place, appointments, reserved, not_reserved FROM testing_stocks WHERE district=? AND type=? AND date=?";
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('sss', $district, $type, $date);
       $stmt0->execute();
@@ -786,9 +787,10 @@ class DatabaseConn
       $arr = array();
       while ($row = $result0->fetch_assoc()) {
         $place = $row['place'];
-        $reserved = $row['appointments'];
+        $appointments = $row['appointments'];
+        $reserved = $row['reserved'];
         $not_reserved = $row['not_reserved'];
-        array_push($arr, array('place' => $place, 'appointments' => $reserved, 'not_booking' => $not_reserved));
+        array_push($arr, array('place' => $place, 'appointments' => $appointments, 'booking' => $reserved, 'not_booking' => $not_reserved));
       }
       $stmt0->close();
       ($this->conn)->commit();

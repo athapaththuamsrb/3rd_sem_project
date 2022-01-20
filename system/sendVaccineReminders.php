@@ -7,7 +7,7 @@
  *      php -f system/sendVaccineReminders.php
  */
 chdir(__DIR__);
-require_once('../.utils/dbcon.php');
+require_once('../utils/dbcon.php');
 define('LOG_FILE', 'sys.log');
 
 $con = DatabaseConn::get_conn();

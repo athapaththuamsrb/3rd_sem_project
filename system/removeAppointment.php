@@ -7,7 +7,7 @@
  *      php -f system/removeAppointments.php
  */
 chdir(__DIR__);
-require_once('../.utils/dbcon.php');
+require_once('../utils/dbcon.php');
 define('LOG_FILE', 'sys.log');
 
 function logStatus($status, $type)

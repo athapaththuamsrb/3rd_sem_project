@@ -2,8 +2,8 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [];
     if (isset($_POST['district']) && isset($_POST['date']) && isset($_POST['id']) && $_POST['district'] && $_POST['date'] && $_POST['id']) {
-        require_once('.utils/dbcon.php');
-        require_once('.utils/global.php');
+        require_once('utils/dbcon.php');
+        require_once('utils/global.php');
         try {
             $date = new DateTime($_POST['date']);
             $now = new DateTime("now");

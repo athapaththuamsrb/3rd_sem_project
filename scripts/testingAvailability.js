@@ -41,9 +41,9 @@ function getAvailability() {
         let data = JSON.parse(xhr.responseText);
         if (data && Array.isArray(data) && data.length > 0) {
           let tableBuilder = new TableBuilder();
-          tableBuilder.addHeadingRow('Place', 'Remaining Online Appointments', 'Walk-in Tests'); 
+          tableBuilder.addHeadingRow('Place', 'Online Appointments', 'Remaining Online Appointments', 'Walk-in Tests'); 
           data.forEach(elem => {
-            tableBuilder.addRow(elem['place'], elem['appointments'], elem['not_booking']);
+            tableBuilder.addRow(elem['place'], elem['booking'], elem['appointments'], elem['not_booking']);
           });
           let table = tableBuilder.build();
           resultDiv.appendChild(table);

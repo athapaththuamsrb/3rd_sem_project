@@ -1,6 +1,6 @@
 <?php
-require_once('../.utils/auth.php');
-require_once('../.utils/accounts.php');
+require_once('../utils/auth.php');
+require_once('../utils/accounts.php');
 
 class AdminAuth extends Authenticator
 {

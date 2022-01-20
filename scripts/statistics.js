@@ -44,12 +44,8 @@ function drawChart() {
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-test'));
           chart_test.draw(data_test, options_test);
-          console.log(dataArr);
-        } else {
-          alert('failed');
         }
       } catch (error) {
-        alert("Error occured");
       }
     }
   };
@@ -81,11 +77,8 @@ function drawChart() {
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-1'));
           chart_test.draw(data_dose_1, options_dose_1);
-        } else {
-          alert('failed');
         }
       } catch (error) {
-        alert("Error occured");
       }
     }
   };
@@ -117,12 +110,8 @@ function drawChart() {
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-2'));
           chart_test.draw(data_dose_2, options_dose_2);
-          console.log(dataArr);
-        } else {
-          alert('failed');
         }
       } catch (error) {
-        alert("Error occured");
       }
     }
   };
@@ -154,12 +143,8 @@ function drawChart() {
           };
           var chart_test = new google.visualization.PieChart(document.getElementById('piechart-vaccination-dose-3'));
           chart_test.draw(data_dose_3, options_dose_3);
-          console.log(dataArr);
-        } else {
-          alert('failed');
         }
       } catch (error) {
-        alert("Error occured");
       }
     }
   };

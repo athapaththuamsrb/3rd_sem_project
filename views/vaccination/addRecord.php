@@ -260,7 +260,7 @@
           <div class="grid-item">
             <select name="district" id="district" oninput="this.className = ''">
               <?php
-              require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+              require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
               foreach (DISTRICTS as $type) {
               ?>
                 <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
@@ -314,7 +314,7 @@
           <br>
           <br>
           <?php
-          require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+          require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
           foreach (VACCINES as $type) {
           ?>
             <div class="grid-item"><label for="<?php echo $type; ?>"><?php echo $type; ?></label></div>

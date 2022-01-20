@@ -37,7 +37,6 @@ function getDetails() {
         reset();
         document.getElementById("hide").style.display = "block";
         let data = JSON.parse(xhr.responseText);
-        console.log(data);
         if (data["district"]) {
           district_element.value = data["district"];
           district_element.setAttribute("disabled", true);

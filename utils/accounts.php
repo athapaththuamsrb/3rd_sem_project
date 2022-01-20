@@ -4,7 +4,9 @@ require_once('global.php');
 
 abstract class User
 {
+    /** @var \String */
     private $type;
+    /** @var \String */
     private $email;
 
     protected function __construct($type, $email)
@@ -13,12 +15,12 @@ abstract class User
         $this->email = $email;
     }
 
-    public function getType()
+    public function getType(): String
     {
         return $this->type;
     }
 
-    public function getEmail()
+    public function getEmail(): String
     {
         return $this->email;
     }
@@ -26,7 +28,9 @@ abstract class User
 
 abstract class CentreAdmin extends User
 {
+    /** @var \String */
     private $place;
+    /** @var \String */
     private $district;
 
     protected function __construct($type, $place, $district, $email)
@@ -36,12 +40,12 @@ abstract class CentreAdmin extends User
         $this->district = $district;
     }
 
-    public function getPlace()
+    public function getPlace(): String
     {
         return $this->place;
     }
 
-    public function getDistrict()
+    public function getDistrict(): String
     {
         return $this->district;
     }
@@ -54,7 +58,7 @@ class Administrator extends User
         parent::__construct('admin', $email);
     }
 
-    public function createUserAccount($type, $email, $username, $password, $place, $district)
+    public function createUserAccount($type, $email, $username, $password, $place, $district): Bool
     {
         $uname_pattern = '/^[a-zA-Z0-9_]{5,20}$/';
         $pw_pattern = '/^\S{8,15}$/';
@@ -65,15 +69,16 @@ class Administrator extends User
         if ($type != "admin" && $type != "vaccination" && $type != "testing") {
             return false;
         }
-        if (!in_array($district, DISTRICTS, true)){
+        if (!in_array($district, DISTRICTS, true)) {
             return false;
         }
         require_once 'factory.php';
         $details = ['username' => $username, 'password' => $password, 'email' => $email, 'place' => $place, 'district' => $district];
         $accountSaver = AccountFactory::getAccount($type, $details);
         if ($accountSaver && $accountSaver instanceof IaccountSaver && $accountSaver->saveToDB()) {
-            sendSuccess(true);
+            return true;
         }
+        return false;
     }
 }
 
@@ -84,7 +89,7 @@ class VaccinationAdmin extends CentreAdmin
         parent::__construct('vaccination', $place, $district, $email);
     }
 
-    public function addStock($type, $dose, $date, $amount, $online)
+    public function addStock($type, $dose, $date, $amount, $online): array
     {
         $data = ['success' => false];
         try {
@@ -119,7 +124,7 @@ class VaccinationAdmin extends CentreAdmin
         }
     }
 
-    public function getPatientDetails($id)
+    public function getPatientDetails($id): array
     {
         $data = [];
         try {
@@ -147,7 +152,7 @@ class VaccinationAdmin extends CentreAdmin
         }
     }
 
-    public function addRecord($id, $type, $name, $district, $address, $email, $contact)
+    public function addRecord($id, $type, $name, $district, $address, $email, $contact): array
     {
         $data = [];
         try {
@@ -187,7 +192,7 @@ class VaccinationAdmin extends CentreAdmin
         }
     }
 
-    public function updateStock($type, $dose, $amount)
+    public function updateStock($type, $dose, $amount): array
     {
         $data = ['success' => false];
         try {
@@ -214,7 +219,7 @@ class VaccinationAdmin extends CentreAdmin
         }
     }
 
-    public function requestVaccines($type, $dose, $amount)
+    public function requestVaccines($type, $dose, $amount): array
     {
         try {
             $district = $this->getDistrict();
@@ -226,8 +231,7 @@ class VaccinationAdmin extends CentreAdmin
             }
             $con = DatabaseConn::get_conn();
             if (!$con) {
-                $data['reason'] = 'Server error';
-                return $data;
+                return ['count' => 0, 'resaon' => 'Server error'];
             }
             $place = $this->getPlace();
             $success = $con->add_request_for_extra_vaccines($district, $place, new DateTime(), $type, $amount);
@@ -243,7 +247,7 @@ class VaccinationAdmin extends CentreAdmin
         }
     }
 
-    public function donateVaccines($type, $place, $amount, $dose)
+    public function donateVaccines($type, $place, $amount, $dose): array
     {
         $data = ['success' => false, 'email' => false];
         try {
@@ -286,7 +290,7 @@ class TestingAdmin extends CentreAdmin
         parent::__construct('testing', $place, $district, $email);
     }
 
-    public function addStock($type, $date, $amount, $online)
+    public function addStock($type, $date, $amount, $online): array
     {
         $data = ['success' => false];
         try {
@@ -321,7 +325,7 @@ class TestingAdmin extends CentreAdmin
         }
     }
 
-    public function getPatientDetails($id)
+    public function getPatientDetails($id): array
     {
         $data = [];
         try {
@@ -344,7 +348,7 @@ class TestingAdmin extends CentreAdmin
         }
     }
 
-    public function addRecord($id, $type, $name, $district, $address, $email, $contact)
+    public function addRecord($id, $type, $name, $district, $address, $email, $contact): array
     {
         $data = [];
         try {
@@ -385,7 +389,7 @@ class TestingAdmin extends CentreAdmin
         }
     }
 
-    public function addResult($token, $result)
+    public function addResult($token, $result): array
     {
         $data = ['success' => false];
         try {

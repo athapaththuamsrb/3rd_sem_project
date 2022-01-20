@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $type = $_POST['type'];
   $district = $_POST['district'];
   $place = $_POST['place'];
-  require_once('../.utils/accounts.php');
+  require_once('../utils/accounts.php');
   $user = $_SESSION['user'];
   $success = $user->createUserAccount($type, $email, $username, $password, $place, $district);
   sendSuccess($success);

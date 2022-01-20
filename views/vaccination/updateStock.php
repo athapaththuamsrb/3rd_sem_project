@@ -99,7 +99,7 @@
             <div class="grid-item">
                 <select name="type" id="type" readonly="readonly">
                     <?php
-                    require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+                    require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
                     foreach (VACCINES as $type) {
                     ?>
                         <option value="<?php echo $type; ?>" <?php if (isset($_GET['type']) && $_GET['type'] === $type) echo 'selected' ?>><?php echo $type; ?></option>

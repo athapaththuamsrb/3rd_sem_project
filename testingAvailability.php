@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['district']) && isset($_POST['type']) && isset($_POST['date']) && $_POST['district'] && $_POST['type'] && $_POST['date']) {
-    require_once('.utils/dbcon.php');
-    require_once('.utils/global.php');
+    require_once('utils/dbcon.php');
+    require_once('utils/global.php');
     $data = [];
     $district = $_POST['district'];
     $type = $_POST['type'];

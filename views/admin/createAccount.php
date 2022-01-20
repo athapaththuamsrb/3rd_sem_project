@@ -190,7 +190,7 @@
           <div class="grid-item">
             <select name="district" id="districts" oninput="this.className = ''">
               <?php
-              require_once($_SERVER['DOCUMENT_ROOT'] . '/.utils/global.php');
+              require_once($_SERVER['DOCUMENT_ROOT'] . '/utils/global.php');
               foreach (DISTRICTS as $type) {
               ?>
                 <option value="<?php echo $type; ?>"><?php echo $type; ?></option>
