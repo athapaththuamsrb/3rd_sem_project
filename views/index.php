@@ -113,29 +113,77 @@
 		.container-fluid {
 			padding-left: 1.5%;
 		}
+
+		#vaccinationInfo,
+		#testingInfo {
+			display: none;
+		}
+
+		.grid-container {
+			display: grid;
+			grid-template-columns: auto auto auto;
+			margin-bottom: 5%;
+		}
+
+		.grid-item {
+			width: 100%;
+			height: 150%;
+			border: 2px solid black;
+			background-color: gray;
+			color: white;
+			font-size: 20pt;
+		}
+
+		.btn-c:hover {
+			-ms-transform: scale(1.05);
+			/* IE 9 */
+			-webkit-transform: scale(1.05);
+			/* Safari 3-8 */
+			transform: scale(1.05);
+			background-color: #525252;
+			color: white;
+		}
 	</style>
 </head>
-<div class="mask">
 
-	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container-fluid">
-				<h1 class="navbar-brand"><img src="/image/icon-public.gif" height="48px">&nbsp; Public</h1>
-				<div class="dropdown">
-					<button class="dropbtn">Login&nbsp;
-						<i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-content">
-						<a href="/vaccination/">Vaccination center</a>
-						<a href="/testing/">Testing center</a>
-						<a href="/admin/">Admin</a>
-					</div>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<h1 class="navbar-brand"><img src="/image/icon-public.gif" height="48px">&nbsp; Public</h1>
+			<div class="dropdown">
+				<button class="dropbtn">Login&nbsp;
+					<i class="fa fa-caret-down"></i>
+				</button>
+				<div class="dropdown-content">
+					<a href="/vaccination/">Vaccination center</a>
+					<a href="/testing/">Testing center</a>
+					<a href="/admin/">Admin</a>
 				</div>
 			</div>
-		</nav>
-		<br>
-		<h2>Dashboard</h2>
-		<div class="container">
+		</div>
+	</nav>
+	<br>
+	<h2>Dashboard</h2>
+	<div class="container">
+		<div id="main" class="grid-container">
+			<div>
+				<button type="button" class="grid-item btn-c" onclick="showVaccinationInfo()">Vaccination</button>
+			</div>
+			<div>
+				<button type="button" class="grid-item btn-c" onclick="showTestingInfo()">Testing</button>
+			</div>
+			<div>
+				<a href="/statistics.php"><button type="button" id="statistics" class="grid-item btn-c" onclick="hideOthers()">Statistics</button></a>
+			</div>
+		</div>
+
+
+
+
+
+
+
+		<div id="vaccinationInfo">
 			<div class="row">
 				<div class="col-3" id="actions">
 					<a href="/vaccineAppointment.php"><button type="button" class="btn btn-primary btn-font" id="vaccine_appointment">Vaccine Appointment</button></a>
@@ -156,6 +204,10 @@
 				</div>
 				<div class="col-4"></div>
 			</div>
+		</div>
+
+
+		<div id="testingInfo">
 			<div class="row">
 				<div class="col-3" id="actions">
 					<a href="/testingAppointment.php"><button type="button" class="btn btn-primary btn-font" id="testing_appointment">Testing Appointment</button></a>
@@ -169,16 +221,12 @@
 					<a href="/testResults.php"><button type="button" class="btn btn-primary btn-font" id="test_results">Test Results</button></a>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-4"></div>
-				<div class="col-3" id="actions">
-					<a href="/statistics.php"><button type="button" class="btn btn-primary btn-font" id="statistics">Statistics</button></a>
-				</div>
-				<div class="col-4"></div>
-			</div>
 		</div>
-		<br><br>
-	</body>
-</div>
+
+
+	</div>
+	<br><br>
+	<script src="/scripts/index.js"></script>
+</body>
 
 </html>
