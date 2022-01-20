@@ -68,6 +68,19 @@
             left: 30%;
             padding: 5%;
         }
+
+        input:hover,
+        select:hover {
+            border: 2px solid blue;
+        }
+
+        button:hover {
+            -ms-transform: scale(1.2);
+            /* IE 9 */
+            -webkit-transform: scale(1.2);
+            /* Safari 3-8 */
+            transform: scale(1.2);
+        }
     </style>
 </head>
 

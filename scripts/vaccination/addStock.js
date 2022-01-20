@@ -25,9 +25,16 @@ function submitStock() {
     setModal(false, "Entered date is invalid");
     return false;
   }
-
-  if (!/^[1-3]$/.test(dose) || !/^[0-9]+$/.test(amount) || !/^[0-9]+$/.test(onlineAmount)) {
-    setModal(false, "Entered data is invalid");
+  if (!/^[1-3]$/.test(dose)) {
+    setModal(false, "Entered dose is invalid");
+    return false;
+  }
+  if (!/^[0-9]+$/.test(amount)) {
+    setModal(false, "Entered amount  is invalid");
+    return false;
+  }
+  if (!/^[0-9]+$/.test(onlineAmount)) {
+    setModal(false, "Entered online amount is invalid");
     return false;
   }
   amount = parseInt(amount);
