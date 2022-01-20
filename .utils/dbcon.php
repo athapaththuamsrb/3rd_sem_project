@@ -1016,22 +1016,23 @@ class DatabaseConn
       mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
       if (!$district){
         foreach ($arr as $keys => $value) {
-          $q0 = 'SELECT COUNT(*) FROM tests';
+          $q0 = "SELECT COUNT(*) FROM tests WHERE result=?";
           $stmt0 = $this->conn->prepare($q0);
+          $stmt0->bind_param('s', $keys);
           $stmt0->execute();
           $result0 = $stmt0->get_result();
-          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $arr["$keys"] = $result0->fetch_assoc()['COUNT(*)'];
           $stmt0->close();
         }
       }
       else {
-        foreach (VACCINES as $keys => $value) {
-          $q0 = 'SELECT COUNT(*) FROM vaccines WHERE district=?';
+        foreach ($arr as $keys => $value) {
+          $q0 = "SELECT COUNT(*) FROM tests WHERE district=? AND result=?";
           $stmt0 = $this->conn->prepare($q0);
-          $stmt0->bind_param('s', $district);
+          $stmt0->bind_param('ss', $district, $keys);
           $stmt0->execute();
           $result0 = $stmt0->get_result();
-          $arr["$value"] = $result0->fetch_assoc()['COUNT(*)'];
+          $arr["$keys"] = $result0->fetch_assoc()['COUNT(*)'];
           $stmt0->close();
         }
       }
@@ -1039,7 +1040,7 @@ class DatabaseConn
       return $arr;
     } catch (Exception $e) {
       ($this->conn)->rollback();
-      return $arr;
+      return NULL;
     }
   }
 
