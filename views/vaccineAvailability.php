@@ -95,12 +95,17 @@
             margin-right: 1%;
         }
 
-        #resultDiv{
+        #resultDiv {
             width: 90%;
         }
 
-        td{
+        td {
             text-align: center;
+        }
+
+        input:hover,
+        select:hover {
+            border: 2px solid blue;
         }
     </style>
 

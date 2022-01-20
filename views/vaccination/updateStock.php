@@ -29,9 +29,6 @@
         border-radius: 15px;
     }
 
-    .centerBox:hover {
-        border: 4px solid black;
-    }
 
     input:hover,
     select:hover {

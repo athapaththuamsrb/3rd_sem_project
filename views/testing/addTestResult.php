@@ -64,7 +64,7 @@
 
   select:hover,
   input:hover {
-    border: solid 5% blue;
+    border: 2px solid blue;
   }
 
   .cover button {
