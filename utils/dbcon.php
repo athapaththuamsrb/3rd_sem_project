@@ -647,6 +647,7 @@ class DatabaseConn
       ) ENGINE=InnoDB;");
     ($this->conn)->begin_transaction();
     try {
+      $reserved = true;
       $name = $details['name'];
       $id = $details['id'];
       $address = $details['address'];
@@ -658,6 +659,27 @@ class DatabaseConn
       $patient_district = $details['patient_district'];
       $centre_district = $details['centre_district'];
       $date = date('Y-m-d');
+      $Q = 'SELECT * FROM testing_appointments WHERE id=? AND date=? AND type=? AND district=? AND place=?';
+      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+      $Stmt = $this->conn->prepare($Q);
+      $Stmt->bind_param('sssss', $id, $date, $type, $centre_district, $place);
+      $Stmt->execute();
+      $Result = $Stmt->get_result();
+      if ($Result->num_rows == 0) {
+        $reserved = false;
+      }
+      if ($reserved) {
+        $res = $this->update_testing_stocks($centre_district, $place, $date, $type, 'reserved', -1);
+        if (!$res) {
+          return null;
+        }
+      } else {
+        $res = $this->update_testing_stocks($centre_district, $place, $date, $type, 'not_reserved', -1);
+        if (!$res) {
+          return null;
+        }
+      }
+      $Stmt->close();
       $q0 = 'SELECT id FROM persons WHERE id=?';
       $stmt0 = $this->conn->prepare($q0);
       $stmt0->bind_param('s', $id);
