@@ -149,7 +149,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <h1 class="navbar-brand"><img src="/image/icon-admin.gif" height="48px">&nbsp;&nbsp;Administrator</h1>
+      <h1 class="navbar-brand"><img src="/image/icon-admin.gif" height="48px">&nbsp;Administrator</h1>
       <a href="/admin/index.php"><button type="button" class="btn btn-primary">Dashboard</button></a>
     </div>
   </nav>
