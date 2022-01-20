@@ -57,6 +57,11 @@
         'dose_1 dose_2 dose_3';
     }
 
+    input:hover,
+    select:hover {
+      border: 2px solid blue;
+    }
+
     /* #piechart-test {
       position: absolute;
       left: 30%
