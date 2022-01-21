@@ -10,9 +10,11 @@
   <link rel="stylesheet" href="/styles/bootstrap-5.1.3-dist/css/bootstrap.min.css" />
   <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
   <style type="text/css">
-    * {
+    html,
+    body {
       margin: 0;
       padding: 0;
+      background-color: #A9A9A9;
     }
 
     html {

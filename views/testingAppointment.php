@@ -43,6 +43,7 @@
         html {
             margin: 0;
             padding: 0;
+            background-color: #A9A9A9;
         }
 
         html {
