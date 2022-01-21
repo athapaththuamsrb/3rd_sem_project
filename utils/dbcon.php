@@ -604,6 +604,7 @@ class DatabaseConn
           break;
 
         default:
+          ($this->conn)->rollback();
           return false;
           break;
       }
