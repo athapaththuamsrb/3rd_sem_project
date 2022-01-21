@@ -9,6 +9,12 @@
   <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
   <title>Statistics</title>
   <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
     .grid-container {
       display: grid;
       grid-template-columns: auto auto;

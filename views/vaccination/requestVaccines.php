@@ -12,10 +12,11 @@
 	<title>Request Vaccination</title>
 </head>
 <style>
-	html,
-	body {
-		padding: 0;
+	body,
+	html {
 		margin: 0;
+		padding: 0;
+		background-color: #A9A9A9;
 	}
 
 	.centerBox {

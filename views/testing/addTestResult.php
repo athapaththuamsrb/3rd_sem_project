@@ -15,6 +15,7 @@
   html {
     padding: 0;
     margin: 0;
+    background-color: #A9A9A9;
   }
 
   .cover {

@@ -12,9 +12,11 @@
   <script src="/styles/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 
   <style>
-    * {
+    html,
+    body {
       margin: 0;
       padding: 0;
+      background-color: #A9A9A9;
     }
 
     h1,

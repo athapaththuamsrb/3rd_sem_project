@@ -22,7 +22,7 @@
         html {
             margin: 0;
             padding: 0;
-            background-color: rgb(0, 0, 0, 0.5);
+            background-color: #A9A9A9;
             height: 100vh;
         }
 
@@ -59,6 +59,7 @@
             position: relative;
             top: 40%;
             transform: translateY(-50%);
+            border: 2px black solid;
 
         }
 
