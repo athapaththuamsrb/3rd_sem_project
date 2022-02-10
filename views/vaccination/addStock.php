@@ -36,10 +36,10 @@
       background-color: black;
     }
 
-    input:hover,
+    /*input:hover,
     select:hover {
       border: 2px solid blue;
-    }
+    }*/
 
     button:hover {
       -ms-transform: scale(1.2);

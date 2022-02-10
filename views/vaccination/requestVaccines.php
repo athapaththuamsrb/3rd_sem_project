@@ -31,12 +31,12 @@
 		border-top-left-radius: 15px;
 		border-bottom-right-radius: 15px;
 	}
-
+/*
 	input:hover,
 	select:hover {
 		border: 2px solid blue;
 	}
-
+*/
 	.centerBox button {
 		background-color: green;
 		color: white;

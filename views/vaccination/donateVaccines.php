@@ -15,7 +15,7 @@
     <style>
         h1,
         label {
-            color: black;
+            color: white;
         }
 
         body,
@@ -52,7 +52,8 @@
         }
 
         .container {
-            background-color: white;
+            background-color: rgb(0, 0, 0, 0.8);
+            color: white;
             border-radius: 50px;
             width: 55%;
             padding: 2%;
@@ -69,12 +70,12 @@
             left: 30%;
             padding: 5%;
         }
-
+/*
         input:hover,
         select:hover {
             border: 2px solid blue;
         }
-
+*/
         button:hover {
             -ms-transform: scale(1.2);
             /* IE 9 */

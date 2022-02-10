@@ -23,6 +23,7 @@ function logStatus($status, $type)
   fwrite($fp, "\n");
   fclose($fp);
 }
+
 $con = DatabaseConn::get_conn();
 if ($con) {
   $status_vaccine = $con->removeAppointments('vaccination', new DateTime());

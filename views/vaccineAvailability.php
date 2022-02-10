@@ -103,11 +103,12 @@
         td {
             text-align: center;
         }
-
+/*
         input:hover,
         select:hover {
             border: 2px solid blue;
         }
+*/
     </style>
 
 </head>

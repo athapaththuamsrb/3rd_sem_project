@@ -62,12 +62,12 @@
     float: left;
     padding-left: 5%;
   }
-
+/*
   select:hover,
   input:hover {
     border: 2px solid blue;
   }
-
+*/
   .cover button {
     width: 40%;
     position: relative;

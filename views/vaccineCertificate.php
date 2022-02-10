@@ -68,11 +68,12 @@
     nav a {
         margin-right: 1%;
     }
-
+/*
     input:hover,
     select:hover {
         border: 2px solid blue;
     }
+*/
 </style>
 
 <body>

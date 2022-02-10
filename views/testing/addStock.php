@@ -41,12 +41,12 @@
     .container:hover {
       background-color: black;
     }
-
+/*
     input:hover,
     select:hover {
       border: 2px solid blue;
     }
-
+*/
     button:hover {
       -ms-transform: scale(1.2);
       /* IE 9 */

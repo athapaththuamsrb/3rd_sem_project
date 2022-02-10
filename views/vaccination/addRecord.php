@@ -193,13 +193,13 @@
     .vac_type {
       width: 5%;
     }
-
+/*
     input:hover,
     select:hover,
     textarea:hover {
       border: 2px solid blue;
     }
-
+*/
     label {
       float: left;
       color: white;
